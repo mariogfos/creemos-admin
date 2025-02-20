@@ -1,0 +1,19 @@
+.candidates {
+  position: relative;
+  .title {
+    font-size: var(--sL);
+    font-weight: 600;
+    color: var(--cWhite);
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: var(--sM);
+    font-weight: 400;
+    color: var(--cBlackV2);
+  }
+  .avatar {
+    position: absolute;
+    bottom: -60px;
+    left: 24px;
+  }
+}

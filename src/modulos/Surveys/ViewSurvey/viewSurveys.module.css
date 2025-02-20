@@ -1,0 +1,65 @@
+.headerViewSurveys {
+    /* background-color: red; */
+    display:flex;
+    /* padding: var(--spS); */
+    justify-content: space-between;
+}
+.filtersStyle{
+     display: flex;
+      gap: 8px;
+      align-items: center;
+      color: #39ACEC;
+}
+.widgetContainer {
+  /* background-color: blue; */
+  display: flex;
+  flex-direction: row;
+  gap:16px;
+}
+.cardDateRemaining{
+  display:flex;
+  align-items: center;
+  text-align: center;
+  padding: 2px 4px;
+  background-color: var(--cWhiteV3);
+  border-radius: 4px;
+  border: 1px solid var(--cBlackV3);
+  margin-left: var(--spS);
+
+}
+.cardsInfoContainer{
+    display: flex;
+    justify-content: center;
+    gap:var(--spS);
+    margin-top:var(--spL);
+    margin-bottom:var(--spL) ;
+}
+
+.cardInfo {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: var(--spS);  
+    border-radius: var(--bRadius);
+    border: 1px solid var(--cBlackV3);
+    gap: var(--spXl);
+    width:194px;
+    
+    background-color: var(--cWhiteV3);
+
+  & > div:nth-child(1){
+    color:var(--cBlackV2);
+    font-size: var(--sL);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    & > div > div {
+      cursor: pointer;
+    }
+  }
+  & > div:nth-child(2){
+    color:var(--cWhite);
+    font-size: var(--spXl);
+
+  }
+}

@@ -1,0 +1,96 @@
+.widgetPercentage {
+  background-color: var(--cBlackV1);
+  padding: var(--spXl);
+  border-radius: var(--bRadiusS);
+}
+.widgetPercentageContent {
+  /* justify-content: center; */
+  width: 100%;
+  height: 418px;
+  flex-grow: 1;
+ 
+  /* border: 0.01rem solid red;  */
+
+  @media (min-width: 1674px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+}
+.cardsInfoContainer {
+  display: flex;
+  flex-direction: column;
+  /* align-items:end; */
+  gap: var(--spS);
+  width: 100%;
+  min-width: 280px;
+  flex-shrink: 1;
+ /* background-color: blue;  */
+ 
+  @media (min-width: 1524px) {
+    width: 40%;
+   /* margin-right: 24px; */
+  }
+  @media (max-width: 1674px) {
+  align-items: center;
+  margin-bottom: var(--spL);
+  width:100%;
+  }
+  @media (min-width: 1674px) {
+  margin-left: var(--spXl);
+    }
+  max-height: 256px; 
+  overflow-y: scroll;
+}
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding-top: var(--spXs);
+  padding-bottom: var(--spXs);
+  padding-left: var(--spS);
+  border-radius: var(--bRadius);
+  border: 1px solid var(--cBlackV3);
+  text-align: start;
+  /* max-width: 208px; */
+  @media (min-width: 1024px) {
+    width: 100%;
+   
+    
+  }
+  @media (max-width: 1524px) {
+    width: 100%;
+    max-width: 100%;
+    }
+  & > div:nth-child(1) {
+    color: var(--cBlackV2);
+  }
+  & > div:nth-child(2) {
+    color: var(--cWhite);
+    font-size: var(--sM);
+    font-size: var(--spM);
+    text-align: end;
+    padding-right: var(--spS);
+  }
+}
+.percentagePie {
+  width: 100%;
+  min-width: 420px;  
+  
+
+  @media (max-width: 1700px) {
+    width: 100%;
+    min-width: 40px;
+  }
+  @media (max-width: 1525px) {
+    width: 100%;
+    min-width: 40px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 100%;
+    min-width: 350px;
+  }
+
+}

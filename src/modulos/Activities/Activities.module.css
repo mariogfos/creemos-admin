@@ -1,0 +1,137 @@
+.Activities {
+  .RenderForm {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    .CardActivity {
+      display: flex;
+      flex-direction: column;
+      background-color: var(--cBlackV1);
+      padding: var(--spS) var(--spM);
+      width: 100%;
+      border-radius: var(--bRadiusM);
+      /* gap: 8px; */
+
+      & > div:nth-child(1) {
+        flex-grow: 1;
+        margin-bottom: 8px;
+        & > p:nth-child(odd) {
+          color: var(--cWhite);
+          font-weight: 600;
+          font-size: 16px;
+          margin-bottom: 4px;
+        }
+        & > p:nth-child(even) {
+          color: var(--cBlackV2);
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+  .RenderView {
+    display: flex;
+    gap: 16px;
+
+    & > section:nth-child(1) {
+      & > div:nth-child(1) {
+        display: flex;
+        align-items: center;
+        gap: var(--spS);
+        color: var(--cWhite);
+        font-size: var(--sXl);
+        font-weight: 700;
+        margin-bottom: 12px;
+        & > p:nth-child(1) {
+          cursor: pointer;
+          color: var(--cBlackV2);
+          font-weight: 600;
+          font-size: var(--sL);
+        }
+      }
+      & > div:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 460px;
+        background-color: var(--cBlackV1);
+        border-radius: 12px;
+        padding: 12px;
+
+        & > div:nth-child(2) {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          & > p:nth-child(odd) {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--cSuccess);
+          }
+          /* & > p:nth-child(even) {
+            font-size: 12px;
+            font-weight: 500;
+            padding: 4px 8px;
+            color: var(--cWhiteV1);
+            background-color: var(--cBlackV2);
+            border-radius: 50px;
+          } */
+        }
+
+        & > div:nth-child(3) {
+          & > p:nth-child(odd) {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--cWhite);
+          }
+          & > p:nth-child(even) {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--cBlackV2);
+            margin-top: 8px;
+          }
+        }
+        & > div:nth-child(4) {
+          display: flex;
+          gap: 8px;
+          & > div > div {
+            text-align: center;
+            & > p:nth-child(odd) {
+              font-size: 14px;
+              font-weight: 400;
+              color: var(--cBlackV2);
+            }
+            & > p:nth-child(even) {
+              font-size: 14px;
+              font-weight: 600;
+              color: var(--cWhite);
+            }
+          }
+        }
+      }
+    }
+    & > section:nth-child(2) {
+      flex-grow: 1;
+      /* background-color: aqua; */
+      /* background-color: blue; */
+      & > div {
+        & > p {
+          font-size: 20px;
+          font-weight: 700;
+          color: var(--cWhite);
+        }
+      }
+    }
+  }
+  .CardActivy {
+    flex-grow: 1;
+    background-color: var(--cHover);
+    border: 1px solid var(--cBlackV3);
+    padding: 16px;
+    border-radius: 8px;
+    & > p {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--cWhite);
+    }
+  }
+}

@@ -1,0 +1,14 @@
+.WidgetAffiliatesRank {
+  background-color: var(--cBlackV1);
+  padding: var(--spS);
+  border-radius: var(--bRadiusS);
+  & > div:nth-child(1) {
+    margin-bottom: var(--spXs);
+    font-size: var(--sL);
+  }
+  & > div:nth-child(2) {
+    color: var(--cBlackV2);
+    margin-bottom: var(--spM);
+    font-size: var(--sM);
+  }
+}

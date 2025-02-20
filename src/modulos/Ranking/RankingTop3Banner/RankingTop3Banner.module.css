@@ -1,0 +1,73 @@
+.rankingTop3Banner {
+  background-size: cover;
+  background-position: bottom;
+  height: 278px;
+  border-radius: var(--bRadiusM);
+  margin-bottom: var(--spL);
+}
+.cardsContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 100%;
+  text-align: center;
+}
+.card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  /* background-color: blue; */
+  padding: 16px;
+  padding-bottom: 16px;
+  width: 200px;
+  font-size: var(--sM);
+  color: var(--cBlack);
+  gap: var(--spS);
+  & > div {
+    position: relative;
+    z-index: 1;
+    /* background-color: red; */
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  & > h3 {
+    font-weight: var(--bSemibold);
+  }
+  & > h4 {
+    font-weight: var(--bRegular);
+  }
+  & > section {
+    padding: 4px 8px;
+    background-color: var(--cRandom4);
+    border-radius: var(--bRadiusS);
+    font-weight: var(--bSemibold);
+  }
+}
+
+.iconPlaces {
+  display: flex;
+  justify-content: center;
+  margin-top: -15px;
+  z-index: 10;
+}
+
+.emptyRank {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  height: 80%;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--cBlackV2);
+  & > div {
+    font-size: var(--sL);
+  }
+  & > p {
+    font-size: var(--sM);
+
+    margin-bottom: var(--spM);
+  }
+}

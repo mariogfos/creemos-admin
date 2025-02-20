@@ -1,0 +1,49 @@
+.ViewTask {
+  & > p {
+    font-size: var(--sXl);
+    color: var(--cWhite);
+    font-weight: 700;
+  }
+
+  .card {
+    background-color: var(--cHover);
+    border-radius: var(--bRadiusM);
+    padding: var(--spL);
+    margin-top: var(--spS);
+    & > p:nth-child(1) {
+      color: var(--cWhite);
+      font-size: var(--sL);
+      font-weight: 600;
+    }
+    & > p:nth-child(2) {
+      color: var(--cWhiteV1);
+      font-weight: 400;
+      font-size: var(--sM);
+      margin-top: var(--spS);
+    }
+  }
+  .detail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spS);
+    padding: var(--spS) 0px;
+    border-bottom: 1px solid var(--cBlackV3);
+
+    & > div {
+      display: flex;
+
+      & > p:nth-child(1) {
+        width: 96px;
+        color: var(--cBlackV2);
+        font-weight: 500;
+        font-size: var(--sM);
+      }
+      & > p:nth-child(2) {
+        flex-grow: 1;
+        color: var(--cWhiteV1);
+        font-weight: 400;
+        font-size: var(--sM);
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+.ProgressBar {
+  display: flex;
+  align-items: center;
+  & > div:nth-child(1) {
+    flex-grow: 1;
+    background-color: var(--cBlackV2);
+    border-radius: var(--bRadiusM);
+    /* height: 8px; */
+    & > div {
+      background-color: var(--cSuccess);
+      border-radius: var(--bRadiusM);
+      height: 8px;
+      transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
+    }
+  }
+  & > div:nth-child(2) {
+    width: 150px;
+    text-align: right;
+    color: var(--cBlackV2);
+  }
+}

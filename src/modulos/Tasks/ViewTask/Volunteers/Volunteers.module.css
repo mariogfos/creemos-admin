@@ -1,0 +1,15 @@
+.Volunteers {
+  .title {
+    color: var(--cWhite);
+    font-size: var(--sXl);
+    font-weight: 700;
+    margin-bottom: var(--spS);
+    margin-top: var(--spS);
+  }
+  .subtitle {
+    color: var(--cWhiteV1);
+    font-size: var(--sM);
+    font-weight: 400;
+    margin-bottom: var(--spS);
+  }
+}

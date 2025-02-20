@@ -1,0 +1,13 @@
+.medals {
+  width: 100%;
+  position: relative;
+}
+.renderView {
+  & > div {
+    & > section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

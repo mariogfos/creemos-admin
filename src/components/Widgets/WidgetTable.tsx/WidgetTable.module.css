@@ -1,0 +1,42 @@
+.container {
+  background-color: var(--cBlackV1);
+  padding: var(--spM);
+  border-radius: 16px;
+  & > section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spM);
+    & > p {
+      font-weight: 600;
+      font-size: 18px;
+    }
+  }
+}
+.coloresSection {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 5%;
+  margin-bottom: var(--spM);
+  & > p {
+    font-weight: 600;
+    font-size: var(--sL);
+  }
+}
+.sortControls {
+  /* background-color: aqua; */
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  gap: 16px;
+
+  & > p {
+    font-weight: 600;
+    font-size: var(--sL);
+  }
+}
+
+.select {
+  max-width: 200px;
+}

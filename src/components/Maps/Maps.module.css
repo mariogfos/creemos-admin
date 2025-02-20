@@ -1,0 +1,1132 @@
+.mapa {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 1px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1.5px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.barriosMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 8px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1.5px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.SaltoMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.CerroLargoMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.CañarMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.CarchiMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.CotopaxiMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.ChimborazoMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.ElOroMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.EsmeraldaMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.GuayasMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.ImbaduraMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.LojaMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.DuraznoMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.ManabiMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.MoronaMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.NapoMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.PastazaMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.PichinchaMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.TunguaruMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.ZamoraMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+.SantaElena {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+.SantoDomingo {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+.Orellana {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+.Sucumbios {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.GalapagoMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.CuencaMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.BellaUnionMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    /* max-height: 250px; Ajusta la altura máxima inicial para pantallas pequeñas */
+    height: auto;
+
+    @media (min-width: 768px) {
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      max-height: 600px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        stroke: #3a9ed9;
+        stroke-width: 0.4px;
+        transition: fill 0.3s, strokeWidth 0.3s;
+        animation: fadeIn 0.5s;
+        fill: #212529;
+
+        &:hover {
+          cursor: auto;
+          stroke-width: 1px;
+          fill: var(--cAccent);
+        }
+      }
+    }
+  }
+}
+
+.tooltip {
+  position: absolute;
+  background: #fff;
+  width: 200px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transform: translate(-20%, -100%);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

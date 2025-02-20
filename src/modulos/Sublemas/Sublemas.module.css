@@ -1,0 +1,11 @@
+.roles {
+  width: 100%;
+  position: relative;
+  padding-left: var(--spL);
+  padding-right: var(--spL);
+  padding-bottom: 70px;
+}
+/* .active {
+  border: var(--bWidth) solid var(--cPrimary);
+
+} */

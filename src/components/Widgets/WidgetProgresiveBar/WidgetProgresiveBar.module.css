@@ -1,0 +1,14 @@
+.WidgetProgresiveBar {
+  max-height: 250px;
+  background-color: var(--cBlackV1);
+  padding: var(--sL);
+  border-radius: 16px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+
+  & > div:nth-child(1) {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+}

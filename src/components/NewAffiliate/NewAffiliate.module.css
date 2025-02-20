@@ -1,0 +1,19 @@
+.containerNewAffiliate {
+  & > h1 {
+    font-size: var(--sXl);
+    color: var(--cWhite);
+    margin-bottom: var(--spL);
+  }
+  & > p {
+    font-size: var(--sM);
+    color: var(--cBlackV2);
+    margin-bottom: var(--spL);
+  }
+}
+.selectOptions {
+  & > ul {
+    & li {
+      padding: 8px 0px;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.levels {
+  width: 100%;
+  position: relative;
+}
+
+.renderView {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > div {
+    flex-direction: column;
+  }
+}

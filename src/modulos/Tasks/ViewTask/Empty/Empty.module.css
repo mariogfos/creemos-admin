@@ -1,0 +1,10 @@
+.empty {
+  background-color: var(--cHover);
+  padding: var(--spL);
+  border-radius: var(--bRadiusM);
+  display: flex;
+  gap: var(--spS);
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--spS);
+}
