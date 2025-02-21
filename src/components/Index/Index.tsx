@@ -2,14 +2,7 @@ import { useEffect, useState } from "react";
 import useAxios from "@/mk/hooks/useAxios";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import NotAccess from "../auth/NotAccess/NotAccess";
-import WidgetTime from "../Widgets/WidgetTime.tsx/WidgetTime";
-import WidgetTable from "../Widgets/WidgetTable.tsx/WidgetTable";
-import WidgetProgresiveBar from "../Widgets/WidgetProgresiveBar/WidgetProgresiveBar";
 import styles from "./index.module.css";
-import WidgetCandidates from "../ Widgets/WidgetCandidates/WidgetCandidates";
-import HistoryTitle from "../ Widgets/WidgetHistoryTitle/HistoryTitle";
-import { WidgetSkeleton } from "@/mk/components/ui/Skeleton/Skeleton";
-import DashboardMap from "../ Widgets/DashboardMap/DashboardMap";
 
 const HomePage = () => {
   const { setStore, userCan } = useAuth();
@@ -118,7 +111,7 @@ const HomePage = () => {
   }, [loaded]);
 
   if (!userCan("home", "R")) return <NotAccess />;
-  if (!loaded) return <WidgetSkeleton />;
+  // if (!loaded) return <WidgetSkeleton />;
   // console.log(poblacion);
   return (
     <div className={styles.container}>
@@ -126,29 +119,29 @@ const HomePage = () => {
         //   <WidgetTime data={dashboard?.data?.countDown} />
         // ) : (
         <>
-          <HistoryTitle
+          {/* <HistoryTitle
             param={[params, setParams]}
             histTitulos={histTitulos}
             onBack={onBack}
-          />
+          /> */}
         </>
       )}
       <section>
         {params?.level <= 4 && (
           <div>
-            <DashboardMap
+            {/* <DashboardMap
               data={dashboard?.data}
               onClick={onClick}
               params={[params, setParams]}
               entidadData={user}
               itemSelected={itemSelected}
               setPoblacion={setPoblacion}
-            />
+            /> */}
           </div>
         )}
         <div>
-          <WidgetTime data={dashboard?.data?.countDown} />
-          <WidgetProgresiveBar
+          {/* <WidgetTime data={dashboard?.data?.countDown} /> */}
+          {/* <WidgetProgresiveBar
             data={{
               totalAfiliados:
                 user?.role?.level === params?.level
@@ -174,14 +167,14 @@ const HomePage = () => {
           <WidgetCandidates
             data={dashboard?.data?.candidates}
             params={params}
-          />
+          /> */}
         </div>
       </section>
       {dashboard?.data?.entidad?.length > 0 && (
         <>
           <section>
             <div>
-              <WidgetTable
+              {/* <WidgetTable
                 data={dashboard?.data.entidad}
                 title={`Resumen de afiliados por ${
                   params?.level === 1
@@ -192,7 +185,7 @@ const HomePage = () => {
                 }`}
                 level={params?.level}
                 onClickLevel={onClick}
-              />
+              /> */}
             </div>
           </section>
           <section style={{ justifyContent: "right" }}>
