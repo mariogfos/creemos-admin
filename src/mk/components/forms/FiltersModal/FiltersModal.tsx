@@ -1,16 +1,15 @@
-import React from 'react';
-import DataModal from '../../ui/DataModal/DataModal';
-import FilterTags from '@/components/FilterTags/FilterTags';
+import React from "react";
+import DataModal from "../../ui/DataModal/DataModal";
+// import FilterTags from '@/components/FilterTags/FilterTags';
 
 interface FilterConfig {
-    title: string;
-    data: any[]; 
-    filters: any; 
-    setFilters: React.Dispatch<React.SetStateAction<any>>; 
-    type: string;
-    msgEmpty?: string; 
-  }
-  
+  title: string;
+  data: any[];
+  filters: any;
+  setFilters: React.Dispatch<React.SetStateAction<any>>;
+  type: string;
+  msgEmpty?: string;
+}
 
 const FiltersModal = ({
   open,
@@ -21,7 +20,7 @@ const FiltersModal = ({
   buttonText = "Aplicar filtros",
   buttonExtra,
   filtersList,
-} :any) => {
+}: any) => {
   return (
     <DataModal
       open={open}
@@ -32,7 +31,7 @@ const FiltersModal = ({
       buttonText={buttonText}
       buttonExtra={buttonExtra}
     >
-      {filtersList.map((filter:FilterConfig, index:number) => (
+      {/* {filtersList.map((filter:FilterConfig, index:number) => (
         <FilterTags
           key={index}
           title={filter.title}
@@ -42,7 +41,8 @@ const FiltersModal = ({
           type={filter.type}
           msgEmpty={filter.msgEmpty} 
         />
-      ))}
+      ))} */}
+      <></>
     </DataModal>
   );
 };
