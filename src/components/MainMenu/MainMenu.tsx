@@ -5,6 +5,7 @@ import {
   IconLogout,
   IconNetwork,
   IconCandidates,
+  IconDashboard,
 } from "../layout/icons/IconsBiblioteca";
 import styles from "./mainmenu.module.css";
 import MainmenuDropdown from "./MainmenuDropdown";
@@ -40,55 +41,21 @@ const MainMenu = ({
       </div>
       {!isMobile ? (
         <div>
-          <MainmenuDropdown
-            label="Red Elekta"
-            icon={<IconRedffiliates />}
-            items={[
-              { href: "/", label: "Resumen" },
-              {
-                href: "/affiliateGrowth",
-                label: "Crecimiento de los afiliados",
-              },
-              { href: "/directAffiliates", label: "Red de afiliados" },
-              { href: "/affiliates", label: "Afiliados" },
-              { href: "/ranking", label: "Ranking" },
-            ]}
-            collapsed={collapsed}
-            setSideBarOpen={setSideBarOpen}
+          <MainmenuItem
+            href="#"
+            label="Panel de control"
+            icon={<IconDashboard />}
           />
-          <MainmenuDropdown
-            label="Organización"
-            icon={<IconNetwork />}
-            items={[
-              { href: "/partyStructure", label: "Estructura del partido" },
-              { href: "/users", label: "Administradores" },
-              { href: "/roles", label: "Roles y permisos" },
-            ]}
-            collapsed={collapsed}
-            setSideBarOpen={setSideBarOpen}
+          <MainmenuItem
+            href="#"
+            label="Mapeo electoral"
+            icon={<IconDashboard />}
           />
-          <MainmenuDropdown
-            label="Comunicación"
-            icon={<IconComunication />}
-            items={[
-              { href: "/contents", label: "Publicaciones" },
-              { href: "/events", label: "Eventos" },
-              { href: "/activities", label: "Actividades" },
-              { href: "/surveys", label: "Encuestas" },
-            ]}
-            collapsed={collapsed}
-            setSideBarOpen={setSideBarOpen}
+          <MainmenuItem
+            href="#"
+            label="Roles y permisos"
+            icon={<IconDashboard />}
           />
-          {/* <MainmenuDropdown
-            label="Candidatos"
-            icon={<IconCandidates />}
-            items={[
-              { href: "/candidates", label: "Administrar candidatos" },
-              { href: "/typecands", label: "Tipo de candidatos" },
-            ]}
-            collapsed={collapsed}
-            setSideBarOpen={setSideBarOpen}
-          /> */}
         </div>
       ) : (
         <div>
