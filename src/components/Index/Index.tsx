@@ -37,38 +37,38 @@ const HomePage = () => {
     });
   }, []);
 
-  const {
-    data: dashboard,
-    reLoad,
-    loaded,
-  } = useAxios("/dashboard", "GET", {
-    ...params,
-  });
+  // const {
+  //   data: dashboard,
+  //   reLoad,
+  //   loaded,
+  // } = useAxios("/dashboard", "GET", {
+  //   ...params,
+  // });
 
-  useEffect(() => {
-    reLoad(params);
-  }, [params]);
+  // useEffect(() => {
+  //   reLoad(params);
+  // }, [params]);
 
-  const onClick = (row: any) => {
-    if (params?.level === 3) {
-      return;
-    }
+  // const onClick = (row: any) => {
+  //   if (params?.level === 3) {
+  //     return;
+  //   }
 
-    const item: any = dashboard?.data?.entidad.find(
-      (d: any) => d.name == row?.name
-    );
+  //   const item: any = dashboard?.data?.entidad.find(
+  //     (d: any) => d.name == row?.name
+  //   );
 
-    setHistParams((prev) => [...prev, params]);
-    setHistTitulos((prev) => [...prev, item?.name]);
+  //   setHistParams((prev) => [...prev, params]);
+  //   setHistTitulos((prev) => [...prev, item?.name]);
 
-    setItemSelected(item);
-    setParams({
-      ...params,
-      searchBy: item?.id,
-      level: (params?.level || 0) + 1,
-      code: item?.name,
-    });
-  };
+  //   setItemSelected(item);
+  //   setParams({
+  //     ...params,
+  //     searchBy: item?.id,
+  //     level: (params?.level || 0) + 1,
+  //     code: item?.name,
+  //   });
+  // };
 
   const onBack = (index: number) => {
     // Recorta los parámetros e historial hasta el índice especificado
@@ -104,11 +104,11 @@ const HomePage = () => {
     }
   };
 
-  useEffect(() => {
-    if (!loaded) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [loaded]);
+  // useEffect(() => {
+  //   if (!loaded) {
+  //     window.scrollTo({ top: 0, behavior: "smooth" });
+  //   }
+  // }, [loaded]);
 
   if (!userCan("home", "R")) return <NotAccess />;
   // if (!loaded) return <WidgetSkeleton />;
@@ -170,7 +170,7 @@ const HomePage = () => {
           /> */}
         </div>
       </section>
-      {dashboard?.data?.entidad?.length > 0 && (
+      {/* {dashboard?.data?.entidad?.length > 0 && ( */}
         <>
           <section>
             <div>
@@ -195,7 +195,7 @@ const HomePage = () => {
             </p>
           </section>
         </>
-      )}
+      {/* )} */}
     </div>
   );
 };

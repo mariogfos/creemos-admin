@@ -62,7 +62,7 @@ const MainMenu = ({
           <MainmenuItem href="/" label="Eventos" icon={<IconCandidates />} />
         </div>
       )}
-      <div>
+      {/* <div>
         <MainmenuItem
           href="#"
           onclick={() => play()}
@@ -71,7 +71,7 @@ const MainMenu = ({
           icon={<></>}
           collapsed={collapsed}
         />
-      </div>
+      </div> */}
       <div>
         <MainmenuItem
           href="#"
