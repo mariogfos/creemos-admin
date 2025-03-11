@@ -86,37 +86,9 @@ const Users = () => {
       fullName: {
         // rules: ["required"],
         api: "ae",
-        label: "Nombre del afiliado",
+        label: "Nombre",
         form: false,
         onRender: ({ item, extraData }: any) => {
-          let entidad = "";
-          if (user?.role?.level == 1) {
-            entidad =
-              "Departamento - " +
-              extraData?.dptos?.find((dpto: any) => dpto?.id == item?.dpto_id)
-                ?.name;
-          }
-          if (user?.role?.level == 2) {
-            entidad =
-              "Municipio - " +
-              extraData?.muns?.find((mun: any) => mun?.id == item?.mun_id)
-                ?.name;
-          }
-          if (user?.role?.level == 3) {
-            entidad =
-              "localidad - " +
-              extraData?.locals?.find((lo: any) => lo?.id == item?.local_id)
-                ?.name;
-          }
-          if (user?.role?.level == 4) {
-            entidad =
-              "Barrio - " +
-              extraData?.barrios?.find((ba: any) => ba?.id == item?.barrio_id)
-                ?.name;
-          }
-          if (user?.role?.level == 5) {
-            entidad = "";
-          }
           return (
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <Avatar
@@ -125,15 +97,7 @@ const Users = () => {
                 )}
                 name={getFullName(item)}
               />
-              <p>
-                {getFullName(item)}
-                <br />
-                {entidad.includes("undefined") ? (
-                  ""
-                ) : (
-                  <p style={{ marginTop: 4 }}>{entidad}</p>
-                )}
-              </p>
+              <p>{getFullName(item)}</p>
             </div>
           );
         },
