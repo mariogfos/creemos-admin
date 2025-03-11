@@ -42,13 +42,18 @@ const MainMenu = ({
       {!isMobile ? (
         <div>
           <MainmenuItem
-            href="#"
+            href="/"
             label="Panel de control"
             icon={<IconDashboard />}
           />
           <MainmenuItem
             href="#"
             label="Mapeo electoral"
+            icon={<IconDashboard />}
+          />
+          <MainmenuItem
+            href="/users"
+            label="Administradores"
             icon={<IconDashboard />}
           />
           <MainmenuItem
