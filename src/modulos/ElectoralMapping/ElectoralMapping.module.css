@@ -1,0 +1,19 @@
+.ElectoralMapping {
+  & > div {
+    display: flex;
+    gap: var(--spS);
+  }
+  & > p:nth-child(1) {
+    color: var(--cWhite);
+    font-size: var(--sXxl);
+    font-weight: 700;
+    margin-bottom: var(--spM);
+  }
+  & > p:nth-child(3) {
+    color: var(--cWhite);
+    font-size: var(--sM);
+    margin-top: var(--spM);
+    font-weight: 500;
+    margin-bottom: var(--spS);
+  }
+}
