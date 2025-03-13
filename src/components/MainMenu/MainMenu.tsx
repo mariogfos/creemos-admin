@@ -47,7 +47,7 @@ const MainMenu = ({
             icon={<IconDashboard />}
           />
           <MainmenuItem
-            href="#"
+            href="/electoralMapping"
             label="Mapeo electoral"
             icon={<IconDashboard />}
           />

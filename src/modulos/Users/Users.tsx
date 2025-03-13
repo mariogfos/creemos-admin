@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import styles from "./Users.module.css";
-
 import { useEffect, useMemo, useState } from "react";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import NotAccess from "@/components/layout/NotAccess/NotAccess";
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import { getFullName, getUrlImages } from "@/mk/utils/string";
-
 // import { useAuth } from "@/mk/contexts/AuthProvider";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 import useCrudUtils from "../shared/useCrudUtils";
 import RenderItem from "../shared/RenderItem";
+import { getDateTimeStrMes } from "@/mk/utils/date";
+import RenderForm from "./RenderForm";
 // import Pagination from "@/mk/components/ui/Pagination/Pagination";
 
 // const validate = (item: any, user: any) => {
@@ -55,10 +55,10 @@ const Users = () => {
   // };
   const mod: ModCrudType = {
     modulo: "users",
-    singular: "Administrador",
-    plural: "Administradores",
+    singular: "administrador",
+    plural: "administradores",
     permiso: "",
-    // import: true,
+
     // renderView: (props: {
     //   open: boolean;
     //   onClose: any;
@@ -66,7 +66,16 @@ const Users = () => {
     //   onConfirm?: Function;
     //   extraData?: Record<string, any>;
     // }) => <RenderView {...props} />,
-    // extraData: true,
+    // renderForm: (props: {
+    //   item: any;
+    //   setItem: any;
+    //   extraData: any;
+    //   open: boolean;
+    //   onClose: any;
+    //   user: any;
+    //   execute: any;
+    // }) => <RenderForm {...props} />,
+    extraData: true,
     // hideActions: { add: true, edit: true, del: true },
     // loadView: { key_id: "affiliate_id" },
 
@@ -83,6 +92,18 @@ const Users = () => {
     return {
       id: { rules: [], api: "e" },
 
+      created_at: {
+        // rules: ["required"],
+        // api: "ae",
+        label: " Fecha y hora de registro",
+        form: false,
+        list: {
+          width: "300px",
+          onRender: ({ item, value }: any) => {
+            return getDateTimeStrMes(value);
+          },
+        },
+      },
       fullName: {
         // rules: ["required"],
         api: "ae",
@@ -135,6 +156,14 @@ const Users = () => {
         list: false,
       },
 
+      ci: {
+        rules: ["required"],
+        api: "ae",
+        label: "Cédula de identidad",
+        form: { type: "text" },
+        list: false,
+      },
+
       // entidad: {
       //   // rules: ["required"],
       //   // api: "ae",
@@ -167,23 +196,23 @@ const Users = () => {
       //   },
       // },
 
-      level: {
+      phone: {
         rules: ["required"],
         api: "ae",
-        label: "Nivel",
+        label: "Teléfono",
         form: {
-          type: "text",
+          type: "number",
         },
-        list: { width: "100px" },
+        list: { width: "150px" },
       },
-      points: {
+      email: {
         rules: ["required"],
         api: "ae",
-        label: "Puntos",
+        label: "Correo electrónico",
         form: {
           type: "text",
         },
-        list: { width: "100px" },
+        list: { width: "300px" },
       },
     };
   }, []);
