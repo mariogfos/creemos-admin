@@ -85,7 +85,7 @@ const GeolocationEnclosures = ({ data }: TypeProps) => {
         <MapUpdater center={selectedMarker || selectedCirc.center} />
 
         {/* Dibujar la circunscripción */}
-        {/* <Polygon positions={selectedCirc.polygon} color="#c1121f" fillColor="rgba(0, 0, 255, 0.2)" /> */}
+        <Polygon positions={selectedCirc.polygon} color="#c1121f" fillColor="rgba(0, 0, 255, 0.2)" />
 
         {/* Renderizar marcadores de barrios */}
         {selectedCirc.neighborhoods.map((neighborhood) => (
