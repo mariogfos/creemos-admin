@@ -17,9 +17,6 @@ const santaCruzData = [
     id: 1,
     name: "Circunscripción 1",
     center: { lat: -17.7700, lng: -63.1769 },
-    polygon: [
-      [-17.765, -63.180], [-17.775, -63.170], [-17.780, -63.185], [-17.770, -63.190], [-17.765, -63.180]
-    ],
     neighborhoods: [
       { id: 101, name: "Barrio Equipetrol", lat: -17.7700, lng: -63.1769 },
       { id: 102, name: "Barrio Urbarí", lat: -17.7832, lng: -63.1875 },
@@ -29,9 +26,6 @@ const santaCruzData = [
     id: 2,
     name: "Circunscripción 2",
     center: { lat: -17.8012, lng: -63.1648 },
-    polygon: [
-      [-17.798, -63.168], [-17.805, -63.160], [-17.810, -63.170], [-17.800, -63.175], [-17.798, -63.168]
-    ],
     neighborhoods: [
       { id: 201, name: "Barrio Hamacas", lat: -17.8012, lng: -63.1648 },
       { id: 202, name: "Barrio Sirari", lat: -17.7886, lng: -63.1595 },
@@ -81,7 +75,7 @@ const MapComponent = () => {
         <MapUpdater center={selectedMarker || selectedCirc.center} />
 
         {/* Dibujar la circunscripción */}
-        <Polygon positions={selectedCirc.polygon} color="#c1121f" fillColor="rgba(0, 0, 255, 0.2)" />
+        {/* <Polygon positions={selectedCirc.polygon} color="#c1121f" fillColor="rgba(0, 0, 255, 0.2)" /> */}
 
         {/* Renderizar marcadores de barrios */}
         {selectedCirc.neighborhoods.map((neighborhood) => (
