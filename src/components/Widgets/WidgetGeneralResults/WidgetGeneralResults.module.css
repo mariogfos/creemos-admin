@@ -1,0 +1,15 @@
+.WidgetGeneralResults {
+  background-color: var(--cBlackV3);
+  border-radius: 16px;
+  padding: 12px 24px;
+  .text {
+    font-size: 14px;
+    color: var(--cBlackV2);
+    font-weight: 400;
+  }
+  .value {
+    font-size: 32px;
+    color: var(--cWhite);
+    font-weight: 700;
+  }
+}

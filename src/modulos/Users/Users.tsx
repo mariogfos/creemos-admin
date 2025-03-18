@@ -94,7 +94,7 @@ const Users = () => {
 
       created_at: {
         // rules: ["required"],
-        // api: "ae",
+        api: "",
         label: " Fecha y hora de registro",
         form: false,
         list: {
