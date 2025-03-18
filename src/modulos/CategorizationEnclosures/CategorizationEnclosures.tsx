@@ -4,7 +4,7 @@ type TypeProps = {
 };
 
 const CategorizationEnclosures = ({ data }: TypeProps) => {
-  return <div>CategorizationEnclosures</div>;
+  return <div></div>;
 };
 
 export default CategorizationEnclosures;
