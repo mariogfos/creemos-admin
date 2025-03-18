@@ -1,0 +1,11 @@
+.WidgetBase {
+  background-color: var(--cBlackV1);
+  padding: 12px 24px;
+  border-radius: 16;
+  width: 100%;
+  & > p:nth-child(1) {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--cWhite);
+  }
+}

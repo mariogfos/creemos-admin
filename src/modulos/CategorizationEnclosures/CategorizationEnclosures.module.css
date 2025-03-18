@@ -1,0 +1,7 @@
+.CategorizationEnclosures {
+  width: 50%;
+  .widget {
+    display: grid;
+    grid-template-rows: 1fr 2fr;
+  }
+}
