@@ -1,5 +1,5 @@
 .CategorizationEnclosures {
-  width: 50%;
+  width: 100%;
   .widget {
     display: grid;
     grid-template-columns: auto auto;
