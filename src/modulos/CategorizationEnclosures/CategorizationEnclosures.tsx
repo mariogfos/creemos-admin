@@ -10,37 +10,39 @@ type TypeProps = {
 const CategorizationEnclosures = ({ data }: TypeProps) => {
   return (
     <div className={styles.CategorizationEnclosures}>
-      <WidgetBase title="Resultados generales" className={styles.widget}>
-        <WidgetGeneralResults
-          text="Recintos habilitados"
-          value={"1,091"}
-          icon={<IconProfession />}
-        />
-        <WidgetGeneralResults
-          text="Recintos habilitados"
-          value={"1,091"}
-          icon={<IconProfession />}
-        />
-        <WidgetGeneralResults
-          text="Recintos habilitados"
-          value={"1,091"}
-          icon={<IconProfession />}
-        />
-        <WidgetGeneralResults
-          text="Recintos habilitados"
-          value={"1,091"}
-          icon={<IconProfession />}
-        />
-        <WidgetGeneralResults
-          text="Recintos habilitados"
-          value={"1,091"}
-          icon={<IconProfession />}
-        />
-        <WidgetGeneralResults
-          text="Recintos habilitados"
-          value={"1,091"}
-          icon={<IconProfession />}
-        />
+      <WidgetBase title="Resultados generales">
+        <div className={styles.widget}>
+          <WidgetGeneralResults
+            text="Recintos habilitados"
+            value={"1,091"}
+            icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+          />
+          <WidgetGeneralResults
+            text="Mesas habilitadas"
+            value={"9,170"}
+            icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+          />
+          <WidgetGeneralResults
+            text="Votos habilitados"
+            value={"1,914,621"}
+            icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+          />
+          <WidgetGeneralResults
+            text="Votos válidos"
+            value={"1,545,658"}
+            icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+          />
+          <WidgetGeneralResults
+            text="Votos obtenidos por creemos"
+            value={"860,023"}
+            icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+          />
+          <WidgetGeneralResults
+            text="Votos obtenidos por MAS-IPSP"
+            value={"589,970"}
+            icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+          />
+        </div>
       </WidgetBase>
     </div>
   );

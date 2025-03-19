@@ -1,7 +1,8 @@
 .WidgetGeneralResults {
-  background-color: var(--cBlackV3);
+  background-color: var(--cHover);
   border-radius: 16px;
   padding: 12px 24px;
+  width: 100%;
   .text {
     font-size: 14px;
     color: var(--cBlackV2);

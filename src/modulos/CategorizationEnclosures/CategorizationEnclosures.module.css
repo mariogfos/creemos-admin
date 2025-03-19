@@ -2,6 +2,7 @@
   width: 50%;
   .widget {
     display: grid;
-    grid-template-rows: 1fr 2fr;
+    grid-template-columns: auto auto;
+    gap: 12;
   }
 }
