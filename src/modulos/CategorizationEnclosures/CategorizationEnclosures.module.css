@@ -3,6 +3,6 @@
   .widget {
     display: grid;
     grid-template-columns: auto auto;
-    gap: 12;
+    gap: 12px;
   }
 }
