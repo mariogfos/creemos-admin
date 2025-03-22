@@ -5,7 +5,6 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 const GraphCategories = ({ data }: any) => {
-  // console.log(data);
   const [chartOptions, setChartOptions]: any = useState(null);
   const [chartSeries, setChartSeries]: any = useState([
     {

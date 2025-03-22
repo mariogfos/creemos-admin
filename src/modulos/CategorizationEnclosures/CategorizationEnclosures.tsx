@@ -1,4 +1,10 @@
-import { IconProfession } from "@/components/layout/icons/IconsBiblioteca";
+import {
+  IconMesas,
+  IconProfession,
+  IconRecinto,
+  IconVotesEnabled,
+  IconVotesValid,
+} from "@/components/layout/icons/IconsBiblioteca";
 import WidgetBase from "@/components/Widgets/WidgetBase/WidgetBase";
 import WidgetGeneralResults from "@/components/Widgets/WidgetGeneralResults/WidgetGeneralResults";
 import React, { useEffect, useState } from "react";
@@ -6,6 +12,10 @@ import styles from "./CategorizationEnclosures.module.css";
 import GraphCategories from "@/components/Graphs/GraphCategories/GraphCategories";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import { formatNumber } from "../../mk/utils/numbers";
+import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
+import Image from "next/image";
+import creemos from "../../../public/images/creemos.png";
+import mas from "../../../public/images/mas.png";
 
 type TypeProps = {
   data: any;
@@ -58,34 +68,74 @@ const CategorizationEnclosures = ({ data }: TypeProps) => {
             <WidgetGeneralResults
               text="Recintos habilitados"
               value={formatNumber(data?.grals?.enabled_recints, 0)}
-              icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+              icon={
+                <IconRecinto
+                  viewBox="0 0 40 40"
+                  size={40}
+                  reverse
+                  color={"var(--cBlackV2)"}
+                />
+              }
             />
             <WidgetGeneralResults
               text="Mesas habilitadas"
               value={formatNumber(data?.grals?.enabled_tables, 0)}
-              icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+              icon={
+                <IconMesas
+                  viewBox="0 0 40 40"
+                  size={40}
+                  color={"var(--cBlackV2)"}
+                />
+              }
             />
             <WidgetGeneralResults
               text="Votos habilitados"
               value={formatNumber(data?.grals?.enabled_votes, 0)}
-              icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+              icon={
+                <IconVotesEnabled
+                  viewBox="0 0 40 40"
+                  size={40}
+                  color={"var(--cBlackV2)"}
+                />
+              }
             />
             <WidgetGeneralResults
               text="Votos válidos"
               value={formatNumber(data?.grals?.valid_votes, 0)}
-              icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+              icon={
+                <IconVotesValid
+                  viewBox="0 0 40 40"
+                  size={40}
+                  reverse
+                  color={"var(--cBlackV2)"}
+                />
+              }
             />
             <WidgetGeneralResults
               text="Votos obtenidos por creemos"
               value={formatNumber(data?.grals?.creemos_votes, 0)}
               styleValue={{ color: "#91268E" }}
-              icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+              icon={
+                <Image
+                  src={creemos}
+                  alt=""
+                  priority
+                  style={{ width: 40, height: 40 }}
+                />
+              }
             />
             <WidgetGeneralResults
               text="Votos obtenidos por MAS-IPSP"
               value={formatNumber(data?.grals?.mas_votes, 0)}
               styleValue={{ color: "var(--cInfo)" }}
-              icon={<IconProfession size={40} color={"var(--cBlackV2)"} />}
+              icon={
+                <Image
+                  src={mas}
+                  alt=""
+                  priority
+                  style={{ width: 40, height: 40 }}
+                />
+              }
             />
           </div>
         </WidgetBase>

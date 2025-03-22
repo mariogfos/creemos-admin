@@ -116,6 +116,7 @@ const ElectoralMapping = () => {
   useEffect(() => {
     setStore({ ...store, title: "Mapeo electoral" });
   }, []);
+
   // console.log(metrics);
   return (
     <div className={styles.ElectoralMapping}>
