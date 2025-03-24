@@ -8,15 +8,6 @@ import Select from "@/mk/components/forms/Select/Select";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import useAxios from "@/mk/hooks/useAxios";
 
-type TypeProps = {
-  data: {
-    prov_id?: string;
-    mun_id?: string;
-    dmun_id?: string;
-    local_id?: string;
-    recinto_id?: string;
-  };
-};
 
 const ElectoralMapping = () => {
   const [tab, setTab] = useState("C");
@@ -25,6 +16,7 @@ const ElectoralMapping = () => {
   const [params, setParams] = useState({
     tab: "CAT",
   });
+
   const handleChange = (e: any) => {
     const { name, value } = e.target;
 
@@ -111,13 +103,13 @@ const ElectoralMapping = () => {
   // };
 
   const { store, setStore } = useAuth();
-  const { data: metrics, reLoad } = useAxios("/map-metrics", "GET", params);
+  const { data: metrics } = useAxios("/map-metrics", "GET", params);
 
   useEffect(() => {
     setStore({ ...store, title: "Mapeo electoral" });
   }, []);
 
-  // console.log(metrics);
+
   return (
     <div className={styles.ElectoralMapping}>
       <p>
@@ -138,7 +130,6 @@ const ElectoralMapping = () => {
           label="Provincia"
           name="prov_id"
           value={formState.prov_id}
-          // options={provincias}
           options={metrics?.data?.areas?.provs || []}
           optionLabel="name"
           optionValue="id"
@@ -149,7 +140,6 @@ const ElectoralMapping = () => {
           label="Municipio"
           name="mun_id"
           value={formState.mun_id}
-          // options={getMunicipiosOptions()}
           options={metrics?.data?.areas?.muns || []}
           optionLabel="name"
           optionValue="id"
@@ -161,7 +151,6 @@ const ElectoralMapping = () => {
           label="Distrito municipal"
           name="dmun_id"
           value={formState.dmun_id}
-          // options={getDistritosOptions()}
           options={metrics?.data?.areas?.dists || []}
           optionLabel="name"
           optionValue="id"
@@ -173,7 +162,6 @@ const ElectoralMapping = () => {
           label="Localidad"
           name="local_id"
           value={formState.local_id}
-          // options={getLocalidadesOptions()}
           options={metrics?.data?.areas?.locals || []}
           optionLabel="name"
           optionValue="id"
@@ -185,7 +173,6 @@ const ElectoralMapping = () => {
           label="Recinto electoral"
           name="recinto_id"
           value={formState.recinto_id}
-          // options={getRecintosOptions()}
           options={metrics?.data?.areas?.recints || []}
           optionLabel="name"
           optionValue="id"

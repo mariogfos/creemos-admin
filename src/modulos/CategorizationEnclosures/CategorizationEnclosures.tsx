@@ -1,18 +1,15 @@
 import {
   IconMesas,
-  IconProfession,
   IconRecinto,
   IconVotesEnabled,
   IconVotesValid,
 } from "@/components/layout/icons/IconsBiblioteca";
 import WidgetBase from "@/components/Widgets/WidgetBase/WidgetBase";
 import WidgetGeneralResults from "@/components/Widgets/WidgetGeneralResults/WidgetGeneralResults";
-import React, { useEffect, useState } from "react";
+import React, {  } from "react";
 import styles from "./CategorizationEnclosures.module.css";
 import GraphCategories from "@/components/Graphs/GraphCategories/GraphCategories";
-import { useAuth } from "@/mk/contexts/AuthProvider";
 import { formatNumber } from "../../mk/utils/numbers";
-import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 import Image from "next/image";
 import creemos from "../../../public/images/creemos.png";
 import mas from "../../../public/images/mas.png";
