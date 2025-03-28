@@ -149,7 +149,9 @@ const ElectoralMapping = () => {
     if (!formState.local_code) return [];
     return (
       metrics?.data?.areas?.recints?.filter(
-        (rec: any) => rec.local_code == formState.local_code
+        (rec: any) =>
+          rec.local_code == formState.local_code &&
+          rec?.dist_code == formState.dist_code
       ) || []
     );
   };
