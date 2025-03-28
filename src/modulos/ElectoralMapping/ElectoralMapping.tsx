@@ -1,6 +1,6 @@
 "use client";
 import TabsButtons from "@/mk/components/ui/TabsButton/TabsButtons";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import styles from "./ElectoralMapping.module.css";
 import CategorizationEnclosures from "../CategorizationEnclosures/CategorizationEnclosures";
 import GeolocationEnclosures from "../GeolocationEnclosures/GeolocationEnclosures";
@@ -22,7 +22,7 @@ const ElectoralMapping = () => {
   const [tab, setTab] = useState("C");
   const [formState, setFormState]: any = useState({});
   const [errors, setErrors] = useState({});
-  const [params, setParams] = useState({
+  const [params, setParams]: any = useState({
     tab: "CAT",
   });
   const handleChange = (e: any) => {
@@ -118,6 +118,51 @@ const ElectoralMapping = () => {
   }, []);
 
   // console.log(metrics);
+  const getMuns = () => {
+    if (!formState.prov_code) return [];
+    return (
+      metrics?.data?.areas?.muns?.filter(
+        (mun: any) => mun.prov_code == formState.prov_code
+      ) || []
+    );
+  };
+  const getDmuns = () => {
+    if (!formState.mun_code) return [];
+    return (
+      metrics?.data?.areas?.dists?.filter(
+        (dmun: any) => dmun.mun_code == formState.mun_code
+      ) || []
+    );
+  };
+  const getLocals = () => {
+    if (!formState?.dist_code) return [];
+    return (
+      metrics?.data?.areas?.locals?.filter(
+        (local: any) =>
+          local.mun_code == formState.mun_code &&
+          local?.prov_code == formState.prov_code
+      ) || []
+    );
+  };
+
+  const getRecints = () => {
+    if (!formState.local_code) return [];
+    return (
+      metrics?.data?.areas?.recints?.filter(
+        (rec: any) => rec.local_code == formState.local_code
+      ) || []
+    );
+  };
+  useEffect(() => {
+    setParams({
+      ...params,
+      ...formState,
+    });
+  }, [formState]);
+
+  useEffect(() => {
+    reLoad();
+  }, [params]);
   return (
     <div className={styles.ElectoralMapping}>
       <p>
@@ -136,62 +181,62 @@ const ElectoralMapping = () => {
       <div>
         <Select
           label="Provincia"
-          name="prov_id"
-          value={formState.prov_id}
+          name="prov_code"
+          value={formState.prov_code}
           // options={provincias}
           options={metrics?.data?.areas?.provs || []}
           optionLabel="name"
-          optionValue="id"
+          optionValue="code"
           onChange={handleChange}
           error={errors}
         />
         <Select
           label="Municipio"
-          name="mun_id"
-          value={formState.mun_id}
+          name="mun_code"
+          value={formState.mun_code}
           // options={getMunicipiosOptions()}
-          options={metrics?.data?.areas?.muns || []}
+          options={getMuns()}
           optionLabel="name"
-          optionValue="id"
+          optionValue="code"
           onChange={handleChange}
           error={errors}
-          disabled={!formState.prov_id}
+          disabled={!formState.prov_code}
         />
         <Select
           label="Distrito municipal"
-          name="dmun_id"
-          value={formState.dmun_id}
+          name="dist_code"
+          value={formState.dist_code}
           // options={getDistritosOptions()}
-          options={metrics?.data?.areas?.dists || []}
+          options={getDmuns()}
           optionLabel="name"
-          optionValue="id"
+          optionValue="code"
           onChange={handleChange}
           error={errors}
-          disabled={!formState.mun_id}
+          disabled={!formState.mun_code}
         />
         <Select
           label="Localidad"
-          name="local_id"
-          value={formState.local_id}
+          name="local_code"
+          value={formState.local_code}
           // options={getLocalidadesOptions()}
-          options={metrics?.data?.areas?.locals || []}
+          options={getLocals()}
           optionLabel="name"
-          optionValue="id"
+          optionValue="code"
           onChange={handleChange}
           error={errors}
-          disabled={!formState.dmun_id}
+          disabled={!formState.dist_code}
         />
         <Select
           label="Recinto electoral"
-          name="recinto_id"
-          value={formState.recinto_id}
+          name="recint_code"
+          value={formState.recint_code}
           // options={getRecintosOptions()}
-          options={metrics?.data?.areas?.recints || []}
+          options={getRecints()}
           optionLabel="name"
-          optionValue="id"
+          optionValue="code"
           onChange={handleChange}
           error={errors}
-          disabled={!formState.local_id}
+          disabled={!formState.local_code}
         />
       </div>
       {tab == "C" && <CategorizationEnclosures data={metrics?.data} />}
