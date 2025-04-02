@@ -66,15 +66,15 @@ const Users = () => {
     //   onConfirm?: Function;
     //   extraData?: Record<string, any>;
     // }) => <RenderView {...props} />,
-    // renderForm: (props: {
-    //   item: any;
-    //   setItem: any;
-    //   extraData: any;
-    //   open: boolean;
-    //   onClose: any;
-    //   user: any;
-    //   execute: any;
-    // }) => <RenderForm {...props} />,
+    renderForm: (props: {
+      item: any;
+      setItem: any;
+      extraData: any;
+      open: boolean;
+      onClose: any;
+      user: any;
+      execute: any;
+    }) => <RenderForm {...props} />,
     extraData: true,
     // hideActions: { add: true, edit: true, del: true },
     // loadView: { key_id: "affiliate_id" },
@@ -195,6 +195,16 @@ const Users = () => {
       //     },
       //   },
       // },
+      prefix_phone: {
+        rules: ["required"],
+        api: "ae",
+        label: "Teléfono",
+        form: {
+          type: "number",
+          precarga: 591,
+        },
+        list: false,
+      },
 
       phone: {
         rules: ["required"],

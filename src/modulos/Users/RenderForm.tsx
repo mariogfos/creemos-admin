@@ -2,6 +2,7 @@ import Input from "@/mk/components/forms/Input/Input";
 import Select from "@/mk/components/forms/Select/Select";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
 import { useAuth } from "@/mk/contexts/AuthProvider";
+import { PREFIX_COUNTRY } from "@/mk/utils/string";
 import { checkRules, hasErrors } from "@/mk/utils/validate/Rules";
 import React, { useState } from "react";
 
@@ -18,6 +19,7 @@ const RenderForm = ({
   const [formState, setFormState] = useState({ ...item });
   const [errors, setErrors] = useState({});
   const [oldEmail, setOldEmail] = useState(formState.email);
+  const isMac = navigator.platform.toUpperCase().includes("MAC");
   const { showToast } = useAuth();
   const handleChange = (e: any) => {
     let value = e.target.value;
@@ -57,6 +59,7 @@ const RenderForm = ({
       key: "ci",
       errors,
     });
+
     errors = checkRules({
       value: formState.email,
       rules: ["required", "email"],
@@ -69,6 +72,12 @@ const RenderForm = ({
       key: "rep_email",
       errors,
       data: formState,
+    });
+    errors = checkRules({
+      value: formState.phone,
+      rules: ["required"],
+      key: "phone",
+      errors,
     });
 
     setErrors(errors);
@@ -95,9 +104,10 @@ const RenderForm = ({
   };
   const onSave = async () => {
     if (hasErrors(validate())) return;
+    let method = formState.id ? "PUT" : "POST";
     const { data: response } = await execute(
-      "/users/" + formState.id,
-      "PUT",
+      "/users" + (formState.id ? "/" + formState.id : ""),
+      method,
       {
         name: formState.name,
         middle_name: formState.middle_name,
@@ -106,6 +116,8 @@ const RenderForm = ({
         ci: formState.ci,
         email: formState.email,
         role_id: formState.role_id,
+        prefix_phone: formState.prefix_phone,
+        phone: formState.phone,
       },
       false
     );
@@ -170,13 +182,57 @@ const RenderForm = ({
         onChange={handleChange}
         error={errors}
       /> */}
+      <div
+        style={{
+          display: "flex",
+          gap: "8px",
+        }}
+      >
+        <div
+          style={{
+            width: "35%",
+          }}
+        >
+          <Select
+            label="País"
+            name="prefix_phone"
+            error={errors}
+            required={true}
+            value={formState?.prefix_phone}
+            onChange={handleChange}
+            options={PREFIX_COUNTRY}
+            optionLabel={isMac ? "name" : "label"}
+            optionValue="id"
+          />
+        </div>
+        <div
+          style={{
+            width: "65%",
+          }}
+        >
+          <Input
+            label="Número de whatsApp"
+            type="number"
+            name="phone"
+            required={true}
+            error={errors}
+            value={formState?.phone}
+            // disabled={existCi}
+            onChange={handleChange}
+            // onFocus={() => setFocusDisabled(true)}
+            // onBlur={() => {
+            //   _onExist("phone");
+            //   validate("phone");s
+            // }}
+          />
+        </div>
+      </div>
       <Input
         label="Cédula de identidad"
         name="ci"
         value={formState.ci}
         onChange={handleChange}
         error={errors}
-        disabled={true}
       />
       <Input
         label="Correo electrónico"
