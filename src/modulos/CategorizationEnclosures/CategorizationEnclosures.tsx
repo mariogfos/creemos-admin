@@ -20,46 +20,44 @@ import mas from "../../../public/images/mas.png";
 type TypeProps = {
   data: any;
 };
-
+export const categories = [
+  {
+    name: "A",
+    text: "Recintos donde Creemos gana con más del 80%",
+    color: "var(--cRandom15)",
+  },
+  {
+    name: "B",
+    text: "Recintos donde Creemos gana entre el 50% y 80%",
+    color: "var(--cRandom14)",
+  },
+  {
+    name: "C",
+    text: "Recintos donde Creemos gana sin superar el 50%",
+    color: "var(--cRandom1)",
+  },
+  {
+    name: "D",
+    text: "Recintos donde MAS-IPSP gana sin superar el 50%",
+    color: "var(--cRandom4)",
+  },
+  {
+    name: "E",
+    text: "Recintos donde MAS-IPSP gana con el 50% y 80%",
+    color: "var(--cRandom2)",
+  },
+  {
+    name: "F",
+    text: "Recintos donde MAS-IPSP gana con más 80%",
+    color: "var(--cInfo)",
+  },
+  {
+    name: "G",
+    text: "Recintos donde gana otro partido diferente a Creemos y MAS-IPSP",
+    color: "var(--cRandom10)",
+  },
+];
 const CategorizationEnclosures = ({ data }: TypeProps) => {
-  let categories = [
-    {
-      name: "A",
-      text: "Recintos donde Creemos gana con más del 80%",
-      color: "var(--cRandom15)",
-    },
-    {
-      name: "B",
-      text: "Recintos donde Creemos gana entre el 50% y 80%",
-      color: "var(--cRandom14)",
-    },
-    {
-      name: "C",
-      text: "Recintos donde Creemos gana sin superar el 50%",
-      color: "var(--cRandom1)",
-    },
-    {
-      name: "D",
-      text: "Recintos donde MAS-IPSP gana sin superar el 50%",
-      color: "var(--cRandom4)",
-    },
-    {
-      name: "E",
-      text: "Recintos donde MAS-IPSP gana con el 50% y 80%",
-      color: "var(--cRandom2)",
-    },
-    {
-      name: "F",
-      text: "Recintos donde MAS-IPSP gana con más 80%",
-      color: "var(--cInfo)",
-    },
-    {
-      name: "G",
-      text: "Recintos donde gana otro partido diferente a Creemos y MAS-IPSP",
-      color: "var(--cRandom10)",
-    },
-  ];
-
   return (
     <div className={styles.CategorizationEnclosures}>
       <div style={{ width: "100%", display: "flex", gap: 12 }}>

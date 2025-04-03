@@ -6,6 +6,10 @@ import {
   IconNetwork,
   IconCandidates,
   IconDashboard,
+  IconUser,
+  IconAdmin,
+  IconSimpatizante,
+  IconMapeoElectoral,
 } from "../layout/icons/IconsBiblioteca";
 import styles from "./mainmenu.module.css";
 import MainmenuDropdown from "./MainmenuDropdown";
@@ -49,17 +53,17 @@ const MainMenu = ({
           <MainmenuItem
             href="/electoralMapping"
             label="Mapeo electoral"
-            icon={<IconDashboard />}
+            icon={<IconMapeoElectoral />}
           />
           <MainmenuItem
             href="/users"
             label="Administradores"
-            icon={<IconDashboard />}
+            icon={<IconAdmin />}
           />
           <MainmenuItem
-            href="#"
-            label="Roles y permisos"
-            icon={<IconDashboard />}
+            href="/supporters"
+            label="Simpatizantes"
+            icon={<IconSimpatizante />}
           />
         </div>
       ) : (

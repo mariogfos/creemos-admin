@@ -3,7 +3,7 @@ import styles from "./WidgetGeneralResults.module.css";
 
 type PropsType = {
   text: string;
-  icon: any;
+  icon?: any;
   value: any;
   styleValue?: CSSProperties;
 };
@@ -11,7 +11,7 @@ type PropsType = {
 const WidgetGeneralResults = ({ text, icon, value, styleValue }: PropsType) => {
   return (
     <div className={styles.WidgetGeneralResults}>
-      <div>{icon}</div>
+      {icon && <div>{icon}</div>}
       <p className={styles.text}>{text}</p>
       <p className={styles.value} style={styleValue}>
         {value}
