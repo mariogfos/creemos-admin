@@ -198,7 +198,7 @@ const Supporters = () => {
       prefix_phone: {
         rules: ["required"],
         api: "ae",
-        label: "Teléfono",
+        label: "Prefijo teléfono",
         form: {
           type: "number",
           precarga: 591,

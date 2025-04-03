@@ -239,7 +239,15 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
         }}
       >
         <WidgetBase title="Resultados generales">
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+              overflowY: "auto",
+              height: "calc(100vh - 530px)",
+            }}
+          >
             <WidgetGeneralResults
               text="Recintos habilitados"
               value={data?.data?.grals?.enabled_recints}
