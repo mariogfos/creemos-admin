@@ -140,7 +140,7 @@ const RenderForm = ({
     <DataModal
       open={open}
       onClose={onClose}
-      title="Editar administrador"
+      title={!formState.id ? "Crear simpatizante" : "Editar simpatizante"}
       onSave={onSave}
     >
       <Input
@@ -175,6 +175,25 @@ const RenderForm = ({
         label="Apellido materno"
         name="mother_last_name"
         value={formState.mother_last_name}
+        onChange={handleChange}
+        error={errors}
+      />
+      <Select
+        label="Genero"
+        name="gender"
+        value={formState?.gender}
+        optionLabel="name"
+        optionValue="id"
+        options={[
+          {
+            id: "M",
+            name: "Masculino",
+          },
+          {
+            id: "F",
+            name: "Femenino",
+          },
+        ]}
         onChange={handleChange}
         error={errors}
       />

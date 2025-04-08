@@ -12,6 +12,13 @@ import useCrudUtils from "../shared/useCrudUtils";
 import RenderItem from "../shared/RenderItem";
 import { getDateTimeStrMes } from "@/mk/utils/date";
 import RenderForm from "./RenderForm";
+import CardMetricts from "./CardMetricts/CardMetricts";
+import {
+  IconUser,
+  IconUserMen,
+  IconUserV2,
+  IconUserWomen,
+} from "@/components/layout/icons/IconsBiblioteca";
 // import Pagination from "@/mk/components/ui/Pagination/Pagination";
 
 // const validate = (item: any, user: any) => {
@@ -240,7 +247,7 @@ const Supporters = () => {
     onEdit,
     onDel,
     showToast,
-    // extraData,
+    extraData,
     execute,
     data,
     params,
@@ -289,8 +296,31 @@ const Supporters = () => {
   // };
 
   if (!userCan(mod.permiso, "R")) return <NotAccess />;
+
   return (
     <div className={styles.Users}>
+      <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+        <CardMetricts
+          value={extraData?.grals?.total_supporters}
+          label="Total de simpatizantes"
+          icon={<IconUserV2 color="var(--cInfo)" />}
+        />
+        <CardMetricts
+          value={extraData?.grals?.male_supporters}
+          label="Simpatizantes masculinos"
+          icon={<IconUserMen viewBox="0 0 30 30" color="var(--cSuccess)" />}
+        />
+        <CardMetricts
+          value={extraData?.grals?.female_supporters}
+          label="Simpatizantes femeninos"
+          icon={<IconUserWomen viewBox="0 0 30 30" color="#F0A8B2" />}
+        />
+        <CardMetricts
+          value={extraData?.grals?.undefined_supporters}
+          label="Simpatizantes no definidos "
+          icon={<IconUserMen viewBox="0 0 30 30" color="var(--cWarning)" />}
+        />
+      </div>
       <List onTabletRow={renderItem} />
     </div>
   );
