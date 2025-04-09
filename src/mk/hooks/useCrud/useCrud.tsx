@@ -23,6 +23,7 @@ import KeyValue from "@/mk/components/ui/KeyValue/KeyValue";
 import {
   IconAdmin,
   IconEdit,
+  IconExport,
   IconGrilla,
   IconImport,
   IconMenu,
@@ -46,6 +47,7 @@ export type ModCrudType = {
   loadView?: Record<string, any>;
   import?: boolean;
   filter?: boolean;
+  export?: boolean;
   sumarize?: boolean;
   messageDel?: any;
   hideActions?: {
@@ -402,17 +404,18 @@ const useCrud = ({
       "GET",
       {
         ...params,
-        _export: type,
-        exportCols: mod?.exportCols || params.cols || "",
-        exportTitulo: mod?.exportTitulo || "Listado de " + mod.plural,
-        exportTitulos: mod?.exportTitulos || "",
-        exportAnchos: mod?.exportAnchos || "",
+        _export: type || "pdf",
+        // exportCols: mod?.exportCols || params.cols || "",
+        // exportTitulo: mod?.exportTitulo || "Listado de " + mod.plural,
+        // exportTitulos: mod?.exportTitulos || "",
+        // exportAnchos: mod?.exportAnchos || "",
       },
       false,
       mod?.noWaiting
     );
     if (file?.success) {
-      callBack(getUrlImages("/" + file.data.path));
+      window.open(getUrlImages("/" + file.data.path)); // Abrir directamente en lugar de usar callback
+      // callBack(getUrlImages("/" + file.data.path));
     } else {
       showToast(file?.message, "error Export");
       logError("Error onExport:", file);
@@ -749,6 +752,11 @@ const useCrud = ({
           {mod.import && (
             <div style={{ marginTop: "12px" }} onClick={onImport}>
               <IconImport />
+            </div>
+          )}
+          {mod.export && (
+            <div style={{ marginTop: "12px" }}>
+              <IconExport onClick={() => onExport()} />
             </div>
           )}
           {mod.listAndCard && (

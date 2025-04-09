@@ -74,6 +74,12 @@ const RenderForm = ({
       data: formState,
     });
     errors = checkRules({
+      value: formState?.gender,
+      rules: ["required"],
+      key: "gender",
+      errors,
+    });
+    errors = checkRules({
       value: formState.phone,
       rules: ["required"],
       key: "phone",
@@ -125,6 +131,11 @@ const RenderForm = ({
       setItem(formState);
       showToast(response?.message, "success");
       onClose();
+    } else {
+      showToast(
+        "El carnet y el correo electrónico ya están registrados en la base de datos.",
+        "error"
+      );
     }
   };
 
@@ -136,6 +147,43 @@ const RenderForm = ({
   //   }
   //   console.log(extraData.roles);
   // };
+  const getMuns = () => {
+    if (!formState.prov_id) return [];
+
+    return (
+      extraData?.muns.filter(
+        (mun: any) => mun?.prov_code == Number(formState.prov_id)
+      ) || []
+    );
+  };
+  const getDmuns = () => {
+    if (!formState.mun_id) return [];
+    return (
+      extraData?.dists.filter(
+        (dmun: any) => dmun?.mun_code == Number(formState.mun_id)
+      ) || []
+    );
+  };
+  const getLocals = () => {
+    if (!formState?.dist_id) return [];
+    return (
+      extraData?.locals.filter(
+        (local: any) =>
+          local?.dist_code == Number(formState.dist_id) ||
+          local?.mun_code == Number(formState.mun_id)
+      ) || []
+    );
+  };
+  const getRecints = () => {
+    if (!formState.local_id) return [];
+    return (
+      extraData?.recints.filter(
+        (rec: any) => rec?.local_code == Number(formState.local_id)
+      ) || []
+    );
+  };
+
+  console.log(formState);
   return (
     <DataModal
       open={open}
@@ -264,45 +312,53 @@ const RenderForm = ({
         value={formState.prov_id}
         options={extraData?.provs || []}
         optionLabel="name"
-        optionValue="id"
+        optionValue="code"
         onChange={handleChange}
       />
-      <Select
-        label="Municipio"
-        name="mun_id"
-        value={formState.mun_id}
-        options={extraData?.muns || []}
-        optionLabel="name"
-        optionValue="id"
-        onChange={handleChange}
-      />
-      <Select
-        label="Distrito municipal"
-        name="dist_id"
-        value={formState.dist_id}
-        options={extraData?.dists || []}
-        optionLabel="name"
-        optionValue="id"
-        onChange={handleChange}
-      />
-      <Select
-        label="Localidad"
-        name="local_id"
-        value={formState.local_id}
-        options={extraData?.locals || []}
-        optionLabel="name"
-        optionValue="id"
-        onChange={handleChange}
-      />
-      <Select
-        label="Recinto"
-        name="recint_id"
-        value={formState.recint_id}
-        options={extraData?.recintos || []}
-        optionLabel="name"
-        optionValue="id"
-        onChange={handleChange}
-      />
+      {getMuns().length > 0 && (
+        <Select
+          label="Municipio"
+          name="mun_id"
+          value={formState.mun_id}
+          options={getMuns()}
+          optionLabel="name"
+          optionValue="code"
+          onChange={handleChange}
+        />
+      )}
+      {getDmuns().length > 0 && (
+        <Select
+          label="Distrito municipal"
+          name="dist_id"
+          value={formState.dist_id}
+          options={getDmuns()}
+          optionLabel="name"
+          optionValue="code"
+          onChange={handleChange}
+        />
+      )}
+      {getLocals().length > 0 && (
+        <Select
+          label="Localidad"
+          name="local_id"
+          value={formState.local_id}
+          options={getLocals()}
+          optionLabel="name"
+          optionValue="code"
+          onChange={handleChange}
+        />
+      )}
+      {getRecints().length > 0 && (
+        <Select
+          label="Recinto"
+          name="recint_id"
+          value={formState.recint_id}
+          options={getRecints()}
+          optionLabel="name"
+          optionValue="code"
+          onChange={handleChange}
+        />
+      )}
     </DataModal>
   );
 };

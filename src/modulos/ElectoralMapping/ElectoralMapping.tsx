@@ -103,13 +103,7 @@ const ElectoralMapping = () => {
   //   reLoad();
   // }, [params]);
   const getGeolocation = async () => {
-    let params = {
-      prov_code: "T",
-      mun_code: "T",
-      dist_code: "T",
-      local_code: "T",
-      recint_code: "T",
-    };
+    let params = {};
     const { data } = await execute("/map-geo", "GET", {
       ...params,
       ...formState,

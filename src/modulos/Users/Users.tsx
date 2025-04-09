@@ -57,6 +57,7 @@ const Users = () => {
     modulo: "users",
     singular: "administrador",
     plural: "administradores",
+    // export: true,
     permiso: "",
 
     // renderView: (props: {

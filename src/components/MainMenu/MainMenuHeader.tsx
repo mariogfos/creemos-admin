@@ -5,6 +5,8 @@ import { Avatar } from "../../mk/components/ui/Avatar/Avatar";
 import { IconLogoElekta } from "../layout/icons/IconsBiblioteca";
 import { getFullName, getUrlImages } from "@/mk/utils/string";
 import styles from "./mainmenu.module.css";
+import Image from "next/image";
+import creemos from "../../../public/images/Login.png";
 
 interface MainMenuHeaderProps {
   user: any;
@@ -17,9 +19,19 @@ const MainMenuHeader: React.FC<MainMenuHeaderProps> = ({ user, collapsed }) => {
   return (
     <div className={styles.menuHeader}>
       <div>
-        <IconLogoElekta
+        {/* <IconLogoElekta
           size={collapsed ? 44 : 148}
           onClick={() => router.push("/")}
+        /> */}
+        <Image
+          src={creemos}
+          alt=""
+          priority
+          style={{
+            width: 200,
+            height: 170,
+            cursor: "pointer",
+          }}
         />
       </div>
       {/* <div>
@@ -34,8 +46,8 @@ const MainMenuHeader: React.FC<MainMenuHeaderProps> = ({ user, collapsed }) => {
       {!collapsed && (
         <div>
           <p>{getFullName(user)}</p>
-          <p style={{color: "var(--cBlackV2)"}}>{user?.role?.name}</p>
-          <p style={{color: "var(--cBlackV2)"}}>{user?.entidad?.name}</p>
+          <p style={{ color: "var(--cBlackV2)" }}>{user?.role?.name}</p>
+          <p style={{ color: "var(--cBlackV2)" }}>{user?.entidad?.name}</p>
         </div>
       )}
     </div>
