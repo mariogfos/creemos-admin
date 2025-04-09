@@ -115,7 +115,6 @@ const RenderForm = ({
         mother_last_name: formState.mother_last_name,
         ci: formState.ci,
         email: formState.email,
-        role_id: formState.role_id,
         prefix_phone: formState.prefix_phone,
         phone: formState.phone,
       },
@@ -141,9 +140,16 @@ const RenderForm = ({
     <DataModal
       open={open}
       onClose={onClose}
-      title="Editar administrador"
+      title={!formState.id ? "Crear simpatizante" : "Editar simpatizante"}
       onSave={onSave}
     >
+      <Input
+        label="Cédula de identidad"
+        name="ci"
+        value={formState.ci}
+        onChange={handleChange}
+        error={errors}
+      />
       <Input
         label="Primer nombre"
         name="name"
@@ -172,16 +178,25 @@ const RenderForm = ({
         onChange={handleChange}
         error={errors}
       />
-      {/* <Select
-        label="Rol"
-        name="role_id"
-        value={formState.role_id}
-        options={extraData?.roles}
-        disabled
+      <Select
+        label="Genero"
+        name="gender"
+        value={formState?.gender}
         optionLabel="name"
+        optionValue="id"
+        options={[
+          {
+            id: "M",
+            name: "Masculino",
+          },
+          {
+            id: "F",
+            name: "Femenino",
+          },
+        ]}
         onChange={handleChange}
         error={errors}
-      /> */}
+      />
       <div
         style={{
           display: "flex",
@@ -227,13 +242,7 @@ const RenderForm = ({
           />
         </div>
       </div>
-      <Input
-        label="Cédula de identidad"
-        name="ci"
-        value={formState.ci}
-        onChange={handleChange}
-        error={errors}
-      />
+
       <Input
         label="Correo electrónico"
         name="email"
@@ -248,6 +257,51 @@ const RenderForm = ({
         value={formState.rep_email}
         onChange={handleChange}
         error={errors}
+      />
+      <Select
+        label="Provincia"
+        name="prov_id"
+        value={formState.prov_id}
+        options={extraData?.provs || []}
+        optionLabel="name"
+        optionValue="id"
+        onChange={handleChange}
+      />
+      <Select
+        label="Municipio"
+        name="mun_id"
+        value={formState.mun_id}
+        options={extraData?.muns || []}
+        optionLabel="name"
+        optionValue="id"
+        onChange={handleChange}
+      />
+      <Select
+        label="Distrito municipal"
+        name="dist_id"
+        value={formState.dist_id}
+        options={extraData?.dists || []}
+        optionLabel="name"
+        optionValue="id"
+        onChange={handleChange}
+      />
+      <Select
+        label="Localidad"
+        name="local_id"
+        value={formState.local_id}
+        options={extraData?.locals || []}
+        optionLabel="name"
+        optionValue="id"
+        onChange={handleChange}
+      />
+      <Select
+        label="Recinto"
+        name="recint_id"
+        value={formState.recint_id}
+        options={extraData?.recintos || []}
+        optionLabel="name"
+        optionValue="id"
+        onChange={handleChange}
       />
     </DataModal>
   );

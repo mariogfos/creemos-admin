@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import background from "@/../public/images/img_login.png";
+import background from "@/../public/images/Login.png";
 import ForgotPass from "./ForgotPass";
 import Input from "@/mk/components/forms/Input/Input";
 import InputPassword from "@/mk/components/forms/InputPassword/InputPassword";

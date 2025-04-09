@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import styles from "./Users.module.css";
+import styles from "./Supporters.module.css";
 import { useEffect, useMemo, useState } from "react";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import NotAccess from "@/components/layout/NotAccess/NotAccess";
@@ -12,6 +12,13 @@ import useCrudUtils from "../shared/useCrudUtils";
 import RenderItem from "../shared/RenderItem";
 import { getDateTimeStrMes } from "@/mk/utils/date";
 import RenderForm from "./RenderForm";
+import CardMetricts from "./CardMetricts/CardMetricts";
+import {
+  IconUser,
+  IconUserMen,
+  IconUserV2,
+  IconUserWomen,
+} from "@/components/layout/icons/IconsBiblioteca";
 // import Pagination from "@/mk/components/ui/Pagination/Pagination";
 
 // const validate = (item: any, user: any) => {
@@ -36,7 +43,7 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Users = () => {
+const Supporters = () => {
   // const { user } = useAuth();
 
   // const getLabel = () => {
@@ -54,9 +61,9 @@ const Users = () => {
   //   }
   // };
   const mod: ModCrudType = {
-    modulo: "users",
-    singular: "administrador",
-    plural: "administradores",
+    modulo: "supporters",
+    singular: "simpatizante",
+    plural: "simpatizantes",
     permiso: "",
 
     // renderView: (props: {
@@ -198,7 +205,7 @@ const Users = () => {
       prefix_phone: {
         rules: ["required"],
         api: "ae",
-        label: "Teléfono",
+        label: "Prefijo teléfono",
         form: {
           type: "number",
           precarga: 591,
@@ -240,7 +247,7 @@ const Users = () => {
     onEdit,
     onDel,
     showToast,
-    // extraData,
+    extraData,
     execute,
     data,
     params,
@@ -289,11 +296,34 @@ const Users = () => {
   // };
 
   if (!userCan(mod.permiso, "R")) return <NotAccess />;
+
   return (
     <div className={styles.Users}>
+      <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+        <CardMetricts
+          value={extraData?.grals?.total_supporters}
+          label="Total de simpatizantes"
+          icon={<IconUserV2 color="var(--cInfo)" />}
+        />
+        <CardMetricts
+          value={extraData?.grals?.male_supporters}
+          label="Simpatizantes masculinos"
+          icon={<IconUserMen viewBox="0 0 30 30" color="var(--cSuccess)" />}
+        />
+        <CardMetricts
+          value={extraData?.grals?.female_supporters}
+          label="Simpatizantes femeninos"
+          icon={<IconUserWomen viewBox="0 0 30 30" color="#F0A8B2" />}
+        />
+        <CardMetricts
+          value={extraData?.grals?.undefined_supporters}
+          label="Simpatizantes no definidos "
+          icon={<IconUserMen viewBox="0 0 30 30" color="var(--cWarning)" />}
+        />
+      </div>
       <List onTabletRow={renderItem} />
     </div>
   );
 };
 
-export default Users;
+export default Supporters;

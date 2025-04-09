@@ -1,21 +1,31 @@
 import React, { useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Polygon,
+  Popup,
+  useMap,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import WidgetBase from "@/components/Widgets/WidgetBase/WidgetBase";
+import WidgetGeneralResults from "@/components/Widgets/WidgetGeneralResults/WidgetGeneralResults";
+import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
+import { categories } from "../CategorizationEnclosures/CategorizationEnclosures";
+import Image from "next/image";
+import creemos from "../../../public/images/creemos.png";
+import mas from "../../../public/images/mas.png";
 
 type TypeProps = {
-  data: {
-    prov_id?: string;
-    mun_id?: string;
-    dmun_id?: string;
-    local_id?: string;
-    recinto_id?: string;
-  };
+  data: any;
+  formState: any;
 };
 
 // Icono personalizado para los marcadores
 const customIcon = new L.Icon({
-  iconUrl: "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/map-marker-512.png",
+  iconUrl:
+    "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/map-marker-512.png",
   iconSize: [32, 32],
   iconAnchor: [12, 12],
   popupAnchor: [1, -34],
@@ -30,90 +40,90 @@ const locationData: any = {
         center: { lat: -17.7863, lng: -63.1745 },
         districts: {
           "Distrito 1": {
-            center: { lat: -17.7700, lng: -63.1769 },
+            center: { lat: -17.77, lng: -63.1769 },
             locations: [
-              { id: 1, name: "Localidad A", lat: -17.7700, lng: -63.1769 },
-              { id: 2, name: "Localidad B", lat: -17.7832, lng: -63.1875 }
-            ]
+              { id: 1, name: "Localidad A", lat: -17.77, lng: -63.1769 },
+              { id: 2, name: "Localidad B", lat: -17.7832, lng: -63.1875 },
+            ],
           },
           "Distrito 2": {
-            center: { lat: -17.7950, lng: -63.1650 },
+            center: { lat: -17.795, lng: -63.165 },
             locations: [
-              { id: 3, name: "Localidad C", lat: -17.7950, lng: -63.1650 }
-            ]
+              { id: 3, name: "Localidad C", lat: -17.795, lng: -63.165 },
+            ],
           },
           "Distrito 3": {
-            center: { lat: -17.7750, lng: -63.1550 },
+            center: { lat: -17.775, lng: -63.155 },
             locations: [
-              { id: 4, name: "Localidad D", lat: -17.7750, lng: -63.1550 }
-            ]
-          }
-        }
+              { id: 4, name: "Localidad D", lat: -17.775, lng: -63.155 },
+            ],
+          },
+        },
       },
-      "Cotoca": {
+      Cotoca: {
         center: { lat: -17.7167, lng: -62.9833 },
         districts: {
           "Distrito 1": {
-            center: { lat: -17.7160, lng: -62.9830 },
+            center: { lat: -17.716, lng: -62.983 },
             locations: [
-              { id: 5, name: "Localidad A", lat: -17.7160, lng: -62.9830 }
-            ]
+              { id: 5, name: "Localidad A", lat: -17.716, lng: -62.983 },
+            ],
           },
           "Distrito 2": {
-            center: { lat: -17.7180, lng: -62.9850 },
+            center: { lat: -17.718, lng: -62.985 },
             locations: [
-              { id: 6, name: "Localidad B", lat: -17.7180, lng: -62.9850 }
-            ]
-          }
-        }
+              { id: 6, name: "Localidad B", lat: -17.718, lng: -62.985 },
+            ],
+          },
+        },
       },
-      "Porongo": {
+      Porongo: {
         center: { lat: -17.8333, lng: -63.2833 },
         districts: {
           "Distrito Único": {
             center: { lat: -17.8333, lng: -63.2833 },
             locations: [
-              { id: 7, name: "Localidad A", lat: -17.8333, lng: -63.2833 }
-            ]
-          }
-        }
-      }
-    }
+              { id: 7, name: "Localidad A", lat: -17.8333, lng: -63.2833 },
+            ],
+          },
+        },
+      },
+    },
   },
-  "Warnes": {
+  Warnes: {
     center: { lat: -17.5166, lng: -63.1666 },
     locations: {
-      "Warnes": {
+      Warnes: {
         center: { lat: -17.5166, lng: -63.1666 },
         districts: {
           "Distrito 1": {
-            center: { lat: -17.5160, lng: -63.1660 },
+            center: { lat: -17.516, lng: -63.166 },
             locations: [
-              { id: 8, name: "Localidad A", lat: -17.5160, lng: -63.1660 }
-            ]
+              { id: 8, name: "Localidad A", lat: -17.516, lng: -63.166 },
+            ],
           },
           "Distrito 2": {
-            center: { lat: -17.5180, lng: -63.1680 },
+            center: { lat: -17.518, lng: -63.168 },
             locations: [
-              { id: 9, name: "Localidad B", lat: -17.5180, lng: -63.1680 }
-            ]
-          }
-        }
+              { id: 9, name: "Localidad B", lat: -17.518, lng: -63.168 },
+            ],
+          },
+        },
       },
       "Okinawa Uno": {
-        center: { lat: -17.2247, lng: -62.8930 },
+        center: { lat: -17.2247, lng: -62.893 },
         districts: {
           "Distrito Único": {
-            center: { lat: -17.2247, lng: -62.8930 },
+            center: { lat: -17.2247, lng: -62.893 },
             locations: [
-              { id: 10, name: "Localidad A", lat: -17.2247, lng: -62.8930 }
-            ]
-          }
-        }
-      }
-    }
+              { id: 10, name: "Localidad A", lat: -17.2247, lng: -62.893 },
+            ],
+          },
+        },
+      },
+    },
   },
-  "Chiquitos": {
+  Chiquitos: {
     center: { lat: -17.8667, lng: -60.7333 },
     locations: {
       "San José de Chiquitos": {
@@ -122,25 +132,25 @@ const locationData: any = {
           "Distrito 1": {
             center: { lat: -17.8667, lng: -60.7333 },
             locations: [
-              { id: 11, name: "Localidad A", lat: -17.8667, lng: -60.7333 }
-            ]
-          }
-        }
+              { id: 11, name: "Localidad A", lat: -17.8667, lng: -60.7333 },
+            ],
+          },
+        },
       },
-      "Roboré": {
+      Roboré: {
         center: { lat: -18.3333, lng: -59.7333 },
         districts: {
           "Distrito 1": {
             center: { lat: -18.3333, lng: -59.7333 },
             locations: [
-              { id: 12, name: "Localidad A", lat: -18.3333, lng: -59.7333 }
-            ]
-          }
-        }
-      }
-    }
+              { id: 12, name: "Localidad A", lat: -18.3333, lng: -59.7333 },
+            ],
+          },
+        },
+      },
+    },
   },
-  "Guarayos": {
+  Guarayos: {
     center: { lat: -15.8833, lng: -63.3333 },
     locations: {
       "Ascensión de Guarayos": {
@@ -149,13 +159,13 @@ const locationData: any = {
           "Distrito 1": {
             center: { lat: -15.8833, lng: -63.3333 },
             locations: [
-              { id: 13, name: "Localidad A", lat: -15.8833, lng: -63.3333 }
-            ]
-          }
-        }
-      }
-    }
-  }
+              { id: 13, name: "Localidad A", lat: -15.8833, lng: -63.3333 },
+            ],
+          },
+        },
+      },
+    },
+  },
 };
 
 // Componente que mueve el mapa al centro seleccionado
@@ -165,24 +175,36 @@ const MapUpdater = ({ center }: { center: { lat: number; lng: number } }) => {
   return null;
 };
 
-const GeolocationEnclosures = ({ data }: TypeProps) => {
-  const [selectedMarker, setSelectedMarker] = useState<{ lat: number; lng: number } | null>(null);
+const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
+  const [selectedMarker, setSelectedMarker] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
 
   // Función para obtener el centro y los marcadores según la selección
   const getMapData = () => {
-    const defaultCenter = { lat: -17.7800, lng: -63.1800 };
+    const defaultCenter = { lat: -17.78, lng: -63.18 };
     let markers = [];
     let center = defaultCenter;
 
-    if (data.prov_id && locationData[data.prov_id]) {
-      center = locationData[data.prov_id].center;
-      
-      if (data.mun_id && locationData[data.prov_id].locations[data.mun_id]) {
-        center = locationData[data.prov_id].locations[data.mun_id].center;
-        
-        if (data.dmun_id && 
-            locationData[data.prov_id].locations[data.mun_id].districts[data.dmun_id]) {
-          const district = locationData[data.prov_id].locations[data.mun_id].districts[data.dmun_id];
+    if (formState.prov_id && locationData[formState?.prov_id]) {
+      center = locationData[formState?.prov_id].center;
+
+      if (
+        formState?.mun_id &&
+        locationData[formState?.prov_id].locations[formState?.mun_id]
+      ) {
+        center =
+          locationData[formState?.prov_id].locations[formState?.mun_id].center;
+
+        if (
+          formState?.dmun_id &&
+          locationData[formState?.prov_id].locations[formState?.mun_id]
+            .districts[formState?.dmun_id]
+        ) {
+          const district =
+            locationData[formState?.prov_id].locations[formState?.mun_id]
+              .districts[formState?.dmun_id];
           center = district.center;
           markers = district.locations;
         }
@@ -199,13 +221,112 @@ const GeolocationEnclosures = ({ data }: TypeProps) => {
     setSelectedMarker({ lat, lng });
   };
 
+  console.log(data?.data?.grals?.creemos_votes);
   return (
-    <div>
-      <MapContainer 
-        key={`${data.prov_id}-${data.mun_id}-${data.dmun_id}`} 
-        center={center} 
-        zoom={13} 
-        style={{ height: "500px", width: "100%" }}
+    <div
+      style={{
+        display: "flex",
+        backgroundColor: "var(--cBlackV1)",
+        borderRadius: 8,
+        height: "calc(100vh - 350px)",
+        position: "relative",
+      }}
+    >
+      <div
+        style={{
+          width: 440,
+          position: "relative",
+        }}
+      >
+        <WidgetBase title="Resultados generales">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+              overflowY: "auto",
+              height: "calc(100vh - 530px)",
+            }}
+          >
+            <WidgetGeneralResults
+              text="Recintos habilitados"
+              value={data?.data?.grals?.enabled_recints}
+            />
+            <WidgetGeneralResults
+              text="Mesas habilitadas"
+              value={data?.data?.grals?.enabled_tables}
+            />
+            <WidgetGeneralResults
+              text="Votos habilitados"
+              value={data?.data?.grals?.enabled_votes}
+            />
+            <WidgetGeneralResults
+              text="Votos válidos"
+              value={data?.data?.grals?.valid_votes}
+            />
+            <WidgetGeneralResults
+              icon={
+                <Image
+                  src={creemos}
+                  alt=""
+                  priority
+                  style={{ width: 40, height: 40 }}
+                />
+              }
+              text="Votos obtenidos por creemos"
+              value={data?.data?.grals?.creemos_votes}
+            />
+            <WidgetGeneralResults
+              text="Votos obtenidos por MAS-IPSP"
+              value={data?.data?.grals?.mas_votes}
+              icon={
+                <Image
+                  src={mas}
+                  alt=""
+                  priority
+                  style={{ width: 40, height: 40 }}
+                />
+              }
+            />
+          </div>
+        </WidgetBase>
+        <div
+          style={{
+            position: "absolute",
+            bottom: 24,
+            width: "100%",
+            paddingLeft: 16,
+            paddingRight: 16,
+          }}
+        >
+          <p
+            style={{
+              color: "var(--cBlackV2)",
+              fontWeight: 400,
+              marginBottom: 14,
+            }}
+          >
+            Categorías de recintos
+          </p>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            {categories.map((category, i) => (
+              <Avatar
+                key={i}
+                style={{ backgroundColor: category.color }}
+                name={category.name}
+                h={38}
+                w={38}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <MapContainer
+        key={`${formState?.prov_id}-${formState?.mun_id}-${formState?.dmun_id}`}
+        center={center}
+        zoom={13}
+        style={{ height: "100%", width: "100%" }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
