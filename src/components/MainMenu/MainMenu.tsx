@@ -45,11 +45,11 @@ const MainMenu = ({
       </div>
       {!isMobile ? (
         <div>
-          <MainmenuItem
+          {/* <MainmenuItem
             href="/"
             label="Panel de control"
             icon={<IconDashboard />}
-          />
+          /> */}
           <MainmenuItem
             href="/electoralMapping"
             label="Mapeo electoral"

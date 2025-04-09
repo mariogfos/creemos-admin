@@ -16,6 +16,7 @@ import { categories } from "../CategorizationEnclosures/CategorizationEnclosures
 import Image from "next/image";
 import creemos from "../../../public/images/creemos.png";
 import mas from "../../../public/images/mas.png";
+import { formatNumber } from "../../mk/utils/numbers";
 
 type TypeProps = {
   data: any;
@@ -250,19 +251,19 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
           >
             <WidgetGeneralResults
               text="Recintos habilitados"
-              value={data?.data?.grals?.enabled_recints}
+              value={formatNumber(data?.data?.grals?.enabled_recints, 0)}
             />
             <WidgetGeneralResults
               text="Mesas habilitadas"
-              value={data?.data?.grals?.enabled_tables}
+              value={formatNumber(data?.data?.grals?.enabled_tables, 0)}
             />
             <WidgetGeneralResults
               text="Votos habilitados"
-              value={data?.data?.grals?.enabled_votes}
+              value={formatNumber(data?.data?.grals?.enabled_votes, 0)}
             />
             <WidgetGeneralResults
               text="Votos válidos"
-              value={data?.data?.grals?.valid_votes}
+              value={formatNumber(data?.data?.grals?.valid_votes, 0)}
             />
             <WidgetGeneralResults
               icon={
@@ -273,12 +274,14 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                   style={{ width: 40, height: 40 }}
                 />
               }
+              styleValue={{ color: "#91268E" }}
               text="Votos obtenidos por creemos"
-              value={data?.data?.grals?.creemos_votes}
+              value={formatNumber(data?.data?.grals?.creemos_votes, 0)}
             />
             <WidgetGeneralResults
               text="Votos obtenidos por MAS-IPSP"
-              value={data?.data?.grals?.mas_votes}
+              value={formatNumber(data?.data?.grals?.mas_votes, 0)}
+              styleValue={{ color: "var(--cInfo)" }}
               icon={
                 <Image
                   src={mas}

@@ -26,7 +26,7 @@
   gap: var(--spS);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   min-height: 48px;
-  z-index: 300;
+  z-index: 9999;
   transition: all 1s ease-in-out;
   font-size: var(--sS);
   opacity: 0;

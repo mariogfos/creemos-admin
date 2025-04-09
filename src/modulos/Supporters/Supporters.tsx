@@ -37,7 +37,7 @@ import {
 // };
 
 const paramsInitial = {
-  perPage: 20,
+  perPage: 10,
   page: 1,
   fullType: "L",
   searchBy: "",
