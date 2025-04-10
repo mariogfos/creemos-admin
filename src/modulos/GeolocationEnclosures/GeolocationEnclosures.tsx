@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   MapContainer,
   TileLayer,
   Marker,
-  Polygon,
   Popup,
   useMap,
 } from "react-leaflet";
@@ -23,206 +22,260 @@ type TypeProps = {
   formState: any;
 };
 
-// Icono personalizado para los marcadores
-const customIcon = new L.Icon({
-  iconUrl:
-    "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/map-marker-512.png",
-  iconSize: [32, 32],
-  iconAnchor: [12, 12],
-  popupAnchor: [1, -34],
-});
-
-// Datos de ejemplo organizados por niveles (esto deberías reemplazarlo con datos reales)
-const locationData: any = {
-  "Andrés Ibáñez": {
-    center: { lat: -17.7833, lng: -63.1667 },
-    locations: {
-      "Santa Cruz de la Sierra": {
-        center: { lat: -17.7863, lng: -63.1745 },
-        districts: {
-          "Distrito 1": {
-            center: { lat: -17.77, lng: -63.1769 },
-            locations: [
-              { id: 1, name: "Localidad A", lat: -17.77, lng: -63.1769 },
-              { id: 2, name: "Localidad B", lat: -17.7832, lng: -63.1875 },
-            ],
-          },
-          "Distrito 2": {
-            center: { lat: -17.795, lng: -63.165 },
-            locations: [
-              { id: 3, name: "Localidad C", lat: -17.795, lng: -63.165 },
-            ],
-          },
-          "Distrito 3": {
-            center: { lat: -17.775, lng: -63.155 },
-            locations: [
-              { id: 4, name: "Localidad D", lat: -17.775, lng: -63.155 },
-            ],
-          },
-        },
-      },
-      Cotoca: {
-        center: { lat: -17.7167, lng: -62.9833 },
-        districts: {
-          "Distrito 1": {
-            center: { lat: -17.716, lng: -62.983 },
-            locations: [
-              { id: 5, name: "Localidad A", lat: -17.716, lng: -62.983 },
-            ],
-          },
-          "Distrito 2": {
-            center: { lat: -17.718, lng: -62.985 },
-            locations: [
-              { id: 6, name: "Localidad B", lat: -17.718, lng: -62.985 },
-            ],
-          },
-        },
-      },
-      Porongo: {
-        center: { lat: -17.8333, lng: -63.2833 },
-        districts: {
-          "Distrito Único": {
-            center: { lat: -17.8333, lng: -63.2833 },
-            locations: [
-              { id: 7, name: "Localidad A", lat: -17.8333, lng: -63.2833 },
-            ],
-          },
-        },
-      },
-    },
-  },
-  Warnes: {
-    center: { lat: -17.5166, lng: -63.1666 },
-    locations: {
-      Warnes: {
-        center: { lat: -17.5166, lng: -63.1666 },
-        districts: {
-          "Distrito 1": {
-            center: { lat: -17.516, lng: -63.166 },
-            locations: [
-              { id: 8, name: "Localidad A", lat: -17.516, lng: -63.166 },
-            ],
-          },
-          "Distrito 2": {
-            center: { lat: -17.518, lng: -63.168 },
-            locations: [
-              { id: 9, name: "Localidad B", lat: -17.518, lng: -63.168 },
-            ],
-          },
-        },
-      },
-      "Okinawa Uno": {
-        center: { lat: -17.2247, lng: -62.893 },
-        districts: {
-          "Distrito Único": {
-            center: { lat: -17.2247, lng: -62.893 },
-            locations: [
-              { id: 10, name: "Localidad A", lat: -17.2247, lng: -62.893 },
-            ],
-          },
-        },
-      },
-    },
-  },
-  Chiquitos: {
-    center: { lat: -17.8667, lng: -60.7333 },
-    locations: {
-      "San José de Chiquitos": {
-        center: { lat: -17.8667, lng: -60.7333 },
-        districts: {
-          "Distrito 1": {
-            center: { lat: -17.8667, lng: -60.7333 },
-            locations: [
-              { id: 11, name: "Localidad A", lat: -17.8667, lng: -60.7333 },
-            ],
-          },
-        },
-      },
-      Roboré: {
-        center: { lat: -18.3333, lng: -59.7333 },
-        districts: {
-          "Distrito 1": {
-            center: { lat: -18.3333, lng: -59.7333 },
-            locations: [
-              { id: 12, name: "Localidad A", lat: -18.3333, lng: -59.7333 },
-            ],
-          },
-        },
-      },
-    },
-  },
-  Guarayos: {
-    center: { lat: -15.8833, lng: -63.3333 },
-    locations: {
-      "Ascensión de Guarayos": {
-        center: { lat: -15.8833, lng: -63.3333 },
-        districts: {
-          "Distrito 1": {
-            center: { lat: -15.8833, lng: -63.3333 },
-            locations: [
-              { id: 13, name: "Localidad A", lat: -15.8833, lng: -63.3333 },
-            ],
-          },
-        },
-      },
-    },
-  },
-};
-
-// Componente que mueve el mapa al centro seleccionado
-const MapUpdater = ({ center }: { center: { lat: number; lng: number } }) => {
+// Componente que actualiza la vista del mapa
+const MapUpdater = ({ center, zoom }: { center: [number, number], zoom: number }) => {
   const map = useMap();
-  map.flyTo(center, 14, { animate: true }); // Animación suave
+  useEffect(() => {
+    map.flyTo(center, zoom, { animate: true });
+  }, [center, map, zoom]);
   return null;
 };
 
 const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
-  const [selectedMarker, setSelectedMarker] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
+  console.log('data recibida:', data);
+  
+  // Estados para el mapa
+  const [mapCenter, setMapCenter] = useState<[number, number]>([-17.783, -63.182]);
+  const [mapZoom, setMapZoom] = useState(7);
+  const [markers, setMarkers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Función para obtener el centro y los marcadores según la selección
-  const getMapData = () => {
-    const defaultCenter = { lat: -17.78, lng: -63.18 };
-    let markers = [];
-    let center = defaultCenter;
+  // Mover el useEffect para los íconos AQUÍ, dentro del componente
+  // Solución para los íconos de Leaflet en Next.js
+  useEffect(() => {
+    // Solo ejecutar en el cliente
+    if (typeof window !== 'undefined') {
+      // Configurar iconos manualmente usando una aproximación más segura para TypeScript
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
+        iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+      });
+    }
+  }, []);
 
-    if (formState.prov_id && locationData[formState?.prov_id]) {
-      center = locationData[formState?.prov_id].center;
+  // Función para convertir coordenadas con comas a números
+  const parseCoordinate = (coordStr: string): number => {
+    if (!coordStr) return 0;
+    try {
+      return parseFloat(coordStr.replace(',', '.'));
+    } catch (e) {
+      console.error("Error al convertir coordenada:", coordStr, e);
+      return 0;
+    }
+  };
 
-      if (
-        formState?.mun_id &&
-        locationData[formState?.prov_id].locations[formState?.mun_id]
-      ) {
-        center =
-          locationData[formState?.prov_id].locations[formState?.mun_id].center;
+  // Extraer la data normalizada
+  const normalizedData = useMemo(() => {
+    if (!data) return null;
+    
+    // Manejar diferentes estructuras de datos posibles
+    const actualData = data.data?.data || data.data || data;
+    
+    return {
+      areas: actualData.areas || {},
+      grals: actualData.grals || {}
+    };
+  }, [data]);
 
-        if (
-          formState?.dmun_id &&
-          locationData[formState?.prov_id].locations[formState?.mun_id]
-            .districts[formState?.dmun_id]
-        ) {
-          const district =
-            locationData[formState?.prov_id].locations[formState?.mun_id]
-              .districts[formState?.dmun_id];
-          center = district.center;
-          markers = district.locations;
-        }
-      }
+  // Generar marcadores basados en la selección actual
+  useEffect(() => {
+    if (!normalizedData) {
+      setLoading(true);
+      return;
     }
 
-    return { center, markers };
+    try {
+      console.log("Generando marcadores según selección:", formState);
+      const newMarkers: any[] = [];
+      let newCenter: [number, number] = [-17.783, -63.182];
+      let newZoom = 7;
+      
+      // Si no hay selección, mostrar todas las provincias
+      if (!formState.prov_id) {
+        // Mostrar marcadores para todas las provincias
+        Object.entries(normalizedData.areas).forEach(([provinceName, provinceData]: [string, any]) => {
+          if (provinceData?.center) {
+            const lat = parseCoordinate(provinceData.center.lat);
+            const lng = parseCoordinate(provinceData.center.lng);
+            
+            if (!isNaN(lat) && !isNaN(lng)) {
+              newMarkers.push({
+                id: `prov-${provinceName}`,
+                name: provinceName,
+                position: [lat, lng] as [number, number],
+                type: 'province'
+              });
+            }
+          }
+        });
+      } 
+      // Si hay provincia seleccionada
+      else if (formState.prov_id && normalizedData.areas[formState.prov_id]) {
+        const province = normalizedData.areas[formState.prov_id];
+        
+        // Establecer centro en la provincia
+        if (province.center) {
+          const lat = parseCoordinate(province.center.lat);
+          const lng = parseCoordinate(province.center.lng);
+          newCenter = [lat, lng];
+          newZoom = 9;
+          
+          // Añadir marcador para la provincia
+          newMarkers.push({
+            id: `prov-${formState.prov_id}`,
+            name: formState.prov_id,
+            position: newCenter,
+            type: 'province'
+          });
+        }
+        
+        // Si no hay municipio seleccionado, mostrar todos los municipios de la provincia
+        if (!formState.mun_id && province.locations) {
+          Object.entries(province.locations).forEach(([munName, munData]: [string, any]) => {
+            if (munData?.center) {
+              const lat = parseCoordinate(munData.center.lat);
+              const lng = parseCoordinate(munData.center.lng);
+              
+              if (!isNaN(lat) && !isNaN(lng)) {
+                newMarkers.push({
+                  id: `mun-${munName}`,
+                  name: munName,
+                  position: [lat, lng] as [number, number],
+                  type: 'municipality'
+                });
+              }
+            }
+          });
+        }
+        // Si hay municipio seleccionado
+        else if (formState.mun_id && province.locations?.[formState.mun_id]) {
+          const municipality = province.locations[formState.mun_id];
+          
+          // Establecer centro en el municipio
+          if (municipality.center) {
+            const lat = parseCoordinate(municipality.center.lat);
+            const lng = parseCoordinate(municipality.center.lng);
+            newCenter = [lat, lng];
+            newZoom = 11;
+            
+            // Añadir marcador para el municipio
+            newMarkers.push({
+              id: `mun-${formState.mun_id}`,
+              name: formState.mun_id,
+              position: newCenter,
+              type: 'municipality'
+            });
+          }
+          
+          // Si no hay distrito seleccionado, mostrar todos los distritos del municipio
+          if (!formState.dmun_id && municipality.districts) {
+            Object.entries(municipality.districts).forEach(([distName, distData]: [string, any]) => {
+              if (distData?.center) {
+                const lat = parseCoordinate(distData.center.lat);
+                const lng = parseCoordinate(distData.center.lng);
+                
+                if (!isNaN(lat) && !isNaN(lng)) {
+                  newMarkers.push({
+                    id: `dist-${distName}`,
+                    name: `Distrito ${distName}`,
+                    position: [lat, lng] as [number, number],
+                    type: 'district'
+                  });
+                }
+              }
+            });
+          }
+          // Si hay distrito seleccionado
+          else if (formState.dmun_id && municipality.districts?.[formState.dmun_id]) {
+            const district = municipality.districts[formState.dmun_id];
+            
+            // Establecer centro en el distrito
+            if (district.center) {
+              const lat = parseCoordinate(district.center.lat);
+              const lng = parseCoordinate(district.center.lng);
+              newCenter = [lat, lng];
+              newZoom = 13;
+              
+              // Añadir marcador para el distrito
+              newMarkers.push({
+                id: `dist-${formState.dmun_id}`,
+                name: `Distrito ${formState.dmun_id}`,
+                position: newCenter,
+                type: 'district'
+              });
+            }
+            
+            // Mostrar locations del distrito si existen
+            if (district.locations && district.locations.length > 0) {
+              district.locations.forEach((location: any, index: number) => {
+                if (location.lat && location.lng) {
+                  const lat = parseCoordinate(location.lat);
+                  const lng = parseCoordinate(location.lng);
+                  
+                  if (!isNaN(lat) && !isNaN(lng)) {
+                    newMarkers.push({
+                      id: `loc-${index}`,
+                      name: location.name || `Ubicación ${index + 1}`,
+                      position: [lat, lng] as [number, number],
+                      type: 'location'
+                    });
+                  }
+                }
+              });
+            }
+          }
+        }
+      }
+      
+      console.log(`Generados ${newMarkers.length} marcadores`);
+      setMarkers(newMarkers);
+      setMapCenter(newCenter);
+      setMapZoom(newZoom);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error al generar marcadores:", error);
+      setLoading(false);
+    }
+  }, [normalizedData, formState]);
+
+  // Manejar clic en marcador
+  const handleMarkerClick = (marker: any) => {
+    console.log("Marcador seleccionado:", marker);
+    
+    // Aquí podrías implementar la lógica para actualizar formState si es necesario
+    // Por ejemplo, si hacen clic en una provincia, actualizar el select de provincia
   };
 
-  const { center, markers } = getMapData();
-
-  // Manejo de clic en marcador
-  const handleMarkerClick = (lat: number, lng: number) => {
-    setSelectedMarker({ lat, lng });
+  // Crear un ícono personalizado según el tipo
+  const createCustomIcon = (type: string) => {
+    let color = "#2A81CB"; // azul por defecto (provincias)
+    
+    switch (type) {
+      case 'province': 
+        color = "#2A81CB"; // azul
+        break;
+      case 'municipality': 
+        color = "#36AE3D"; // verde
+        break;
+      case 'district': 
+        color = "#F99824"; // naranja
+        break;
+      case 'location': 
+        color = "#CB2B2A"; // rojo
+        break;
+    }
+    
+    return new L.Icon({
+      iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${type === 'province' ? 'blue' : type === 'municipality' ? 'green' : type === 'district' ? 'orange' : 'red'}.png`,
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34]
+    });
   };
 
-  console.log(data?.data?.grals?.creemos_votes);
+  // Renderizar componente
   return (
     <div
       style={{
@@ -251,19 +304,19 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
           >
             <WidgetGeneralResults
               text="Recintos habilitados"
-              value={formatNumber(data?.data?.grals?.enabled_recints, 0)}
+              value={formatNumber(normalizedData?.grals?.enabled_recints || 0, 0)}
             />
             <WidgetGeneralResults
               text="Mesas habilitadas"
-              value={formatNumber(data?.data?.grals?.enabled_tables, 0)}
+              value={formatNumber(normalizedData?.grals?.enabled_tables || 0, 0)}
             />
             <WidgetGeneralResults
               text="Votos habilitados"
-              value={formatNumber(data?.data?.grals?.enabled_votes, 0)}
+              value={formatNumber(normalizedData?.grals?.enabled_votes || 0, 0)}
             />
             <WidgetGeneralResults
               text="Votos válidos"
-              value={formatNumber(data?.data?.grals?.valid_votes, 0)}
+              value={formatNumber(normalizedData?.grals?.valid_votes || 0, 0)}
             />
             <WidgetGeneralResults
               icon={
@@ -276,11 +329,11 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
               }
               styleValue={{ color: "#91268E" }}
               text="Votos obtenidos por creemos"
-              value={formatNumber(data?.data?.grals?.creemos_votes, 0)}
+              value={formatNumber(normalizedData?.grals?.creemos_votes || 0, 0)}
             />
             <WidgetGeneralResults
               text="Votos obtenidos por MAS-IPSP"
-              value={formatNumber(data?.data?.grals?.mas_votes, 0)}
+              value={formatNumber(normalizedData?.grals?.mas_votes || 0, 0)}
               styleValue={{ color: "var(--cInfo)" }}
               icon={
                 <Image
@@ -325,29 +378,51 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
         </div>
       </div>
 
-      <MapContainer
-        key={`${formState?.prov_id}-${formState?.mun_id}-${formState?.dmun_id}`}
-        center={center}
-        zoom={13}
-        style={{ height: "100%", width: "100%" }}
-      >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-        <MapUpdater center={selectedMarker || center} />
-
-        {markers.map((location: any) => (
-          <Marker
-            key={location.id}
-            position={[location.lat, location.lng]}
-            icon={customIcon}
-            eventHandlers={{
-              click: () => handleMarkerClick(location.lat, location.lng),
-            }}
+      <div style={{ height: "100%", width: "100%", position: "relative" }}>
+        {loading ? (
+          <div style={{ 
+            position: "absolute", 
+            top: "50%", 
+            left: "50%", 
+            transform: "translate(-50%, -50%)",
+            color: "white",
+            backgroundColor: "rgba(0,0,0,0.7)",
+            padding: "15px",
+            borderRadius: "5px"
+          }}>
+            Cargando mapa...
+          </div>
+        ) : (
+          <MapContainer
+            key={`map-${formState.prov_id || "all"}-${formState.mun_id || "all"}-${formState.dmun_id || "all"}`}
+            center={mapCenter}
+            zoom={mapZoom}
+            style={{ height: "100%", width: "100%" }}
           >
-            <Popup>{location.name}</Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            
+            <MapUpdater center={mapCenter} zoom={mapZoom} />
+            
+            {markers.map((marker) => (
+              <Marker
+                key={marker.id}
+                position={marker.position}
+                icon={createCustomIcon(marker.type)}
+                eventHandlers={{
+                  click: () => handleMarkerClick(marker),
+                }}
+              >
+                <Popup>
+                  <div>
+                    <strong>{marker.name}</strong>
+                    <div>Tipo: {marker.type}</div>
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        )}
+      </div>
     </div>
   );
 };
