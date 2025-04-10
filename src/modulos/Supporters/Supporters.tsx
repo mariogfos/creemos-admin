@@ -169,7 +169,23 @@ const Supporters = () => {
         api: "ae",
         label: "Cédula de identidad",
         form: { type: "text" },
-        list: false,
+        list: {
+          width: "190px",
+        },
+      },
+      prov_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Provincia",
+        form: false,
+        list: {
+          width: "150px",
+          onRender: ({ item, extraData }: any) => {
+            return extraData?.provs?.find(
+              (prov: any) => prov?.id == item?.prov_id
+            ).name;
+          },
+        },
       },
 
       // entidad: {
