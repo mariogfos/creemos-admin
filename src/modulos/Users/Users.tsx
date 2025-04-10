@@ -59,6 +59,7 @@ const Users = () => {
     plural: "administradores",
     // export: true,
     permiso: "",
+    export: true,
 
     // renderView: (props: {
     //   open: boolean;

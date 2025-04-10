@@ -65,6 +65,7 @@ const Supporters = () => {
     singular: "simpatizante",
     plural: "simpatizantes",
     permiso: "",
+    export: true,
 
     // renderView: (props: {
     //   open: boolean;
