@@ -81,7 +81,8 @@ const Supporters = () => {
       onClose: any;
       user: any;
       execute: any;
-    }) => <RenderForm {...props} />,
+      reLoad: any;
+    }) => <RenderForm {...props} reLoadExtra={getExtraData} />,
     extraData: true,
     // hideActions: { add: true, edit: true, del: true },
     // loadView: { key_id: "affiliate_id" },
@@ -248,6 +249,7 @@ const Supporters = () => {
     onDel,
     showToast,
     extraData,
+
     execute,
     data,
     params,

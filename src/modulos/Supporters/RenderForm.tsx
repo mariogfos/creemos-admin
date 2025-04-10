@@ -14,6 +14,7 @@ const RenderForm = ({
   execute,
   extraData,
   user,
+  reLoadExtra,
   reLoad,
 }: any) => {
   const [formState, setFormState] = useState({ ...item });
@@ -89,45 +90,39 @@ const RenderForm = ({
     setErrors(errors);
     return errors;
   };
-  const onCheckEmail = async () => {
-    if (formState.email === oldEmail) {
-      return;
-    }
-    const { data: response } = await execute(
-      "/adm-exist",
-      "GET",
-      {
-        searchBy: formState.email,
-        type: "email",
-        cols: "id",
-      },
-      false,
-      true
-    );
-    if (response?.data != null) {
-      setErrors({ ...errors, email: "El correo electrónico ya existe" });
-    }
-  };
+  // const onCheckEmail = async () => {
+  //   if (formState.email === oldEmail) {
+  //     return;
+  //   }
+  //   const { data: response } = await execute(
+  //     "/adm-exist",
+  //     "GET",
+  //     {
+  //       searchBy: formState.email,
+  //       type: "email",
+  //       cols: "id",
+  //     },
+  //     false,
+  //     true
+  //   );
+  //   if (response?.data != null) {
+  //     setErrors({ ...errors, email: "El correo electrónico ya existe" });
+  //   }
+  // };
   const onSave = async () => {
     if (hasErrors(validate())) return;
     let method = formState.id ? "PUT" : "POST";
     const { data: response } = await execute(
-      "/users" + (formState.id ? "/" + formState.id : ""),
+      "/supporters" + (formState.id ? "/" + formState.id : ""),
       method,
       {
-        name: formState.name,
-        middle_name: formState.middle_name,
-        last_name: formState.last_name,
-        mother_last_name: formState.mother_last_name,
-        ci: formState.ci,
-        email: formState.email,
-        prefix_phone: formState.prefix_phone,
-        phone: formState.phone,
+        ...formState,
       },
       false
     );
     if (response?.success == true) {
       reLoad();
+      reLoadExtra();
       setItem(formState);
       showToast(response?.message, "success");
       onClose();
@@ -183,7 +178,6 @@ const RenderForm = ({
     );
   };
 
-  console.log(formState);
   return (
     <DataModal
       open={open}
@@ -296,7 +290,7 @@ const RenderForm = ({
         name="email"
         value={formState.email}
         onChange={handleChange}
-        onBlur={onCheckEmail}
+        // onBlur={onCheckEmail}
         error={errors}
       />
       <Input
