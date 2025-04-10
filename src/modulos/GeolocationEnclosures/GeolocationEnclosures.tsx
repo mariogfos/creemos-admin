@@ -26,7 +26,7 @@ type TypeProps = {
 const MapUpdater = ({ center, zoom }: { center: [number, number], zoom: number }) => {
   const map = useMap();
   useEffect(() => {
-    map.flyTo(center, zoom, { animate: true });
+    map.flyTo(center, zoom, { animate: true, duration: 1.5 });
   }, [center, map, zoom]);
   return null;
 };
@@ -39,6 +39,22 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
   const [mapZoom, setMapZoom] = useState(7);
   const [markers, setMarkers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [transitioning, setTransitioning] = useState(false);
+  const [prevFormState, setPrevFormState] = useState<any>(null);
+
+  // Detectar cambios en formState para mostrar transición
+  useEffect(() => {
+    if (prevFormState && JSON.stringify(prevFormState) !== JSON.stringify(formState)) {
+      setTransitioning(true);
+      
+      // Tiempo suficiente para mostrar la animación
+      setTimeout(() => {
+        setTransitioning(false);
+      }, 1000);
+    }
+    
+    setPrevFormState(formState);
+  }, [formState]);
 
   // Mover el useEffect para los íconos AQUÍ, dentro del componente
   // Solución para los íconos de Leaflet en Next.js
@@ -109,6 +125,9 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
             }
           }
         });
+        
+        // Ajustar el zoom para la vista general de provincias
+        newZoom = 6;
       } 
       // Si hay provincia seleccionada
       else if (formState.prov_id && normalizedData.areas[formState.prov_id]) {
@@ -119,7 +138,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
           const lat = parseCoordinate(province.center.lat);
           const lng = parseCoordinate(province.center.lng);
           newCenter = [lat, lng];
-          newZoom = 9;
+          newZoom = 9; // Zoom ajustado para ver mejor la provincia
           
           // Añadir marcador para la provincia
           newMarkers.push({
@@ -132,6 +151,8 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
         
         // Si no hay municipio seleccionado, mostrar todos los municipios de la provincia
         if (!formState.mun_id && province.locations) {
+          const municipios = Object.entries(province.locations);
+          
           Object.entries(province.locations).forEach(([munName, munData]: [string, any]) => {
             if (munData?.center) {
               const lat = parseCoordinate(munData.center.lat);
@@ -147,6 +168,15 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
               }
             }
           });
+          
+          // Ajustar zoom basado en la cantidad de municipios
+          if (municipios.length <= 3) {
+            newZoom = 10;
+          } else if (municipios.length <= 6) {
+            newZoom = 9;
+          } else {
+            newZoom = 8;
+          }
         }
         // Si hay municipio seleccionado
         else if (formState.mun_id && province.locations?.[formState.mun_id]) {
@@ -157,7 +187,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
             const lat = parseCoordinate(municipality.center.lat);
             const lng = parseCoordinate(municipality.center.lng);
             newCenter = [lat, lng];
-            newZoom = 11;
+            newZoom = 11; // Zoom ajustado para ver mejor el municipio
             
             // Añadir marcador para el municipio
             newMarkers.push({
@@ -170,6 +200,8 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
           
           // Si no hay distrito seleccionado, mostrar todos los distritos del municipio
           if (!formState.dmun_id && municipality.districts) {
+            const distritos = Object.entries(municipality.districts);
+            
             Object.entries(municipality.districts).forEach(([distName, distData]: [string, any]) => {
               if (distData?.center) {
                 const lat = parseCoordinate(distData.center.lat);
@@ -185,6 +217,15 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                 }
               }
             });
+            
+            // Ajustar zoom basado en la cantidad de distritos
+            if (distritos.length <= 2) {
+              newZoom = 13;
+            } else if (distritos.length <= 5) {
+              newZoom = 12;
+            } else {
+              newZoom = 11;
+            }
           }
           // Si hay distrito seleccionado
           else if (formState.dmun_id && municipality.districts?.[formState.dmun_id]) {
@@ -195,7 +236,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
               const lat = parseCoordinate(district.center.lat);
               const lng = parseCoordinate(district.center.lng);
               newCenter = [lat, lng];
-              newZoom = 13;
+              newZoom = 15; // Zoom ajustado para ver mejor el distrito
               
               // Añadir marcador para el distrito
               newMarkers.push({
@@ -208,6 +249,8 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
             
             // Mostrar locations del distrito si existen
             if (district.locations && district.locations.length > 0) {
+              const locations = district.locations;
+              
               district.locations.forEach((location: any, index: number) => {
                 if (location.lat && location.lng) {
                   const lat = parseCoordinate(location.lat);
@@ -223,12 +266,21 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                   }
                 }
               });
+              
+              // Ajustar zoom basado en la cantidad de locations
+              if (locations.length <= 2) {
+                newZoom = 17; // Máximo zoom para recintos electorales
+              } else if (locations.length <= 5) {
+                newZoom = 16;
+              } else {
+                newZoom = 15;
+              }
             }
           }
         }
       }
       
-      console.log(`Generados ${newMarkers.length} marcadores`);
+      console.log(`Generados ${newMarkers.length} marcadores con zoom ${newZoom}`);
       setMarkers(newMarkers);
       setMapCenter(newCenter);
       setMapZoom(newZoom);
@@ -393,34 +445,82 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
             Cargando mapa...
           </div>
         ) : (
-          <MapContainer
-            key={`map-${formState.prov_id || "all"}-${formState.mun_id || "all"}-${formState.dmun_id || "all"}`}
-            center={mapCenter}
-            zoom={mapZoom}
-            style={{ height: "100%", width: "100%" }}
-          >
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            
-            <MapUpdater center={mapCenter} zoom={mapZoom} />
-            
-            {markers.map((marker) => (
-              <Marker
-                key={marker.id}
-                position={marker.position}
-                icon={createCustomIcon(marker.type)}
-                eventHandlers={{
-                  click: () => handleMarkerClick(marker),
+          <>
+            {/* Overlay de transición cuando cambia formState */}
+            {transitioning && (
+              <div 
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: "rgba(0,0,0,0.7)",
+                  zIndex: 1000,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  color: "white",
+                  fontSize: "18px",
+                  animation: "fadeInOut 1s ease-in-out",
                 }}
               >
-                <Popup>
-                  <div>
-                    <strong>{marker.name}</strong>
-                    <div>Tipo: {marker.type}</div>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
-          </MapContainer>
+                <div style={{ textAlign: "center" }}>
+                  <div className="spinner" style={{
+                    width: "40px",
+                    height: "40px",
+                    margin: "0 auto 15px",
+                    border: "4px solid rgba(255,255,255,0.3)",
+                    borderRadius: "50%",
+                    borderTop: "4px solid white",
+                    animation: "spin 1s linear infinite",
+                  }}></div>
+                  <div>Cargando mapa...</div>
+                </div>
+              </div>
+            )}
+            <style jsx global>{`
+              @keyframes fadeInOut {
+                0% { opacity: 0; }
+                50% { opacity: 1; }
+                100% { opacity: 0; }
+              }
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}</style>
+            
+            <MapContainer
+              key={`map-${formState.prov_id || "all"}-${formState.mun_id || "all"}-${formState.dmun_id || "all"}`}
+              center={mapCenter}
+              zoom={mapZoom}
+              style={{ height: "100%", width: "100%" }}
+            >
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              
+              <MapUpdater center={mapCenter} zoom={mapZoom} />
+              
+              {markers.map((marker) => (
+                <Marker
+                  key={marker.id}
+                  position={marker.position}
+                  icon={createCustomIcon(marker.type)}
+                  eventHandlers={{
+                    click: () => handleMarkerClick(marker),
+                  }}
+                >
+                  <Popup>
+                    <div>
+                      <strong>{marker.name}</strong>
+                      <div>Tipo: {marker.type}</div>
+                      <div>{JSON.stringify(marker)}</div>
+                    </div>
+                  </Popup>
+                </Marker>
+              ))}
+            </MapContainer>
+          </>
         )}
       </div>
     </div>
