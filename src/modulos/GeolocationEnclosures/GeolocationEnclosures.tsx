@@ -124,6 +124,9 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
     try {
       console.log("Generando marcadores según selección:", formState);
+      // Limpiar marcadores anteriores
+      setMarkers([]);
+      
       const newMarkers: any[] = [];
       let newCenter: [number, number] = [-17.783, -63.182];
       let newZoom = 6;
@@ -132,8 +135,10 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
       const provinciaId = formState.prov_id || formState.prov_code || null;
       const municipioId = formState.mun_id || formState.mun_code || null;
       const distritoId = formState.dmun_id || formState.dmun_code || null;
+      const localidadId = formState.local_id || formState.local_code || null;
+      const recintoId = formState.recint_id || formState.recint_code || null;
 
-      console.log(`Navegación: provincia=${provinciaId}, municipio=${municipioId}, distrito=${distritoId}`);
+      console.log(`Navegación: provincia=${provinciaId}, municipio=${municipioId}, distrito=${distritoId}, localidad=${localidadId}, recinto=${recintoId}`);
 
       // Opción 1: Usando Object.entries para encontrar la provincia
       let provincia: any = null;
@@ -253,23 +258,72 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                             newCenter = [latDist, lngDist];
                             newZoom = 14;
 
-                            // Solo mostrar ubicaciones si el distrito está seleccionado
+                            // Mostrar localidades del distrito seleccionado
                             if (datosDistrito.locations && datosDistrito.locations.length > 0) {
+                              console.log(`Mostrando ${datosDistrito.locations.length} localidades para el distrito ${nombreDistrito}`);
+                              
                               datosDistrito.locations.forEach((ubicacion: any, index: number) => {
                                 if (ubicacion.lat && ubicacion.lng) {
                                   const latUbic = parseCoordinate(ubicacion.lat);
                                   const lngUbic = parseCoordinate(ubicacion.lng);
 
                                   if (!isNaN(latUbic) && !isNaN(lngUbic)) {
-                                    newMarkers.push({
-                                      id: `loc-${index}`,
-                                      name: ubicacion.name || `Ubicación ${index + 1}`,
-                                      position: [latUbic, lngUbic],
-                                      type: 'location',
-                                      district_id: nombreDistrito,
-                                      mun_id: nombreMunicipio,
-                                      prov_id: provinciaId
-                                    });
+                                    // Solo agregar marcador si no es la localidad seleccionada
+                                    if (localidadId !== ubicacion.id && localidadId !== ubicacion.code) {
+                                      newMarkers.push({
+                                        id: `loc-${ubicacion.id || index}`,
+                                        name: ubicacion.name || `Localidad ${index + 1}`,
+                                        position: [latUbic, lngUbic],
+                                        type: 'location',
+                                        district_id: nombreDistrito,
+                                        mun_id: nombreMunicipio,
+                                        prov_id: provinciaId
+                                      });
+                                    }
+
+                                    // Si esta localidad está seleccionada, mostrar sus recintos
+                                    if (localidadId === ubicacion.id || localidadId === ubicacion.code) {
+                                      console.log(`Localidad ${ubicacion.name} está seleccionada`);
+                                      
+                                      // Centrar en la localidad seleccionada
+                                      newCenter = [latUbic, lngUbic];
+                                      newZoom = 15;
+                                      
+                                      // Mostrar recintos de la localidad seleccionada
+                                      if (ubicacion.recints && ubicacion.recints.length > 0) {
+                                        console.log(`Mostrando ${ubicacion.recints.length} recintos para la localidad ${ubicacion.name}`);
+                                        
+                                        ubicacion.recints.forEach((recinto: any, recIndex: number) => {
+                                          if (recinto.lat && recinto.lng) {
+                                            const latRec = parseCoordinate(recinto.lat);
+                                            const lngRec = parseCoordinate(recinto.lng);
+                                            
+                                            if (!isNaN(latRec) && !isNaN(lngRec)) {
+                                              // Solo agregar marcador si no es el recinto seleccionado
+                                              if (recintoId !== recinto.id && recintoId !== recinto.code) {
+                                                newMarkers.push({
+                                                  id: `rec-${recinto.id || recIndex}`,
+                                                  name: recinto.name || `Recinto ${recIndex + 1}`,
+                                                  position: [latRec, lngRec],
+                                                  type: 'recint',
+                                                  location_id: ubicacion.id,
+                                                  district_id: nombreDistrito,
+                                                  mun_id: nombreMunicipio,
+                                                  prov_id: provinciaId
+                                                });
+                                              }
+                                              
+                                              // Si este recinto está seleccionado, centrar en él
+                                              if (recintoId === recinto.id || recintoId === recinto.code) {
+                                                console.log(`Recinto ${recinto.name} está seleccionado`);
+                                                newCenter = [latRec, lngRec];
+                                                newZoom = 16;
+                                              }
+                                            }
+                                          }
+                                        });
+                                      }
+                                    }
                                   }
                                 }
                               });
@@ -302,7 +356,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
   // Crear un ícono personalizado según el tipo
   const createCustomIcon = (type: string) => {
     return new L.Icon({
-      iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${type === 'province' ? 'blue' : type === 'municipality' ? 'green' : type === 'district' ? 'orange' : 'red'}.png`,
+      iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${type === 'province' ? 'blue' : type === 'municipality' ? 'green' : type === 'district' ? 'orange' : type === 'location' ? 'purple' : 'red'}.png`,
       shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
       iconSize: [25, 41],
       iconAnchor: [12, 41],
@@ -488,7 +542,8 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                         borderBottom: "2px solid #eee",
                         color: marker.type === 'province' ? '#2A81CB' :
                           marker.type === 'municipality' ? '#36AE3D' :
-                            marker.type === 'district' ? '#F99824' : '#CB2B2A'
+                            marker.type === 'district' ? '#F99824' :
+                              marker.type === 'location' ? '#800080' : '#CB2B2A'
                       }}>
                         {marker.name}
                         <span style={{
@@ -500,7 +555,8 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                         }}>
                           {marker.type === 'province' ? 'Provincia' :
                             marker.type === 'municipality' ? 'Municipio' :
-                              marker.type === 'district' ? 'Distrito' : 'Ubicación'}
+                              marker.type === 'district' ? 'Distrito' : 
+                                marker.type === 'location' ? 'Localidad' : 'Recinto'}
                         </span>
                       </h3>
 
