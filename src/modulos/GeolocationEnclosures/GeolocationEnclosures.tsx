@@ -172,8 +172,8 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
             }
           }
         });
-
-        newZoom = 6; // Zoom para ver todo Bolivia
+        // Zoom para ver todo Santa Cruz
+        newZoom = 6.8;
       }
 
       // CASO 2: HAY SELECCIÓN DE PROVINCIA
@@ -188,7 +188,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
           if (!isNaN(latProv) && !isNaN(lngProv)) {
             newCenter = [latProv, lngProv];
-            newZoom = 9;
+            newZoom = 10;
           }
         }
 
@@ -222,7 +222,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
                   // Centrar en el municipio seleccionado
                   newCenter = [latMun, lngMun];
-                  newZoom = 11;
+                  newZoom = 12;
 
                   // Siempre mostrar todos los distritos del municipio seleccionado
                   if (datosMunicipio.districts && Object.keys(datosMunicipio.districts).length > 0) {
@@ -253,7 +253,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
                             // Centrar en el distrito seleccionado
                             newCenter = [latDist, lngDist];
-                            newZoom = 15;
+                            newZoom = 14;
 
                             // Solo mostrar ubicaciones si el distrito está seleccionado
                             if (datosDistrito.locations && datosDistrito.locations.length > 0) {
