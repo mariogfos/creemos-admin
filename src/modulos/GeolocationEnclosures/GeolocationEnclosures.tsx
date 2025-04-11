@@ -202,17 +202,16 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
               const lngMun = parseCoordinate(datosMunicipio.center.lng);
 
               if (!isNaN(latMun) && !isNaN(lngMun)) {
-                // Comprobar si este es el municipio seleccionado
-
-
-                // Agregar marcador para el municipio
-                newMarkers.push({
-                  id: `mun-${nombreMunicipio}`,
-                  name: nombreMunicipio,
-                  position: [latMun, lngMun],
-                  type: 'municipality',
-                  prov_id: provinciaId
-                });
+                // Agregar marcador para el municipio si no esta seleccionado
+                if (municipioId == null) {
+                  newMarkers.push({
+                    id: `mun-${nombreMunicipio}`,
+                    name: nombreMunicipio,
+                    position: [latMun, lngMun],
+                    type: 'municipality',
+                    prov_id: provinciaId
+                  });
+                }
 
 
                 // CASO 2.2: Si este municipio está seleccionado
