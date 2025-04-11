@@ -142,14 +142,14 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
       if (provinciaId) {
         // Imprimir todas las claves disponibles para debug
         console.log("Claves disponibles:", Object.keys(normalizedData.areas));
-        
+
         // Recorrer todas las provincias para encontrar la que coincide con el ID
         Object.entries(normalizedData.areas).forEach(([nombre, datos]) => {
           console.log(`Verificando provincia: ${nombre}`);
           provincia = datos;
           provinciaName = nombre;
         });
-        
+
         console.log(`Provincia encontrada: ${provinciaName}`);
       }
 
@@ -175,7 +175,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
         newZoom = 6; // Zoom para ver todo Bolivia
       }
-      
+
       // CASO 2: HAY SELECCIÓN DE PROVINCIA
       else if (provincia) {
         console.log(`Mostrando provincia ${provinciaId} con sus municipios`);
@@ -187,14 +187,6 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
           const lngProv = parseCoordinate(provincia.center.lng);
 
           if (!isNaN(latProv) && !isNaN(lngProv)) {
-            // Agregar marcador para la provincia
-            newMarkers.push({
-              id: `prov-${provinciaId}`,
-              name: provinciaId,
-              position: [latProv, lngProv],
-              type: 'province'
-            });
-
             newCenter = [latProv, lngProv];
             newZoom = 9;
           }
