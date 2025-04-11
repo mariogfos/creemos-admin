@@ -188,7 +188,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
           if (!isNaN(latProv) && !isNaN(lngProv)) {
             newCenter = [latProv, lngProv];
-            newZoom = 10;
+            newZoom = 9.2;
           }
         }
 
@@ -203,7 +203,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
               if (!isNaN(latMun) && !isNaN(lngMun)) {
                 // Comprobar si este es el municipio seleccionado
-                const esMunicipioSeleccionado = municipioId && nombreMunicipio === municipioId;
+
 
                 // Agregar marcador para el municipio
                 newMarkers.push({
@@ -214,10 +214,9 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                   prov_id: provinciaId
                 });
 
-                console.log(`Añadido municipio ${nombreMunicipio} en [${latMun}, ${lngMun}]`);
 
                 // CASO 2.2: Si este municipio está seleccionado
-                if (esMunicipioSeleccionado) {
+                if (municipioId) {
                   console.log(`Municipio ${nombreMunicipio} está seleccionado`);
 
                   // Centrar en el municipio seleccionado
@@ -235,7 +234,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
                         if (!isNaN(latDist) && !isNaN(lngDist)) {
                           // Comprobar si este es el distrito seleccionado
-                          const esDistritoSeleccionado = distritoId && nombreDistrito === distritoId;
+
 
                           // Agregar marcador para el distrito (siempre)
                           newMarkers.push({
@@ -248,7 +247,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                           });
 
                           // CASO adicional: Si este distrito está seleccionado
-                          if (esDistritoSeleccionado) {
+                          if (distritoId) {
                             console.log(`Distrito ${nombreDistrito} está seleccionado`);
 
                             // Centrar en el distrito seleccionado
@@ -287,9 +286,6 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
           });
         }
       }
-      console.log('normalizedData.areas:', normalizedData.areas);
-
-      console.log(`Generados ${newMarkers.length} marcadores con zoom ${newZoom} para coordenadas [${newCenter[0]}, ${newCenter[1]}]`);
       setMarkers(newMarkers);
       setMapCenter(newCenter);
       setMapZoom(newZoom);
