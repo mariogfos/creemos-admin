@@ -224,7 +224,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                   newCenter = [latMun, lngMun];
                   newZoom = 11;
 
-                  // CASO 2.2.1: Mostrar distritos del municipio seleccionado
+                  // Siempre mostrar todos los distritos del municipio seleccionado
                   if (datosMunicipio.districts && Object.keys(datosMunicipio.districts).length > 0) {
                     console.log(`Mostrando ${Object.keys(datosMunicipio.districts).length} distritos para ${nombreMunicipio}`);
 
@@ -237,17 +237,17 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                           // Comprobar si este es el distrito seleccionado
                           const esDistritoSeleccionado = distritoId && nombreDistrito === distritoId;
 
-                          // Agregar marcador para el distrito
+                          // Agregar marcador para el distrito (siempre)
                           newMarkers.push({
                             id: `dist-${nombreDistrito}`,
                             name: `Distrito ${nombreDistrito}`,
                             position: [latDist, lngDist],
                             type: 'district',
                             mun_id: nombreMunicipio,
-                            prov_id: provinciaId
+                            prov_id: provinciaName || provinciaId
                           });
 
-                          // CASO 2.2.1.1: Si este distrito está seleccionado
+                          // CASO adicional: Si este distrito está seleccionado
                           if (esDistritoSeleccionado) {
                             console.log(`Distrito ${nombreDistrito} está seleccionado`);
 
@@ -255,7 +255,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                             newCenter = [latDist, lngDist];
                             newZoom = 15;
 
-                            // Mostrar ubicaciones del distrito si existen
+                            // Solo mostrar ubicaciones si el distrito está seleccionado
                             if (datosDistrito.locations && datosDistrito.locations.length > 0) {
                               datosDistrito.locations.forEach((ubicacion: any, index: number) => {
                                 if (ubicacion.lat && ubicacion.lng) {
