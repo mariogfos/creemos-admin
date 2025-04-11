@@ -32,9 +32,6 @@ const MapUpdater = ({ center, zoom }: { center: [number, number], zoom: number }
 };
 
 const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
-  console.log('data recibida:', data);
-  console.log('formState recibido:', formState);
-
   // Estados para el mapa
   const [mapCenter, setMapCenter] = useState<[number, number]>([-17.783, -63.182]);
   const [mapZoom, setMapZoom] = useState(7);
@@ -76,12 +73,11 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
     setPrevFormState(formState);
   }, [formState, prevFormState]);
 
-  // Mover el useEffect para los íconos AQUÍ, dentro del componente
   // Solución para los íconos de Leaflet en Next.js
   useEffect(() => {
     // Solo ejecutar en el cliente
     if (typeof window !== 'undefined') {
-      // Configurar iconos manualmente usando una aproximación más segura para TypeScript
+      // Configurar iconos manualmente
       L.Icon.Default.mergeOptions({
         iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
         iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
@@ -101,12 +97,18 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
     }
   };
 
-  // Extraer la data normalizada
+  // Obtener la data normalizada de manera más simple
   const normalizedData = useMemo(() => {
     if (!data) return null;
 
-    // Manejar diferentes estructuras de datos posibles
-    const actualData = data.data?.data || data.data || data;
+    let actualData;
+    if (data.data && data.data.data) {
+      actualData = data.data.data;
+    } else if (data.data) {
+      actualData = data.data;
+    } else {
+      actualData = data;
+    }
 
     return {
       areas: actualData.areas || {},
@@ -114,15 +116,9 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
     };
   }, [data]);
 
-  // Generar marcadores basados en la selección actual
+  // NUEVA IMPLEMENTACIÓN SIMPLIFICADA PARA GENERAR MARCADORES
   useEffect(() => {
-    if (!normalizedData) {
-      setLoading(true);
-      return;
-    }
-
-    if (transitioning) {
-      // Si estamos en transición, no procesar aún los marcadores
+    if (!normalizedData || transitioning) {
       return;
     }
 
@@ -130,171 +126,176 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
       console.log("Generando marcadores según selección:", formState);
       const newMarkers: any[] = [];
       let newCenter: [number, number] = [-17.783, -63.182];
-      let newZoom = 7;
+      let newZoom = 6;
 
-      // Estrategia: Primero intentar encontrar y centrarse en el nivel más específico seleccionado
-      // y luego mostrar todos los marcadores relevantes para ese nivel
+      // Extraer los IDs/códigos de la selección actual
+      const provinciaId = formState.prov_id || formState.prov_code || null;
+      const municipioId = formState.mun_id || formState.mun_code || null;
+      const distritoId = formState.dmun_id || formState.dmun_code || null;
 
-      // Caso 1: Selección de distrito específico
-      if (formState.prov_id && formState.mun_id && formState.dmun_id &&
-        normalizedData.areas[formState.prov_id]?.locations?.[formState.mun_id]?.districts?.[formState.dmun_id]) {
+      console.log(`Navegación: provincia=${provinciaId}, municipio=${municipioId}, distrito=${distritoId}`);
 
-        console.log(`Navegando al distrito ${formState.dmun_id} del municipio ${formState.mun_id} en provincia ${formState.prov_id}`);
-        const province = normalizedData.areas[formState.prov_id];
-        const municipality = province.locations[formState.mun_id];
-        const district = municipality.districts[formState.dmun_id];
+      // Opción 1: Usando Object.entries para encontrar la provincia
+      let provincia: any = null;
+      let provinciaName: any = null;
 
-        if (district.center) {
-          const lat = parseCoordinate(district.center.lat);
-          const lng = parseCoordinate(district.center.lng);
-
-          if (!isNaN(lat) && !isNaN(lng)) {
-            newCenter = [lat, lng];
-            newZoom = 15;
-
-            // Añadir marcador para el distrito seleccionado
-            newMarkers.push({
-              id: `dist-${formState.dmun_id}`,
-              name: `Distrito ${formState.dmun_id}`,
-              position: newCenter,
-              type: 'district'
-            });
-
-            // Mostrar locations del distrito si existen
-            if (district.locations && district.locations.length > 0) {
-              district.locations.forEach((location: any, index: number) => {
-                if (location.lat && location.lng) {
-                  const locLat = parseCoordinate(location.lat);
-                  const locLng = parseCoordinate(location.lng);
-
-                  if (!isNaN(locLat) && !isNaN(locLng)) {
-                    newMarkers.push({
-                      id: `loc-${index}`,
-                      name: location.name || `Ubicación ${index + 1}`,
-                      position: [locLat, locLng] as [number, number],
-                      type: 'location'
-                    });
-                  }
-                }
-              });
-            }
-          }
-        }
+      if (provinciaId) {
+        // Imprimir todas las claves disponibles para debug
+        console.log("Claves disponibles:", Object.keys(normalizedData.areas));
+        
+        // Recorrer todas las provincias para encontrar la que coincide con el ID
+        Object.entries(normalizedData.areas).forEach(([nombre, datos]) => {
+          console.log(`Verificando provincia: ${nombre}`);
+          provincia = datos;
+          provinciaName = nombre;
+        });
+        
+        console.log(`Provincia encontrada: ${provinciaName}`);
       }
-      // Caso 2: Selección de municipio específico
-      else if (formState.prov_id && formState.mun_id &&
-        normalizedData.areas[formState.prov_id]?.locations?.[formState.mun_id]) {
 
-        console.log(`Navegando al municipio ${formState.mun_id} en provincia ${formState.prov_id}`);
-        const province = normalizedData.areas[formState.prov_id];
-        const municipality = province.locations[formState.mun_id];
-
-        if (municipality.center) {
-          const lat = parseCoordinate(municipality.center.lat);
-          const lng = parseCoordinate(municipality.center.lng);
-
-          if (!isNaN(lat) && !isNaN(lng)) {
-            newCenter = [lat, lng];
-            newZoom = 11;
-
-            // Añadir marcador para el municipio seleccionado
-            newMarkers.push({
-              id: `mun-${formState.mun_id}`,
-              name: formState.mun_id,
-              position: newCenter,
-              type: 'municipality'
-            });
-
-            // Mostrar distritos del municipio
-            if (municipality.districts && Object.keys(municipality.districts).length > 0) {
-              Object.entries(municipality.districts).forEach(([distName, distData]: [string, any]) => {
-                if (distData?.center) {
-                  const distLat = parseCoordinate(distData.center.lat);
-                  const distLng = parseCoordinate(distData.center.lng);
-
-                  if (!isNaN(distLat) && !isNaN(distLng)) {
-                    newMarkers.push({
-                      id: `dist-${distName}`,
-                      name: `Distrito ${distName}`,
-                      position: [distLat, distLng] as [number, number],
-                      type: 'district'
-                    });
-                  }
-                }
-              });
-            }
-          }
-        }
-      }
-      // Caso 3: Selección de provincia específica
-      else if (formState.prov_id && normalizedData.areas[formState.prov_id]) {
-
-        console.log(`Navegando a la provincia ${formState.prov_id}`);
-        const province = normalizedData.areas[formState.prov_id];
-
-        if (province.center) {
-          const lat = parseCoordinate(province.center.lat);
-          const lng = parseCoordinate(province.center.lng);
-
-          if (!isNaN(lat) && !isNaN(lng)) {
-            newCenter = [lat, lng];
-            newZoom = 9;
-
-            // Añadir marcador para la provincia seleccionada
-            newMarkers.push({
-              id: `prov-${formState.prov_id}`,
-              name: formState.prov_id,
-              position: newCenter,
-              type: 'province'
-            });
-
-            // Mostrar todas las locations (municipios) de la provincia
-            if (province.locations && Object.keys(province.locations).length > 0) {
-              console.log(`Mostrando ${Object.keys(province.locations).length} locations para provincia ${formState.prov_id}`);
-
-              Object.entries(province.locations).forEach(([locationName, locationData]: [string, any]) => {
-                if (locationData?.center) {
-                  const locLat = parseCoordinate(locationData.center.lat);
-                  const locLng = parseCoordinate(locationData.center.lng);
-
-                  if (!isNaN(locLat) && !isNaN(locLng)) {
-                    newMarkers.push({
-                      id: `mun-${locationName}`,
-                      name: locationName,
-                      position: [locLat, locLng] as [number, number],
-                      type: 'municipality',
-                      prov_id: formState.prov_id
-                    });
-                    console.log(`Añadido marcador para location: ${locationName} en [${locLat}, ${locLng}]`);
-                  }
-                }
-              });
-            }
-          }
-        }
-      }
-      // Caso 4: Sin selección específica, mostrar todas las provincias
-      else {
+      // CASO 1: NO HAY SELECCIÓN - Mostrar todas las provincias
+      if (!provinciaId) {
         console.log("Mostrando todas las provincias");
 
-        Object.entries(normalizedData.areas).forEach(([provinceName, provinceData]: [string, any]) => {
-          if (provinceData?.center) {
-            const lat = parseCoordinate(provinceData.center.lat);
-            const lng = parseCoordinate(provinceData.center.lng);
+        Object.entries(normalizedData.areas).forEach(([nombreProvincia, datosProvincia]: [string, any]) => {
+          if (datosProvincia?.center) {
+            const lat = parseCoordinate(datosProvincia.center.lat);
+            const lng = parseCoordinate(datosProvincia.center.lng);
 
             if (!isNaN(lat) && !isNaN(lng)) {
               newMarkers.push({
-                id: `prov-${provinceName}`,
-                name: provinceName,
-                position: [lat, lng] as [number, number],
+                id: `prov-${nombreProvincia}`,
+                name: nombreProvincia,
+                position: [lat, lng],
                 type: 'province'
               });
             }
           }
         });
 
-        newZoom = 6;
+        newZoom = 6; // Zoom para ver todo Bolivia
       }
+      
+      // CASO 2: HAY SELECCIÓN DE PROVINCIA
+      else if (provincia) {
+        console.log(`Mostrando provincia ${provinciaId} con sus municipios`);
+        console.log('provincia seleccionada:', provincia);
+
+        // Centrar en la provincia
+        if (provincia.center) {
+          const latProv = parseCoordinate(provincia.center.lat);
+          const lngProv = parseCoordinate(provincia.center.lng);
+
+          if (!isNaN(latProv) && !isNaN(lngProv)) {
+            // Agregar marcador para la provincia
+            newMarkers.push({
+              id: `prov-${provinciaId}`,
+              name: provinciaId,
+              position: [latProv, lngProv],
+              type: 'province'
+            });
+
+            newCenter = [latProv, lngProv];
+            newZoom = 9;
+          }
+        }
+
+        // CASO 2.1: Mostrar todos los municipios de la provincia
+        if (provincia.locations) {
+          console.log(`La provincia ${provinciaId} tiene ${Object.keys(provincia.locations).length} municipios`);
+
+          Object.entries(provincia.locations).forEach(([nombreMunicipio, datosMunicipio]: [string, any]) => {
+            if (datosMunicipio && datosMunicipio.center) {
+              const latMun = parseCoordinate(datosMunicipio.center.lat);
+              const lngMun = parseCoordinate(datosMunicipio.center.lng);
+
+              if (!isNaN(latMun) && !isNaN(lngMun)) {
+                // Comprobar si este es el municipio seleccionado
+                const esMunicipioSeleccionado = municipioId && nombreMunicipio === municipioId;
+
+                // Agregar marcador para el municipio
+                newMarkers.push({
+                  id: `mun-${nombreMunicipio}`,
+                  name: nombreMunicipio,
+                  position: [latMun, lngMun],
+                  type: 'municipality',
+                  prov_id: provinciaId
+                });
+
+                console.log(`Añadido municipio ${nombreMunicipio} en [${latMun}, ${lngMun}]`);
+
+                // CASO 2.2: Si este municipio está seleccionado
+                if (esMunicipioSeleccionado) {
+                  console.log(`Municipio ${nombreMunicipio} está seleccionado`);
+
+                  // Centrar en el municipio seleccionado
+                  newCenter = [latMun, lngMun];
+                  newZoom = 11;
+
+                  // CASO 2.2.1: Mostrar distritos del municipio seleccionado
+                  if (datosMunicipio.districts && Object.keys(datosMunicipio.districts).length > 0) {
+                    console.log(`Mostrando ${Object.keys(datosMunicipio.districts).length} distritos para ${nombreMunicipio}`);
+
+                    Object.entries(datosMunicipio.districts).forEach(([nombreDistrito, datosDistrito]: [string, any]) => {
+                      if (datosDistrito && datosDistrito.center) {
+                        const latDist = parseCoordinate(datosDistrito.center.lat);
+                        const lngDist = parseCoordinate(datosDistrito.center.lng);
+
+                        if (!isNaN(latDist) && !isNaN(lngDist)) {
+                          // Comprobar si este es el distrito seleccionado
+                          const esDistritoSeleccionado = distritoId && nombreDistrito === distritoId;
+
+                          // Agregar marcador para el distrito
+                          newMarkers.push({
+                            id: `dist-${nombreDistrito}`,
+                            name: `Distrito ${nombreDistrito}`,
+                            position: [latDist, lngDist],
+                            type: 'district',
+                            mun_id: nombreMunicipio,
+                            prov_id: provinciaId
+                          });
+
+                          // CASO 2.2.1.1: Si este distrito está seleccionado
+                          if (esDistritoSeleccionado) {
+                            console.log(`Distrito ${nombreDistrito} está seleccionado`);
+
+                            // Centrar en el distrito seleccionado
+                            newCenter = [latDist, lngDist];
+                            newZoom = 15;
+
+                            // Mostrar ubicaciones del distrito si existen
+                            if (datosDistrito.locations && datosDistrito.locations.length > 0) {
+                              datosDistrito.locations.forEach((ubicacion: any, index: number) => {
+                                if (ubicacion.lat && ubicacion.lng) {
+                                  const latUbic = parseCoordinate(ubicacion.lat);
+                                  const lngUbic = parseCoordinate(ubicacion.lng);
+
+                                  if (!isNaN(latUbic) && !isNaN(lngUbic)) {
+                                    newMarkers.push({
+                                      id: `loc-${index}`,
+                                      name: ubicacion.name || `Ubicación ${index + 1}`,
+                                      position: [latUbic, lngUbic],
+                                      type: 'location',
+                                      district_id: nombreDistrito,
+                                      mun_id: nombreMunicipio,
+                                      prov_id: provinciaId
+                                    });
+                                  }
+                                }
+                              });
+                            }
+                          }
+                        }
+                      }
+                    });
+                  }
+                }
+              }
+            }
+          });
+        }
+      }
+      console.log('normalizedData.areas:', normalizedData.areas);
 
       console.log(`Generados ${newMarkers.length} marcadores con zoom ${newZoom} para coordenadas [${newCenter[0]}, ${newCenter[1]}]`);
       setMarkers(newMarkers);
@@ -308,35 +309,11 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
   // Manejar clic en marcador
   const handleMarkerClick = (marker: any) => {
     console.log("Marcador seleccionado:", marker);
-
-    // Implementar lógica para navegar al hacer clic en un marcador
-    // Por ejemplo, si se hace clic en un marcador de municipio, podríamos actualizar formState
-    if (marker.type === 'municipality' && marker.prov_id) {
-      // Aquí podrías implementar la lógica para cambiar la selección en los selects
-      // Por ejemplo, emitir un evento o actualizar directamente el formState
-      console.log(`Navegar a municipio ${marker.name} en provincia ${marker.prov_id}`);
-    }
+    // Aquí se podría implementar la lógica para navegar al hacer clic en un marcador
   };
 
   // Crear un ícono personalizado según el tipo
   const createCustomIcon = (type: string) => {
-    let color = "#2A81CB"; // azul por defecto (provincias)
-
-    switch (type) {
-      case 'province':
-        color = "#2A81CB"; // azul
-        break;
-      case 'municipality':
-        color = "#36AE3D"; // verde
-        break;
-      case 'district':
-        color = "#F99824"; // naranja
-        break;
-      case 'location':
-        color = "#CB2B2A"; // rojo
-        break;
-    }
-
     return new L.Icon({
       iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${type === 'province' ? 'blue' : type === 'municipality' ? 'green' : type === 'district' ? 'orange' : 'red'}.png`,
       shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -492,7 +469,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
             `}</style>
 
             <MapContainer
-              key={`map-${formState.prov_id || "all"}-${formState.mun_id || "all"}-${formState.dmun_id || "all"}`}
+              key={`map-${formState.prov_id || formState.prov_code || "all"}-${formState.mun_id || formState.mun_code || "all"}-${formState.dmun_id || formState.dmun_code || "all"}`}
               center={mapCenter}
               zoom={mapZoom}
               style={{ height: "100%", width: "100%" }}
@@ -519,9 +496,9 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                     }}>
                       <h3 style={{
                         marginTop: "0",
-                        marginBottom: formState.prov_code  ? "10px" : "0",
+                        marginBottom: "10px",
                         padding: "5px 0",
-                        borderBottom: formState.prov_code  ? "2px solid #eee" : "none",
+                        borderBottom: "2px solid #eee",
                         color: marker.type === 'province' ? '#2A81CB' :
                           marker.type === 'municipality' ? '#36AE3D' :
                             marker.type === 'district' ? '#F99824' : '#CB2B2A'
@@ -540,70 +517,69 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                         </span>
                       </h3>
 
-                      {/* Solo mostrar datos si el formState tiene prov_code */}
-                      {formState.prov_code && (
+                      {/* Mostrar estadísticas si hay selección */}
+                      {(formState.prov_id || formState.prov_code) && (
                         <div style={{ marginBottom: "15px" }}>
-                          <div style={{ marginBottom: "15px" }}>
-                            <div style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              padding: "5px 0",
-                              borderBottom: "1px solid #f0f0f0"
+                          <div style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            padding: "5px 0",
+                            borderBottom: "1px solid #f0f0f0"
+                          }}>
+                            <span style={{ fontWeight: "bold", fontSize: "13px" }}>Mesas habilitadas:</span>
+                            <span style={{
+                              backgroundColor: "#f5f5f5",
+                              padding: "2px 8px",
+                              borderRadius: "4px",
+                              fontWeight: "500"
                             }}>
-                              <span style={{ fontWeight: "bold", fontSize: "13px" }}>Mesas habilitadas:</span>
-                              <span style={{
-                                backgroundColor: "#f5f5f5",
-                                padding: "2px 8px",
-                                borderRadius: "4px",
-                                fontWeight: "500"
-                              }}>
-                                {formatNumber(data?.data?.grals?.enabled_tables || 0, 0)}
-                              </span>
-                            </div>
+                              {formatNumber(normalizedData?.grals?.enabled_tables || 0, 0)}
+                            </span>
+                          </div>
 
-                            <div style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              padding: "5px 0",
-                              borderBottom: "1px solid #f0f0f0"
+                          <div style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            padding: "5px 0",
+                            borderBottom: "1px solid #f0f0f0"
+                          }}>
+                            <span style={{ fontWeight: "bold", fontSize: "13px" }}>Votos habilitados:</span>
+                            <span style={{
+                              backgroundColor: "#f5f5f5",
+                              padding: "2px 8px",
+                              borderRadius: "4px",
+                              fontWeight: "500"
                             }}>
-                              <span style={{ fontWeight: "bold", fontSize: "13px" }}>Votos habilitados:</span>
-                              <span style={{
-                                backgroundColor: "#f5f5f5",
-                                padding: "2px 8px",
-                                borderRadius: "4px",
-                                fontWeight: "500"
-                              }}>
-                                {formatNumber(data?.data?.grals?.enabled_votes || 0, 0)}
-                              </span>
-                            </div>
+                              {formatNumber(normalizedData?.grals?.enabled_votes || 0, 0)}
+                            </span>
+                          </div>
 
-                            <div style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              padding: "5px 0",
-                              borderBottom: "1px solid #f0f0f0"
+                          <div style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            padding: "5px 0",
+                            borderBottom: "1px solid #f0f0f0"
+                          }}>
+                            <span style={{ fontWeight: "bold", fontSize: "13px" }}>Votos válidos:</span>
+                            <span style={{
+                              backgroundColor: "#f5f5f5",
+                              padding: "2px 8px",
+                              borderRadius: "4px",
+                              fontWeight: "500"
                             }}>
-                              <span style={{ fontWeight: "bold", fontSize: "13px" }}>Votos válidos:</span>
-                              <span style={{
-                                backgroundColor: "#f5f5f5",
-                                padding: "2px 8px",
-                                borderRadius: "4px",
-                                fontWeight: "500"
-                              }}>
-                                {formatNumber(data?.data?.grals?.valid_votes || 0, 0)}
-                              </span>
-                            </div>
+                              {formatNumber(normalizedData?.grals?.valid_votes || 0, 0)}
+                            </span>
                           </div>
 
                           <div style={{
                             backgroundColor: "#f9f9f9",
                             padding: "8px",
                             borderRadius: "6px",
-                            marginBottom: "5px"
+                            marginBottom: "5px",
+                            marginTop: "15px"
                           }}>
                             <div style={{
                               display: "flex",
@@ -626,7 +602,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                                 borderRadius: "4px",
                                 fontWeight: "bold"
                               }}>
-                                {formatNumber(data?.data?.grals?.creemos_votes || 0, 0)}
+                                {formatNumber(normalizedData?.grals?.creemos_votes || 0, 0)}
                               </span>
                             </div>
 
@@ -650,15 +626,15 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                                 borderRadius: "4px",
                                 fontWeight: "bold"
                               }}>
-                                {formatNumber(data?.data?.grals?.mas_votes || 0, 0)}
+                                {formatNumber(normalizedData?.grals?.mas_votes || 0, 0)}
                               </span>
                             </div>
                           </div>
 
                           {/* Calcular porcentajes */}
-                          {data?.data?.grals?.valid_votes > 0 && (
+                          {normalizedData?.grals?.valid_votes > 0 && (
                             <div style={{ fontSize: "11px", color: "#666", textAlign: "center", marginTop: "5px" }}>
-                              Participación: {formatNumber(data?.data?.grals?.valid_votes * 100 / (data?.data?.grals?.enabled_votes || 1), 1)}%
+                              Participación: {formatNumber(normalizedData?.grals?.valid_votes * 100 / (normalizedData?.grals?.enabled_votes || 1), 1)}%
                             </div>
                           )}
                         </div>
@@ -671,7 +647,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
           </>
         )}
       </div>
-    </div >
+    </div>
   );
 };
 
