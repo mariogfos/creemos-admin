@@ -51,7 +51,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
       // Esperar 4 segundos antes de procesar los datos iniciales
       setTimeout(() => {
         setLoading(false);
-      }, 2000);
+      }, 4000);
     }
   }, [data, initialDataReceived]);
 
@@ -67,7 +67,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
       setTimeout(() => {
         setTransitioning(false);
         setLoading(false);
-      }, 2000);
+      }, 4000);
     }
 
     setPrevFormState(formState);
