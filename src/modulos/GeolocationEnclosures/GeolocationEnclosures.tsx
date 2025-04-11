@@ -51,7 +51,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
       // Esperar 4 segundos antes de procesar los datos iniciales
       setTimeout(() => {
         setLoading(false);
-      }, 4000);
+      }, 2000);
     }
   }, [data, initialDataReceived]);
 
@@ -67,7 +67,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
       setTimeout(() => {
         setTransitioning(false);
         setLoading(false);
-      }, 4000);
+      }, 2000);
     }
 
     setPrevFormState(formState);
@@ -123,10 +123,9 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
     }
 
     try {
-      console.log("Generando marcadores según selección:", formState);
       // Limpiar marcadores anteriores
       setMarkers([]);
-      
+
       const newMarkers: any[] = [];
       let newCenter: [number, number] = [-17.783, -63.182];
       let newZoom = 6;
@@ -138,29 +137,25 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
       const localidadId = formState.local_id || formState.local_code || null;
       const recintoId = formState.recint_id || formState.recint_code || null;
 
-      console.log(`Navegación: provincia=${provinciaId}, municipio=${municipioId}, distrito=${distritoId}, localidad=${localidadId}, recinto=${recintoId}`);
+
 
       // Opción 1: Usando Object.entries para encontrar la provincia
       let provincia: any = null;
       let provinciaName: any = null;
 
       if (provinciaId) {
-        // Imprimir todas las claves disponibles para debug
-        console.log("Claves disponibles:", Object.keys(normalizedData.areas));
+
 
         // Recorrer todas las provincias para encontrar la que coincide con el ID
         Object.entries(normalizedData.areas).forEach(([nombre, datos]) => {
-          console.log(`Verificando provincia: ${nombre}`);
           provincia = datos;
           provinciaName = nombre;
         });
 
-        console.log(`Provincia encontrada: ${provinciaName}`);
       }
 
       // CASO 1: NO HAY SELECCIÓN - Mostrar todas las provincias
       if (!provinciaId) {
-        console.log("Mostrando todas las provincias");
 
         Object.entries(normalizedData.areas).forEach(([nombreProvincia, datosProvincia]: [string, any]) => {
           if (datosProvincia?.center) {
@@ -183,8 +178,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
       // CASO 2: HAY SELECCIÓN DE PROVINCIA
       else if (provincia) {
-        console.log(`Mostrando provincia ${provinciaId} con sus municipios`);
-        console.log('provincia seleccionada:', provincia);
+
 
         // Centrar en la provincia
         if (provincia.center) {
@@ -199,7 +193,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
         // CASO 2.1: Mostrar todos los municipios de la provincia
         if (provincia.locations) {
-          console.log(`La provincia ${provinciaId} tiene ${Object.keys(provincia.locations).length} municipios`);
+
 
           Object.entries(provincia.locations).forEach(([nombreMunicipio, datosMunicipio]: [string, any]) => {
             if (datosMunicipio && datosMunicipio.center) {
@@ -221,7 +215,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
                 // CASO 2.2: Si este municipio está seleccionado
                 if (municipioId) {
-                  console.log(`Municipio ${nombreMunicipio} está seleccionado`);
+
 
                   // Centrar en el municipio seleccionado
                   newCenter = [latMun, lngMun];
@@ -229,7 +223,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
                   // Siempre mostrar todos los distritos del municipio seleccionado
                   if (datosMunicipio.districts && Object.keys(datosMunicipio.districts).length > 0) {
-                    console.log(`Mostrando ${Object.keys(datosMunicipio.districts).length} distritos para ${nombreMunicipio}`);
+
 
                     Object.entries(datosMunicipio.districts).forEach(([nombreDistrito, datosDistrito]: [string, any]) => {
                       if (datosDistrito && datosDistrito.center) {
@@ -252,7 +246,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
                           // CASO adicional: Si este distrito está seleccionado
                           if (distritoId) {
-                            console.log(`Distrito ${nombreDistrito} está seleccionado`);
+
 
                             // Centrar en el distrito seleccionado
                             newCenter = [latDist, lngDist];
@@ -260,8 +254,8 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
                             // Mostrar localidades del distrito seleccionado
                             if (datosDistrito.locations && datosDistrito.locations.length > 0) {
-                              console.log(`Mostrando ${datosDistrito.locations.length} localidades para el distrito ${nombreDistrito}`);
-                              
+
+
                               datosDistrito.locations.forEach((ubicacion: any, index: number) => {
                                 if (ubicacion.lat && ubicacion.lng) {
                                   const latUbic = parseCoordinate(ubicacion.lat);
@@ -283,21 +277,21 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
 
                                     // Si esta localidad está seleccionada, mostrar sus recintos
                                     if (localidadId === ubicacion.id || localidadId === ubicacion.code) {
-                                      console.log(`Localidad ${ubicacion.name} está seleccionada`);
-                                      
+
+
                                       // Centrar en la localidad seleccionada
                                       newCenter = [latUbic, lngUbic];
                                       newZoom = 15;
-                                      
+
                                       // Mostrar recintos de la localidad seleccionada
                                       if (ubicacion.recints && ubicacion.recints.length > 0) {
-                                        console.log(`Mostrando ${ubicacion.recints.length} recintos para la localidad ${ubicacion.name}`);
-                                        
+
+
                                         ubicacion.recints.forEach((recinto: any, recIndex: number) => {
                                           if (recinto.lat && recinto.lng) {
                                             const latRec = parseCoordinate(recinto.lat);
                                             const lngRec = parseCoordinate(recinto.lng);
-                                            
+
                                             if (!isNaN(latRec) && !isNaN(lngRec)) {
                                               // Solo agregar marcador si no es el recinto seleccionado
                                               if (recintoId !== recinto.id && recintoId !== recinto.code) {
@@ -312,10 +306,10 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                                                   prov_id: provinciaId
                                                 });
                                               }
-                                              
+
                                               // Si este recinto está seleccionado, centrar en él
                                               if (recintoId === recinto.id || recintoId === recinto.code) {
-                                                console.log(`Recinto ${recinto.name} está seleccionado`);
+
                                                 newCenter = [latRec, lngRec];
                                                 newZoom = 16;
                                               }
@@ -479,33 +473,64 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
             padding: "20px",
             borderRadius: "8px",
             textAlign: "center",
-            minWidth: "200px"
+            minWidth: "200px",
+            backdropFilter: "blur(5px)",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
           }}>
             <div className="spinner" style={{
-              width: "40px",
-              height: "40px",
+              width: "50px",
+              height: "50px",
               margin: "0 auto 15px",
               border: "4px solid rgba(255,255,255,0.3)",
               borderRadius: "50%",
               borderTop: "4px solid white",
-              animation: "spin 1s linear infinite",
-            }}></div>
-            <div>Cargando mapa...</div>
-            <div style={{ fontSize: "14px", marginTop: "8px", opacity: 0.8 }}>
+              animation: "spin 1s linear infinite, pulse 2s ease-in-out infinite",
+              position: "relative"
+            }}>
+              <div style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: "20px",
+                height: "20px",
+                background: "white",
+                borderRadius: "50%",
+                animation: "pulse 2s ease-in-out infinite"
+              }}></div>
+            </div>
+            <div style={{ 
+              fontSize: "16px", 
+              fontWeight: "500",
+              marginBottom: "8px",
+              animation: "fadeInOut 2s ease-in-out infinite"
+            }}>
               {transitioning ? 'Actualizando datos...' : 'Preparando visualización...'}
+            </div>
+            <div style={{ 
+              fontSize: "14px", 
+              opacity: 0.8,
+              animation: "fadeInOut 2s ease-in-out infinite"
+            }}>
+              {transitioning ? 'Cargando nueva información...' : 'Configurando el mapa...'}
             </div>
           </div>
         ) : (
           <>
             <style jsx global>{`
               @keyframes fadeInOut {
-                0% { opacity: 0; }
+                0% { opacity: 0.6; }
                 50% { opacity: 1; }
-                100% { opacity: 0; }
+                100% { opacity: 0.6; }
               }
               @keyframes spin {
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
+              }
+              @keyframes pulse {
+                0% { transform: scale(0.95); opacity: 0.5; }
+                50% { transform: scale(1.05); opacity: 1; }
+                100% { transform: scale(0.95); opacity: 0.5; }
               }
             `}</style>
 
@@ -555,7 +580,7 @@ const GeolocationEnclosures = ({ formState, data }: TypeProps) => {
                         }}>
                           {marker.type === 'province' ? 'Provincia' :
                             marker.type === 'municipality' ? 'Municipio' :
-                              marker.type === 'district' ? 'Distrito' : 
+                              marker.type === 'district' ? 'Distrito' :
                                 marker.type === 'location' ? 'Localidad' : 'Recinto'}
                         </span>
                       </h3>
