@@ -1,0 +1,716 @@
+/* Variables de color y reutilizables */
+:root {
+    --primary-color: #d24067;
+    --secondary-color: #000018;
+    --background-light: #f8f8f8;
+    --text-dark: #212121;
+    --text-gray: #828282;
+    --text-light-gray: #e9e9e9;
+    --text-placeholder: #a7a7a7;
+    --white: #ffffff;
+    --border-color: #d24067; /* Usado también como primario */
+  }
+  
+  /* Estilos Generales */
+  .pageContainer {
+    width: 100%; /* Ancho total de la página */
+    background-color: var(--white);
+    margin: 0 auto; /* Centrar la página si el viewport es más grande */
+    overflow-x: hidden; /* Evitar scroll horizontal si algo se desborda */
+  }
+  
+  .heroImage {
+    width: 100%; /* Ajustar al contenedor de la página */
+    height: 784px;
+    object-fit: cover;
+    display: block; /* Evitar espacio extra debajo de la imagen */
+  }
+  
+  /* Barra de Navegación */
+  .navBar {
+    height: 80px;
+    width: 100%;
+    background-color: var(--primary-color);
+    padding: 0 120px; /* px-[120px] */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* gap-2.5 */
+    box-sizing: border-box;
+  }
+  
+  .navContent {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* gap-4 */
+    align-self: stretch;
+    height: 100%;
+  }
+  
+  .navLogoContainer {
+    width: 53px;
+    height: 100%; /* h-20 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--white);
+    padding: 9px 4.5px; /* py-[9.02px] px-[4.51px] */
+  }
+  
+  .navLogo {
+    width: 45.83px;
+    height: 45.83px;
+    object-fit: cover;
+  }
+  
+  .navLinksAndActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+  }
+  
+  .socialIconsContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* gap-2 */
+    /* grow se maneja por navLinksAndActions */
+  }
+  
+  .socialIconCircle {
+    width: 32px; /* w-8 */
+    height: 32px; /* h-8 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--white);
+    padding: 5.33px 10.67px; /* py-[5.33px] px-[10.66px] */
+    border-radius: 16px; /* rounded-2xl */
+  }
+  
+  .socialSvgIcon {
+    /* Tamaño original de los SVG en el HTML */
+    /* w-[10.66px] h-[19.49px] para el primero */
+    /* w-5 h-5 (20px) para el segundo */
+    /* w-[16.26px] h-[18.66px] para el tercero */
+    /* El cuarto div estaba vacío */
+    width: auto; /* Dejar que el SVG tome su tamaño o especificar */
+    height: 20px; /* Altura común como ejemplo */
+    color: var(--primary-color);
+  }
+  
+  .navMenuAndButtons {
+    display: flex;
+    align-items: center;
+    gap: 64px; /* gap-16 */
+  }
+  
+  .navMenuItems {
+    display: flex;
+    align-items: center;
+    gap: 24px; /* gap-6 */
+  }
+  
+  .navLink {
+    font-weight: 400; /* font-normal */
+    font-size: 20px;
+    color: var(--white);
+    cursor: pointer;
+  }
+  
+  .navButtons {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* gap-3 */
+  }
+  
+  .navButtonBase {
+    height: 48px; /* h-12 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* gap-2.5 */
+    padding: 12px; /* p-3 */
+    border-radius: 12px; /* rounded-xl */
+    box-sizing: border-box;
+  }
+  
+  .navButtonOutline {
+    composes: navButtonBase;
+    width: 144px; /* w-36 */
+    border: 1px solid var(--white);
+  }
+  
+  .navButtonSolid {
+    composes: navButtonBase;
+    background-color: var(--white);
+  }
+  
+  .navButtonTextWhite {
+    font-weight: 500; /* font-medium */
+    font-size: 20px;
+    text-align: center;
+    color: var(--white);
+  }
+  
+  .navButtonTextPrimary {
+    font-weight: 500; /* font-medium */
+    font-size: 20px;
+    text-align: center;
+    color: var(--primary-color);
+  }
+  
+  /* Sección de Noticias/Obras/Plan */
+  .cardsSection {
+    width: 1488px; /* w-[1488px] */
+    display: flex;
+    align-items: center;
+    gap: 36px; /* gap-9 */
+    margin: 32px auto; /* Padding implícito y centrado */
+    padding: 32px 0; /* Asumiendo que px-[120px] del padre ya aplica */
+  }
+  
+  .card {
+    height: 384px; /* h-96 */
+    width: 472px; /* w-[472px] */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Para que el caption quede abajo */
+    align-items: center; /* items-center */
+    gap: 10px; /* gap-2.5 */
+    border-radius: 12px; /* rounded-xl */
+    overflow: hidden; /* Para que el caption no se salga si la imagen es más pequeña */
+    position: relative; /* Para el caption absoluto si es necesario */
+  }
+  
+  .cardImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px; /* rounded-xl */
+    display: block;
+  }
+  
+  .cardCaption {
+    /* Este div estaba DENTRO de la imagen en el HTML, lo cual no es estándar.
+       Lo coloco como un elemento hermano que se superpone o se coloca debajo.
+       Aquí lo pongo como un pie de imagen.
+    */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* gap-2.5 */
+    align-self: stretch; /* self-stretch */
+    background-color: var(--primary-color);
+    padding: 12px; /* p-3 */
+    border-bottom-left-radius: 12px; /* rounded-bl-xl */
+    border-bottom-right-radius: 12px; /* rounded-br-xl */
+    position: absolute; /* Para que esté sobre la imagen */
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .cardCaptionText {
+    font-weight: 600; /* font-semibold */
+    font-size: 24px;
+    color: var(--white);
+  }
+  
+  /* Sección Conviértete en Simpatizante */
+  .simpatizanteSection {
+    width: 100%; /* w-[1728px] */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 56px; /* gap-14 */
+    background-color: var(--background-light);
+    padding: 32px 120px; /* py-8 px-[120px] */
+    box-sizing: border-box;
+  }
+  
+  .simpatizanteImage {
+    height: 384px; /* h-96 */
+    width: 592px; /* w-[592px] */
+    object-fit: cover;
+    border-radius: 12px; /* rounded-xl */
+  }
+  
+  .simpatizanteTextContainer {
+    display: flex;
+    align-items: center; /* items-center */
+    gap: 40px; /* gap-10 */
+    /* El HTML original tiene un div para texto y otro para icono. */
+  }
+  
+  .simpatizanteTextContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px; /* gap-2 */
+    align-self: stretch; /* self-stretch */
+    width: 478px; /* w-[478px] */
+  }
+  
+  .titleDark {
+    font-weight: 700; /* font-bold */
+    font-size: 32px;
+    color: var(--text-dark);
+  }
+  
+  .textGrayNormal {
+    font-weight: 400; /* font-normal */
+    font-size: 24px;
+    color: var(--text-gray);
+  }
+  
+  .simpatizanteIconContainer {
+    width: 204px; /* w-[204px] */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Padding y gap del HTML original parecen muy específicos para el contenido del icono */
+    /* px-[73.15px] py-[82.45px] gap-[4.04px] */
+  }
+  
+  .simpatizanteIcon {
+    width: 204px; /* w-[47.69px] */
+    height: 202px; /* h-[37.47px] */
+  }
+  
+  /* Sección Conoce Nuestras Autoridades */
+  .autoridadesSection {
+    width: 100%; /* w-[1728px] */
+    display: flex;
+    align-items: center; /* items-center (verticalmente) */
+    gap: 40px; /* gap-10 */
+    padding: 40px 120px; /* py-10 px-[120px] */
+    box-sizing: border-box;
+  }
+  
+  .autoridadesText {
+    width: 514px; /* w-[514px] */
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* gap-2 */
+  }
+  
+  .autoridadesGridContainer {
+    width: 950px; /* w-[950px] */
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* gap-6 */
+  }
+  
+  .autoridadesGrid {
+    display: grid; /* Usar grid para 3x2 */
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas */
+    gap: 8px; /* gap-2 entre imágenes y captions */
+    align-self: stretch; /* self-stretch */
+  }
+  
+  .autoridadCard {
+    /* Cada tarjeta de autoridad */
+    width: 306px; /* w-[306px] */
+    position: relative; /* Para el caption */
+  }
+  
+  .autoridadImage {
+    width: 100%; /* w-[306px] */
+    height: 339px; /* h-[339px] */
+    object-fit: cover; /* object-cover para algunas */
+    display: block;
+    /* Los placeholders vacíos no se pueden replicar sin un color de fondo */
+    background-color: #eee; /* Placeholder para las img vacías */
+  }
+  
+  .autoridadCaption {
+    width: 100%; /* w-[306px] */
+    height: 52px; /* h-[52px] */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* gap-2.5 */
+    background-color: var(--primary-color);
+    padding: 12px; /* p-3 */
+    border-bottom-left-radius: 12px; /* rounded-bl-xl */
+    border-bottom-right-radius: 12px; /* rounded-br-xl */
+    box-sizing: border-box;
+    /* Estaba fuera de las imágenes en el HTML, pero es un caption */
+    /* Para replicar el HTML, necesitarías poner estos divs después de cada fila de imágenes */
+    /* O usar posicionamiento absoluto si es por tarjeta */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .autoridadName {
+    font-weight: 600; /* font-semibold */
+    font-size: 24px;
+    color: var(--white);
+  }
+  
+  .autoridadesNav {
+    width: 934px; /* w-[934px] */
+    display: flex;
+    justify-content: flex-end; /* Estaba items-end, pero parece más un control de nav */
+    gap: 12px; /* gap-3 (entre los dos círculos) */
+    /* align-items: end;  flex items-end */
+  }
+  
+  .navArrowCircle {
+    width: 40px; /* w-10 */
+    height: 40px; /* h-10 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 26.67px; /* rounded-[26.66px] */
+    border: 0.83px solid var(--primary-color);
+    cursor: pointer;
+    /* El contenido del div original era otro div, aquí usamos SVG directamente */
+  }
+  
+  .svgIcon { /* Para los iconos de flecha */
+    width: 20px; /* Ajusta según el tamaño deseado, el div interno era 26px */
+    height: 20px;
+    color: var(--primary-color); /* Color del borde */
+  }
+  
+  /* Sección Portada con Texto */
+  .portadaFullWidth {
+    width: 100%; /* w-[1728px] */
+    display: flex; /* flex flex-col */
+    flex-direction: column;
+    position: relative; /* Para superponer texto */
+  }
+  
+  .portadaFullWidthImage {
+    height: 448px; /* h-[448px] */
+    object-fit: cover;
+    display: block;
+  }
+  
+  .portadaColorBar {
+    /* El div tenía: flex justify-center gap-[60px] self-stretch h-[26px] bg-[#d24067] px-[120px] */
+    /* Esto sugiere que podría haber contenido, pero el HTML no lo muestra */
+    height: 26px;
+    background-color: var(--primary-color);
+    width: 100%; /* self-stretch */
+    /* padding: 0 120px; Si tuviera contenido */
+    /* display: flex; justify-content: center; gap: 60px; */
+  }
+  
+  .portadaTextOverlay {
+      /* Este div no estaba en el HTML original, pero es necesario para posicionar el texto */
+      /* sobre la imagen o en un área designada. Ajusta el posicionamiento según diseño. */
+      position: absolute;
+      top: 50%; /* Ejemplo: centrado verticalmente */
+      left: 120px; /* px-[120px] */
+      transform: translateY(-50%); /* Ajuste para centrado vertical */
+      z-index: 1;
+      /* background-color: rgba(0,0,0,0.5); Ejemplo si se necesita un fondo para legibilidad */
+      padding: 20px; /* Espaciado interno */
+  }
+  
+  .portadaTextContent {
+    /* Contenedor del texto dentro de la portada */
+    /* El HTML original tenía: w-[501px] flex flex-col gap-4 */
+    width: 501px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* gap-4 */
+  }
+  
+  /* El siguiente div w-[409px] en el HTML está fuera de lugar o es un error.
+     Lo interpretaré como el contenido de texto para esta sección. */
+  .titleWhiteLarge {
+    font-weight: 700; /* font-bold */
+    font-size: 32px;
+    color: var(--white);
+  }
+  
+  .textLightGray {
+    font-weight: 400; /* font-normal */
+    font-size: 24px;
+    color: var(--text-light-gray);
+  }
+  
+  
+  /* Sección ¡Una nueva Bolivia! */
+  .nuevaBoliviaSection {
+      /* Esta sección en el HTML estaba dentro de la anterior. La separo. */
+      /* w-[1728px] flex flex-col */
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Para alinear el contenido a la izquierda */
+      padding: 40px 120px; /* Asumiendo padding similar a otras secciones */
+      background-color: var(--primary-color); /* Si el fondo es el color primario */
+      box-sizing: border-box;
+      height: 26px; /* Altura de ejemplo */
+      justify-content: center; /* Para centrar el contenido si es poco */
+  }
+  
+  .nuevaBoliviaContent {
+      /* w-[501px] flex flex-col gap-4 */
+      width: 501px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px; /* gap-4 */
+      /* Si la sección tiene su propio color de fondo, el texto debe ser visible */
+  }
+  
+  .nuevaBoliviaButton {
+      /* w-[168px] h-12 flex justify-center items-center gap-2.5 bg-[#d24067] p-3 rounded-xl */
+      /* Si el fondo de la sección ya es d24067, este botón necesitará contraste */
+      width: 168px;
+      height: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      background-color: var(--white); /* Contraste */
+      padding: 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 16px; /* Espacio adicional */
+  }
+  .nuevaBoliviaButton > .navButtonTextWhite { /* Hereda la clase de texto pero cambiamos color */
+      color: var(--primary-color);
+  }
+  
+  
+  /* Sección ¡Tu voz al poder! */
+  .tuVozSection {
+    width: 100%; /* w-[1728px] */
+    height: auto; /* h-[489px] -> altura depende del contenido */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px; /* gap-[60px] */
+    background-color: var(--background-light);
+    padding: 40px 120px; /* py-10 px-[120px] */
+    box-sizing: border-box;
+  }
+  
+  .tuVozImage {
+    width: 720px; /* w-[720px] */
+    height: 409.87px; /* h-[409.86px] */
+    object-fit: cover;
+  }
+  
+  .tuVozText {
+    width: 425px; /* w-[425px] */
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* gap-2 */
+  }
+  
+  /* Sección Seguinos en las redes */
+  .redesSection {
+    width: 100%; /* w-[1728px] */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px; /* gap-4 */
+    background-color: var(--secondary-color); /* #000018 */
+    padding: 40px 120px; /* py-10 px-[120px] */
+    box-sizing: border-box;
+  }
+  
+  .titleWhiteMedium {
+    font-weight: 700; /* font-bold */
+    font-size: 32px; /* Mismo que titleDark pero en blanco */
+    text-align: center;
+    color: var(--white);
+  }
+  
+  .redesIconsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px; /* gap-3 */
+    align-self: stretch; /* self-stretch */
+  }
+  
+  .socialIconCircleLarge {
+    width: 40px; /* w-10 */
+    height: 40px; /* h-10 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 20px; /* rounded-[20px] */
+    /* padding: 6.67px 13.33px;  py-[6.66px] px-[13.33px] */
+  }
+  /* .socialSvgIcon ya definido, se reutiliza */
+  
+  
+  /* Sección Sé parte del cambio (Formulario) */
+  .formularioSection {
+    width: 100%; /* w-[1728px] */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* gap-2.5 */
+    padding: 40px 120px; /* py-10 px-[120px] */
+    box-sizing: border-box;
+    background-color: var(--white); /* El fondo del div exterior es blanco */
+  }
+  
+  .formularioContainer {
+    width: 761px; /* w-[761px] */
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* gap-6 */
+    align-items: center; /* Para centrar el botón de Registrarme */
+  }
+  
+  .formularioBox {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* gap-6 */
+    align-self: stretch; /* self-stretch */
+    background-color: var(--white);
+    padding: 24px; /* p-6 */
+    border-radius: 24px; /* rounded-3xl */
+    border: 0.5px solid var(--border-color);
+  }
+  
+  .formInputsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* gap-4 */
+    align-self: stretch; /* self-stretch */
+  }
+  
+  .formRow {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* gap-3 */
+    align-self: stretch; /* self-stretch */
+  }
+  .formRowFull { /* Para filas con un solo input */
+    composes: formRow;
+  }
+  
+  
+  .formInputWrapperBase {
+    display: flex;
+    flex-direction: column; /* Para etiquetas arriba o inputs con más contenido */
+    justify-content: center;
+    flex-grow: 1; /* grow */
+    height: 48px; /* h-12 */
+    background-color: var(--background-light); /* bg-[#f8f8f8] */
+    padding: 8px 12px; /* py-2 px-3 */
+    border-radius: 8px; /* rounded-lg */
+    box-sizing: border-box;
+  }
+  
+  .formInputWrapper {
+    composes: formInputWrapperBase;
+  }
+  .formInputWrapper > .formLabel { /* Estilo directo para el span dentro */
+      font-weight: 400; /* font-normal */
+      font-size: 16px;
+      color: var(--text-placeholder); /* #a7a7a7 */
+  }
+  
+  
+  .formInputWrapperWithIcon {
+    composes: formInputWrapperBase;
+    display: flex;
+    flex-direction: row; /* Para alinear texto e icono */
+    align-items: center; /* Centrar verticalmente */
+    justify-content: space-between; /* Separar texto de icono */
+  }
+  .formInputWrapperWithIcon > .formLabelMultiline {
+      /* El div interno: flex flex-col gap-0.5 grow */
+      flex-grow: 1;
+      font-weight: 400; /* font-normal */
+      font-size: 14px;
+      color: var(--text-placeholder);
+  }
+  .formInputWrapperWithIcon > .formIcon {
+      width: 20px; /* w-5 */
+      height: 20px; /* h-5 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  .chevronSvgIcon {
+      width: 14.57px;
+      height: 8.39px;
+      color: var(--text-placeholder);
+  }
+  
+  .formInputWrapperNumero {
+    composes: formInputWrapperBase;
+    display: flex; /* items-center */
+    flex-direction: row;
+    align-items: center;
+    gap: 8px; /* gap-2 */
+  }
+  .formInputWrapperNumero > .formLabelMultilineSmall {
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--text-placeholder);
+      /* flex-grow: 1; */ /* Ajustar si es necesario */
+  }
+  .formNumeroContent {
+      display: flex;
+      align-items: center;
+      gap: 5px; /* gap-[5px] */
+      flex-grow: 1;
+  }
+  .formPrefijo {
+      display: flex;
+      align-items: center;
+      gap: 4px; /* gap-1 */
+  }
+  .formPrefijoText {
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--text-gray); /* #828282 */
+  }
+  .formIconSmall { /* w-4 h-4 */
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  .formIconSmall > .chevronSvgIcon {
+      width: 11.65px;
+      height: 6.71px;
+      color: var(--text-gray);
+  }
+  .formNumeroSeparador {
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--text-gray);
+  }
+  .formNumeroText {
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--text-gray);
+  }
+  
+  
+  .formularioButton {
+    /* w-[168px] h-12 flex justify-center items-center gap-2.5 bg-[#d24067] p-3 rounded-xl */
+    width: 168px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--primary-color);
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    /* Ya está centrado por .formularioContainer align-items: center */
+  }
+  /* .navButtonTextWhite ya definido, se reutiliza */

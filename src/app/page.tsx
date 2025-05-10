@@ -1,7 +1,6 @@
 "use client";
-import HomePage from "@/components/Index/Index";
-import ElectoralMapping from "@/modulos/ElectoralMapping/ElectoralMapping";
+import Website from "@/modulos/Website/Website";
 
 export default function Home() {
-  return <ElectoralMapping />;
+  return <Website />;
 }
