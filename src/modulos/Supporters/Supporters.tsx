@@ -66,6 +66,7 @@ const Supporters = () => {
     plural: "simpatizantes",
     permiso: "",
     export: true,
+    filter: true,
 
     // renderView: (props: {
     //   open: boolean;
@@ -111,6 +112,18 @@ const Supporters = () => {
           onRender: ({ item, value }: any) => {
             return getDateTimeStrMes(value);
           },
+        },
+      },
+      id_admin: {
+        rules: [],
+        api: "",
+        label: "Administrador",
+        form: false,
+        list: false,
+        filter: {
+          label: "Administrador",
+          width: "150px",
+          extraData: "admins",
         },
       },
       fullName: {

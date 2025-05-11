@@ -1,4 +1,7 @@
+"use client";
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './Website.module.css';
 
 // Iconos SVG como componentes React para mayor limpieza
@@ -49,6 +52,15 @@ const IconoChevronAbajo = () => (
 
 
 const Website: React.FC = () => {
+  const router = useRouter();
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className={styles.pageContainer}>
       
@@ -68,17 +80,17 @@ const Website: React.FC = () => {
             </div>
             <div className={styles.navMenuAndButtons}>
               <div className={styles.navMenuItems}>
-                <span className={styles.navLink}>Inicio</span>
-                <span className={styles.navLink}>Historia</span>
-                <span className={styles.navLink}>Autoridades</span>
+                <span className={styles.navLink} onClick={() => router.push('/')}>Inicio</span>
+                <span className={styles.navLink} onClick={() => router.push('/history')}>Historia</span>
+                <span className={styles.navLink} onClick={() => scrollToSection('autoridades')}>Autoridades</span>
               </div>
               <div className={styles.navButtons}>
-                <div className={styles.navButtonOutline}>
+                <div className={styles.navButtonOutline} onClick={() => scrollToSection('ser-parte')}>
                   <span className={styles.navButtonTextWhite}>Ser Parte</span>
                 </div>
-                <div className={styles.navButtonSolid}>
+                <button className={styles.navButtonSolid} onClick={() => router.push('/login')}>
                   <span className={styles.navButtonTextPrimary}>Iniciar sesión</span>
-                </div>
+                </button>
               </div>
             </div>
           </div>
@@ -123,7 +135,7 @@ const Website: React.FC = () => {
       </div>
 
       {/* Sección Conoce Nuestras Autoridades */}
-      <div className={styles.autoridadesSection}>
+      <div id="autoridades" className={styles.autoridadesSection}>
         <div className={styles.autoridadesText}>
           <span className={styles.titleDark}>Conoce nuestras autoridades</span>
           <span className={styles.textGrayNormal}>El equipo que guía nuestra organización. Son las mentes visionarias que han trazado el rumbo que seguimos, los estrategas que nos impulsan hacia nuestras metas y los líderes que inspiran nuestro compromiso.</span>
@@ -190,7 +202,7 @@ const Website: React.FC = () => {
         </div>
       </div>
       {/* Sección Sé parte del cambio (Formulario) */}
-      <div className={styles.formularioSection}>
+      <div id="ser-parte" className={styles.formularioSection}>
         <div className={styles.formularioContainer}>
           <span className={styles.titleDark}>Sé parte del cambio</span>
           <div className={styles.formularioBox}>

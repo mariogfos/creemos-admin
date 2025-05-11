@@ -1,4 +1,7 @@
+"use client";
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './History.module.css';
 
 // --- Iconos SVG como componentes React (Reutilizar/Adaptar de la vez anterior) ---
@@ -49,6 +52,7 @@ const IconoFlechaDerechaNav = () => (
 
 
 const History: React.FC = () => {
+  const router = useRouter();
   const placeholderText = "nisi volutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in\n\nnisi volutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in\n\nnisi volutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in cidunt Vestibuluolutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrice.";
   const shortPlaceholderText = "nisi volutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in";
 
@@ -73,7 +77,7 @@ const History: React.FC = () => {
         </div>
         <div className={styles.pageTitleBar}>
           <div className={styles.backIconContainer}>
-            <div className={styles.backIconCircle}><IconoFlechaAtras/></div>
+            <div className={styles.backIconCircle} onClick={() => router.push('/')}><IconoFlechaAtras/></div>
           </div>
           <span className={styles.pageTitle}>Historia</span>
         </div>

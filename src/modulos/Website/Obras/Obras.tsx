@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './Obras.module.css';
 
-// --- Iconos SVG (Reutilizar/Definir como en las páginas anteriores) ---
+
 const IconoFlechaAtras = () => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className={styles.svgIconSmall}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -56,24 +57,25 @@ const ObraCard: React.FC<ObraItemProps> = ({ imageUrl, imageAlt, captionText }) 
 
 
 const ObrasEntregadas: React.FC = () => {
+  const router = useRouter();
   const [activeGestion, setActiveGestion] = useState<string>("2025");
   const gestiones = ["2025", "2024", "2023", "2022"];
 
   const obrasData: ObraItemProps[][] = [
     [
-      { imageUrl: "https://via.placeholder.com/483x356/cccccc/808080?text=Hospital+Trinidad", imageAlt: "Hospital Trinidad", captionText: "Entrega del Hospital trinidad" },
-      { imageUrl: "https://via.placeholder.com/483x356/cccccc/808080?text=Módulo+Educativo", imageAlt: "Módulo Educativo Florinda Barba", captionText: "Módulo educativo Florinda Barba" },
-      { imageUrl: "https://via.placeholder.com/483x356/cccccc/808080?text=Maquinas+Laboratorio", imageAlt: "Maquinas Laboratorio", captionText: "Entrega maquinas de laboratorio de última generación" },
+      { imageUrl: "/images/Obras/Obra-1.png", imageAlt: "Hospital Trinidad", captionText: "Entrega del Hospital trinidad" },
+      { imageUrl: "/images/Obras/Obra-2.png", imageAlt: "Módulo Educativo", captionText: "Módulo educativo Florinda Barba" },
+      { imageUrl: "/images/Obras/Obra-3.png", imageAlt: "Maquinas Laboratorio", captionText: "Entrega maquinas de laboratorio de última generación" },
     ],
     [
-      { imageUrl: "https://via.placeholder.com/483x356/dddddd/808080?text=Mural+Mujer", imageAlt: "Mural a la mujer", captionText: "Entrega de mural a la mujer" },
-      { imageUrl: "https://via.placeholder.com/483x356/dddddd/808080?text=Hospital+Pampa", imageAlt: "Hospital Pampa de la Isla", captionText: "Hospital de 1er nivel en la pampa de la Isla" },
-      { imageUrl: "https://via.placeholder.com/483x356/dddddd/808080?text=Módulo+Univalle", imageAlt: "Módulo Univalle", captionText: "Módulo educativo Univalle Santa Cruz" },
+      { imageUrl: "/images/Obras/Obra-4.png", imageAlt: "Mural a la mujer", captionText: "Entrega de mural a la mujer" },
+      { imageUrl: "/images/Obras/Obra-5.png", imageAlt: "Hospital Pampa de la Isla", captionText: "Hospital de 1er nivel en la pampa de la Isla" },
+      { imageUrl: "/images/Obras/Obra-6.png", imageAlt: "Módulo Univalle", captionText: "Módulo educativo Univalle Santa Cruz" },
     ],
     [
-      { imageUrl: "https://via.placeholder.com/483x356/eeeeee/808080?text=Desayuno+Escolar", imageAlt: "Desayuno Escolar", captionText: "Entrega de insumos para el desayuno escolar" },
-      { imageUrl: "https://via.placeholder.com/483x356/eeeeee/808080?text=Agua+Moro+Moro", imageAlt: "Agua Moro Moro", captionText: "Entrega de agua potable en Moro Moro" },
-      { imageUrl: "https://via.placeholder.com/483x356/eeeeee/808080?text=Electricidad+Montero", imageAlt: "Electricidad Montero Hoyos", captionText: "Electricidad para Montero Hoyos" },
+      { imageUrl: "/images/Obras/Obra-7.png", imageAlt: "Desayuno Escolar", captionText: "Entrega de insumos para el desayuno escolar" },
+      { imageUrl: "/images/Obras/Obra-8.png", imageAlt: "Agua Moro Moro", captionText: "Entrega de agua potable en Moro Moro" },
+      { imageUrl: "/images/Obras/Obra-9.png", imageAlt: "Electricidad Montero", captionText: "Electricidad para Montero Hoyos" },
     ]
   ];
 
@@ -84,7 +86,7 @@ const ObrasEntregadas: React.FC = () => {
       <div className={styles.headerBar}>
         <div className={styles.headerContent}>
           <div className={styles.headerLogoContainer}>
-            <img className={styles.headerLogo} src="https://via.placeholder.com/46x46.png?text=Logo" alt="Logo" />
+            <img className={styles.headerLogo} src="/images/logo.png" alt="Logo" />
           </div>
           <div className={styles.headerSocialIcons}>
             <div className={styles.socialIconCircleSmall}><IconoFacebook /></div>
@@ -94,7 +96,7 @@ const ObrasEntregadas: React.FC = () => {
           </div>
         </div>
         <div className={styles.pageTitleBar}>
-          <div className={styles.backIconCircle}><IconoFlechaAtras/></div>
+          <div className={styles.backIconCircle} onClick={() => router.push('/')}><IconoFlechaAtras/></div>
           <span className={styles.pageTitle}>Obras entregadas</span>
         </div>
       </div>

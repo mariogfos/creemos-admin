@@ -186,13 +186,6 @@ const RenderForm = ({
       onSave={onSave}
     >
       <Input
-        label="Cédula de identidad"
-        name="ci"
-        value={formState.ci}
-        onChange={handleChange}
-        error={errors}
-      />
-      <Input
         label="Primer nombre"
         name="name"
         value={formState.name}
@@ -217,6 +210,37 @@ const RenderForm = ({
         label="Apellido materno"
         name="mother_last_name"
         value={formState.mother_last_name}
+        onChange={handleChange}
+        error={errors}
+      />
+      <Input
+        label="Fecha de nacimiento"
+        name="birth_date"
+        type="date"
+        value={formState.birth_date}
+        onChange={handleChange}
+        error={errors}
+      />
+      <Select
+        label="Tipo de Militante"
+        name="militant_type"
+        value={formState?.militant_type}
+        optionLabel="name"
+        optionValue="id"
+        options={[
+          {
+            id: "presidente_barrio",
+            name: "Presidente de Barrio",
+          },
+          {
+            id: "encargado_recinto",
+            name: "Encargado de Recinto",
+          },
+          {
+            id: "simpatizante",
+            name: "Simpatizante",
+          },
+        ]}
         onChange={handleChange}
         error={errors}
       />
@@ -274,23 +298,22 @@ const RenderForm = ({
             required={true}
             error={errors}
             value={formState?.phone}
-            // disabled={existCi}
             onChange={handleChange}
-            // onFocus={() => setFocusDisabled(true)}
-            // onBlur={() => {
-            //   _onExist("phone");
-            //   validate("phone");s
-            // }}
           />
         </div>
       </div>
-
+      <Input
+        label="Cédula de identidad"
+        name="ci"
+        value={formState.ci}
+        onChange={handleChange}
+        error={errors}
+      />
       <Input
         label="Correo electrónico"
         name="email"
         value={formState.email}
         onChange={handleChange}
-        // onBlur={onCheckEmail}
         error={errors}
       />
       <Input

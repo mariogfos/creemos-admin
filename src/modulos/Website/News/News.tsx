@@ -1,4 +1,6 @@
+"use client";
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './News.module.css';
 
 // --- Iconos SVG (Reutilizar/Definir como en las páginas anteriores) ---
@@ -74,6 +76,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
 
 
 const UltimasNoticias: React.FC = () => {
+  const router = useRouter();
   const noticiasRecientesPrincipal = {
     imageUrl: "https://via.placeholder.com/1003x592/60ad2b/ffffff?Text=Noticia+Principal",
     imageAlt: "Marcha cívica",
@@ -95,7 +98,7 @@ const UltimasNoticias: React.FC = () => {
       imageUrl: "https://via.placeholder.com/483x251/60ad2b/ffffff?Text=Encuentro+Creemos",
       imageAlt: "Encuentro Creemos",
       timeAgo: "Hace 1d",
-      title: "El encuentro “creemos” tuvo finalización esta tarde, agradecidos por la participación de todos.",
+      title: "El encuentro 'Creemos' tuvo finalización esta tarde, agradecidos por la participación de todos.",
       caption: "Cierre del encuentro en el plan 3000",
       titleColor: styles.textDeepBlue,
     },
@@ -116,7 +119,7 @@ const UltimasNoticias: React.FC = () => {
       <div className={styles.headerBar}>
         <div className={styles.headerContent}>
           <div className={styles.headerLogoContainer}>
-            <img className={styles.headerLogo} src="/images/Logo.png" alt="Logo" />
+            <img className={styles.headerLogo} src="/images/logo.png" alt="Logo" />
           </div>
           <div className={styles.headerSocialIcons}>
             <div className={styles.socialIconCircleSmall}><IconoFacebook /></div>
@@ -126,8 +129,8 @@ const UltimasNoticias: React.FC = () => {
           </div>
         </div>
         <div className={styles.pageTitleBar}>
-          <div className={styles.backIconCircle}><IconoFlechaAtras/></div>
-          <span className={styles.pageTitle}>Últimas noticias</span>
+          <div className={styles.backIconCircle} onClick={() => router.push('/')}><IconoFlechaAtras/></div>
+          <span className={styles.pageTitle}>Noticias</span>
         </div>
       </div>
 

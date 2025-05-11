@@ -132,6 +132,8 @@
     padding: 12px; /* p-3 */
     border-radius: 12px; /* rounded-xl */
     box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
   
   .navButtonOutline {
@@ -140,9 +142,17 @@
     border: 1px solid var(--white);
   }
   
+  .navButtonOutline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
   .navButtonSolid {
     composes: navButtonBase;
     background-color: var(--white);
+  }
+  
+  .navButtonSolid:hover {
+    background-color: rgba(255, 255, 255, 0.9);
   }
   
   .navButtonTextWhite {
