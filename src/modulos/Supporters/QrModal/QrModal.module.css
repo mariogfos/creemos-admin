@@ -1,0 +1,97 @@
+/* QrModal.module.css */
+.qrContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px; /* Espacio entre el QR, el texto y los botones */
+  }
+  
+  .qrCodeCanvas {
+    border: 1px solid #eee; /* Un borde sutil alrededor del QR */
+    border-radius: 8px;
+    padding: 10px; /* Un pequeño espacio interno si es necesario, aunque includeMargin=true ya ayuda */
+    background-color: #fff;
+  }
+  
+  .dataString {
+    margin-top: 0; /* Ajustado por el gap del .qrContainer */
+    font-size: 0.9rem;
+    color: #555;
+    word-break: break-all;
+    padding: 8px 12px;
+    border-radius: 4px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .actionsContainer {
+    margin-top: 0; /* Ajustado por el gap del .qrContainer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px; /* Espacio entre botones */
+    width: 100%;
+  }
+  
+  .actionButton {
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espacio para el icono y el texto */
+    line-height: 1.5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra sutil */
+  }
+  
+  .actionButton:hover {
+    transform: translateY(-1px); /* Ligero efecto al pasar el mouse */
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  }
+  
+  .actionButton:active {
+    transform: translateY(0px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  
+  /* Estilo para el botón de Descargar (primario) */
+  .downloadButton {
+    background-color: var(--cPrimary, #d24067); /* Usa tu variable de color primario o un default */
+    color: white;
+  }
+  
+  .downloadButton:hover {
+    background-color: var(--cPrimaryHover, #d24067c0); /* Un tono más oscuro para el hover */
+  }
+  
+  /* Estilo para el botón de Imprimir (secundario) */
+  .printButton {
+    background-color: var(--cSecondary, #6c757d); /* Usa tu variable de color secundario o un default */
+    color: white;
+  }
+  
+  .printButton:hover {
+    background-color: var(--cSecondaryHover, #545b62); /* Un tono más oscuro para el hover */
+  }
+  
+  /* Alternativa: Botón de Imprimir con estilo outline */
+  .printButtonOutline {
+    background-color: #fff;
+    color: var(--cPrimary, #007bff);
+    border: 1px solid var(--cPrimary, #007bff);
+  }
+  
+  .printButtonOutline:hover {
+    background-color: var(--cPrimaryLight, #e7f3ff); /* Un fondo muy claro de tu color primario */
+    color: var(--cPrimaryHover, #0056b3);
+  }
+  
+  /* Iconos (simples emojis como placeholder, puedes usar SVG o una librería de iconos) */
+  .buttonIcon {
+    font-size: 1.1em; /* Ajusta el tamaño del icono si es necesario */
+  }
