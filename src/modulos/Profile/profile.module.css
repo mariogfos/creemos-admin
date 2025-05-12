@@ -124,7 +124,7 @@
   gap: var(--spM);
   padding: var(--spM) var(--spS);
   border-radius: var(--bRadiusS);
-  color: var(--cBlack);
+  color: var(--cTextGray);
   transition: background-color 0.2s;
 }
 
