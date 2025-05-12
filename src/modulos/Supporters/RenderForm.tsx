@@ -1,5 +1,3 @@
-// RenderForm.tsx
-
 import Input from "@/mk/components/forms/Input/Input";
 import Select from "@/mk/components/forms/Select/Select";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
@@ -19,8 +17,6 @@ const RenderForm = ({
   reLoadExtra,
   reLoad,
   onSuccessWithQrData,
-  // errors: propErrors, // Descomentar si los usas
-  // setErrors: propSetErrors, // Descomentar si los usas
 }: any) => {
   const [formState, setFormStateLocal] = useState({ ...item });
   const [localErrors, setLocalErrors] = useState({});
@@ -28,15 +24,11 @@ const RenderForm = ({
   const { showToast } = useAuth();
 
   useEffect(() => {
-    // Sincroniza si el 'item' de useCrud cambia (por ejemplo, si se selecciona otro item para editar mientras el modal está abierto)
-    // Comparamos los IDs o una serialización para evitar bucles si 'item' es una nueva referencia pero mismos datos.
     if (item && item.id !== formState.id || JSON.stringify(item) !== JSON.stringify(formState)) {
         setFormStateLocal({ ...item });
-        // También puedes resetear los errores locales si el item cambia completamente
         setLocalErrors({});
     }
   }, [item]);
-
 
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
@@ -50,7 +42,6 @@ const RenderForm = ({
   const validate = () => {
     let currentErrors: any = {};
     currentErrors = checkRules({ value: formState.name, rules: ["required"], key: "name", errors: currentErrors });
-    // ... (tus otras validaciones) ...
     currentErrors = checkRules({ value: formState.middle_name, rules: [""], key: "middle_name", errors: currentErrors });
     currentErrors = checkRules({ value: formState.last_name, rules: ["required"], key: "last_name", errors: currentErrors });
     currentErrors = checkRules({ value: formState.mother_last_name, rules: [""], key: "mother_last_name", errors: currentErrors });
@@ -67,42 +58,29 @@ const RenderForm = ({
   const onSaveInternal = async () => {
     const currentLocalErrors = validate();
     if (hasErrors(currentLocalErrors)) {
-      console.log("RenderForm: Validación local falló", currentLocalErrors);
       return;
     }
 
-    // --- MODIFICACIÓN AQUÍ ---
-    // Crear una copia del estado del formulario para enviar, y eliminar _initItem
     const payload = { ...formState };
-    delete payload._initItem; // Elimina el campo _initItem del payload
-    // --- FIN DE LA MODIFICACIÓN ---
+    delete payload._initItem;
+    delete payload.rep_email;
 
-    console.log("RenderForm: Validación local exitosa. Enviando payload:", payload); // Log del payload
-    let method = payload.id ? "PUT" : "POST"; // Usar payload.id
+    let method = payload.id ? "PUT" : "POST";
     const { data: response } = await execute(
       "/supporters" + (payload.id ? "/" + payload.id : ""),
       method,
-      payload, // Enviar el payload modificado sin _initItem
+      payload,
       false
     );
-    console.log("RenderForm: Respuesta de API:", response);
 
     if (response?.success == true) {
       if (reLoad) reLoad();
       if (reLoadExtra) reLoadExtra();
-      // setItem actualiza el formState de useCrud.
-      // Si quieres que _initItem también se actualice en useCrud tras un guardado exitoso
-      // (para que la "base" para la próxima edición sea el estado recién guardado),
-      // podrías hacer: setItem({ ...payload, _initItem: { ...payload } });
-      // O simplemente: setItem(payload); si no necesitas _initItem en useCrud después de guardar.
-      // Por ahora, lo mantenemos simple:
       if (setItem) setItem(payload);
-
 
       showToast(response?.message || "Operación exitosa", "success");
       
       if (response.data && onSuccessWithQrData) {
-        console.log("RenderForm: Éxito con datos para QR. Llamando onSuccessWithQrData.", response.data);
         onSuccessWithQrData(response.data);
       }
       
@@ -111,7 +89,6 @@ const RenderForm = ({
       showToast(response?.message || "Error al guardar.", "error");
       if (response?.errors) {
         setLocalErrors(response.errors);
-        // if (propSetErrors) propSetErrors(response.errors);
       }
     }
   };
@@ -128,7 +105,6 @@ const RenderForm = ({
       title={!formState.id ? "Crear simpatizante" : "Editar simpatizante"}
       onSave={onSaveInternal}
     >
-      {/* Campos del formulario (sin cambios aquí) */}
       <Input label="Primer nombre" name="name" value={formState.name || ''} onChange={handleChange} error={localErrors} />
       <Input label="Segundo nombre" name="middle_name" value={formState.middle_name || ''} onChange={handleChange} error={localErrors} />
       <Input label="Apellido paterno" name="last_name" value={formState.last_name || ''} onChange={handleChange} error={localErrors} />
@@ -145,9 +121,9 @@ const RenderForm = ({
       <Select
         label="Tipo de Militante"
         name="militant_type"
-        value={formState?.militant_type || ''} // Asegurar que el value sea string si optionValue es string
+        value={formState?.militant_type || ''}
         optionLabel="name"
-        optionValue="id" // Asumiendo que id es el tipo correcto para el value
+        optionValue="id"
         options={extraData?.militanses || []}
         onChange={handleChange}
         error={localErrors}
