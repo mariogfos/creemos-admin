@@ -111,9 +111,9 @@ const RenderForm = ({
       <Input label="Apellido materno" name="mother_last_name" value={formState.mother_last_name || ''} onChange={handleChange} error={localErrors} />
       <Input 
         label="Fecha de nacimiento" 
-        name="birth_date" 
+        name="birthdate" 
         type="date" 
-        value={formState.birth_date || ''} 
+        value={formState.birthdate || ''} 
         onChange={handleChange} 
         error={localErrors}
         style={{ colorScheme: 'light' }}
