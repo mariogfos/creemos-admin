@@ -1,166 +1,277 @@
-.profile {
-  display: flex;
-  justify-content: center;
-
-  &>div:first-of-type {
-    width: 100%;
-    max-width: 1280px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spXl);
-
-    &>div:nth-child(1) {
-      background-color: var(--cBlackV1);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: var(--spXl);
-      border-radius: var(--bRadiusM);
-      padding-block: var(--spXl);
-      margin-inline: var(--spL);
-
-      &>div:nth-child(1) {
-        margin-left: var(--spL);
-      }
-
-      &>div:nth-child(3) {
-        &>p:nth-child(1) {
-          font-weight: var(--bBold);
-          font-size: var(--sXl);
-        }
-
-        &>p:nth-child(2) {
-          margin-top: var(--spXs);
-          color: var(--cWhiteV1);
-          font-weight: var(--bLight);
-          font-size: var(--sL);
-        }
-      }
-    }
-
-    &>div:nth-child(2) {
-      background-color: var(--cBlackV1);
-      display: flex;
-      flex-direction: column;
-      gap: var(--spL);
-      border-radius: var(--bRadiusM);
-      padding: var(--spXl);
-      margin-inline: var(--spL);
-
-      &>div:nth-child(1) {
-        display: flex;
-        justify-content: space-between;
-
-        &>h2 {
-          font-weight: var(--bRegular);
-          font-size: var(--sL);
-          color: var(--cWhite);
-        }
-
-        &>a {
-          text-decoration: underline;
-          color: var(--cAccent);
-          cursor: pointer;
-        }
-      }
-
-      &>div:nth-child(2) {
-        display: flex;
-        justify-content: space-between;
-        color: var(--cBlackV2);
-
-        &>p:nth-child(2) {
-          color: var(--cWhite);
-        }
-      }
-
-      &>div:nth-child(3) {
-        display: flex;
-        justify-content: space-between;
-        color: var(--cBlackV2);
-
-        &>p:nth-child(2) {
-          color: var(--cWhite);
-        }
-      }
-
-      &>div:nth-child(4) {
-        display: flex;
-        justify-content: space-between;
-        color: var(--cBlackV2);
-
-        &>p:nth-child(2) {
-          color: var(--cWhite);
-        }
-      }
-    }
-
-    &>div:nth-child(3) {
-      background-color: var(--cBlackV1);
-      display: flex;
-      flex-direction: column;
-      gap: var(--spL);
-      border-radius: var(--bRadiusM);
-      padding: var(--spXl);
-      margin-inline: var(--spL);
-
-      &>div:nth-child(1) {
-        display: flex;
-        justify-content: space-between;
-
-        &>h2 {
-          font-weight: var(--bRegular);
-          font-size: var(--sL);
-          color: var(--cWhite);
-        }
-      }
-
-      &>div:nth-child(2) {
-        display: flex;
-        align-items: center;
-        gap: var(--spM);
-        color: var(--cBlackV2);
-        border-bottom: 1px solid var(--cBlackV2);
-        padding-bottom: 4px;
-      }
-
-      &>div:nth-child(3) {
-        display: flex;
-        align-items: center;
-        gap: var(--spM);
-        color: var(--cBlackV2);
-        border-bottom: 1px solid var(--cBlackV2);
-        padding-bottom: 4px;
-      }
-    }
-
-    &>div:nth-child(4) {
-      display: flex;
-      justify-content: center;
-
-      &>p {
-        color: var(--cError);
-        border-bottom: 1px solid var(--cError);
-        cursor: pointer;
-      }
-
-    }
-  }
+.profilePage {
+  background-color: var(--cBackgroundLight);
+  padding: var(--spXl);
+  font-family: var(--fPrimary);
+  color: var(--cBlack);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.profileModal {
-  &>div:first-of-type {
-    &>div:first-of-type {
-      &>img:first-of-type {
-        opacity: 0.9;
-      }
-    }
+/* Cabecera del Perfil */
+.profileHeader {
+  background-color: var(--cWhite);
+  padding: var(--spXl);
+  border-radius: var(--bRadiusM);
+  display: flex;
+  align-items: center;
+  gap: var(--spXl);
+  margin-bottom: var(--spXl);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
 
-    &>label:first-of-type {
-      position: absolute;
-      margin-left: 10px;
-      margin-top: 6px;
-    }
+.avatarContainerPage .mainAvatar {
+  border-radius: 50%;
+}
+
+.userInfoPage h1 {
+  font-size: var(--sXl);
+  font-weight: var(--bBold);
+  margin: 0 0 var(--spS) 0;
+}
+
+.userInfoPage p {
+  font-size: var(--sM);
+  color: var(--cTextGray);
+  margin: 0;
+}
+
+/* Contenido Principal del Perfil (Tarjetas) */
+.profileContent {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spXl);
+}
+
+/* Estilos para las tarjetas de información y ajustes */
+.infoCard, .settingsCard {
+  background-color: var(--cWhite);
+  padding: var(--spXl);
+  border-radius: var(--bRadiusM);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--cTextLightGray);
+  padding-bottom: var(--spM);
+  margin-bottom: var(--spL);
+}
+
+.cardHeader h2 {
+  font-size: var(--sL);
+  font-weight: var(--bMedium);
+  margin: 0;
+}
+
+.editButton {
+  background-color: transparent;
+  color: var(--cPrimary);
+  border: 1px solid transparent;
+  padding: var(--spS) var(--spM);
+  border-radius: var(--bRadiusS);
+  cursor: pointer;
+  font-weight: var(--bMedium);
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spS);
+}
+
+.editButton:hover {
+  background-color: var(--cPrimary);
+  color: var(--cWhite);
+  border-color: var(--cPrimary);
+}
+
+.editButton svg {
+  margin-right: var(--spXs);
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--spM) var(--spL);
+}
+
+.infoGrid div {
+  display: contents;
+}
+
+.infoLabel {
+  font-weight: var(--bMedium);
+  color: var(--cTextGray);
+  padding: var(--spS) 0;
+}
+
+.infoGrid p {
+  margin: 0;
+  padding: var(--spS) 0;
+}
+
+/* Tarjeta de Ajustes */
+.settingsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.settingItem, .settingItemDisabled {
+  display: flex;
+  align-items: center;
+  gap: var(--spM);
+  padding: var(--spM) var(--spS);
+  border-radius: var(--bRadiusS);
+  color: var(--cBlack);
+  transition: background-color 0.2s;
+}
+
+.settingItem {
+  cursor: pointer;
+}
+
+.settingItem:hover {
+  background-color: var(--cHover);
+}
+
+.settingItemDisabled {
+  color: var(--cTextLightGray);
+  cursor: not-allowed;
+  background-color: transparent !important;
+}
+
+.settingItem svg {
+  color: var(--cPrimary);
+}
+
+.settingItem span {
+  font-size: var(--sM);
+}
+
+/* Sección de Cerrar Sesión */
+.logoutSection {
+  margin-top: var(--spXl);
+  background-color: var(--cWhite);
+  padding: var(--spXl);
+  border-radius: var(--bRadiusM);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  text-align: center;
+}
+
+.logoutButton {
+  background-color: transparent;
+  color: var(--cError);
+  border: 1px solid var(--cError);
+  padding: var(--spM) var(--spXl);
+  border-radius: var(--bRadiusM);
+  cursor: pointer;
+  font-weight: var(--bBold);
+  transition: background-color 0.2s, color 0.2s;
+  font-size: var(--sM);
+}
+
+.logoutButton:hover {
+  background-color: var(--cError);
+  color: var(--cWhite);
+}
+
+/* Estilos para el Modal de Edición */
+.profileModalForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spL); /* Espacio entre campos del formulario */
+}
+
+.modalAvatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spM);
+  margin-bottom: var(--spL);
+}
+
+.uploadButtonLabel {
+  display: inline-flex; /* Para que el label se ajuste al contenido */
+  align-items: center;
+  gap: var(--spS);
+  cursor: pointer;
+  color: var(--cAccent);
+  font-size: var(--sS);
+  padding: var(--spS) var(--spM);
+  border-radius: var(--bRadiusS);
+  border: 1px solid transparent;
+}
+.uploadButtonLabel:hover {
+  background-color: var(--cAccent);
+  color: var(--cWhite);
+}
+.uploadButtonLabel svg {
+  margin-right: var(--spXs);
+}
+
+/* Estilos para Campos de Formulario en el Modal */
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spXs);
+}
+
+.label {
+  font-size: var(--sS);
+  font-weight: var(--bMedium);
+  color: var(--cGrey);
+}
+
+.inputField {
+  padding: var(--spM);
+  border: 1px solid #ccc;
+  border-radius: var(--bRadiusS);
+  font-size: var(--sM);
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inputField:focus {
+  border-color: var(--cAccent);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2); /* Sombra de foco tipo Facebook */
+}
+
+.inputField.inputError, /* Clase para inputs con error */
+.inputField:has(+ .errorText:not(:empty)) { /* Si el texto de error tiene contenido */
+  border-color: var(--cError) !important;
+}
+.inputField.inputError:focus,
+.inputField:has(+ .errorText:not(:empty)):focus {
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2) !important;
+}
+
+.errorText {
+  color: var(--cError);
+  font-size: var(--sXs);
+  margin-top: var(--spXs);
+  min-height: 1em; /* Para evitar saltos de layout */
+}
+
+/* Texto en el modal de logout */
+.modalLogoutText {
+  font-size: var(--sM);
+  color: var(--cGrey);
+  text-align: center;
+  padding: var(--spM) 0;
+}
+
+/* Ocultar input[type=file] default */
+.hidden {
+  display: none;
+}
+
+/* Responsive: Si quieres que las tarjetas se pongan lado a lado en pantallas más grandes */
+@media (min-width: 768px) {
+  .profileContent {
+    /* Example: si quieres dos columnas para info y settings */
+    /* grid-template-columns: 2fr 1fr; */
   }
 }

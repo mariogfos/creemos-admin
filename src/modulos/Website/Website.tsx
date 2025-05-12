@@ -2,7 +2,9 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import styles from './Website.module.css';
+import SerParteForm from './components/SerParteForm/SerParteForm';
 
 // Iconos SVG como componentes React para mayor limpieza
 const IconoFlechaIzquierda = () => (
@@ -43,13 +45,11 @@ const IconoYouTube = () => (
     </svg>
 );
 
-
-const IconoChevronAbajo = () => (
+export const IconoChevronAbajo = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={styles.chevronSvgIcon}>
     <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
   </svg>
 );
-
 
 const Website: React.FC = () => {
   const router = useRouter();
@@ -82,7 +82,8 @@ const Website: React.FC = () => {
               <div className={styles.navMenuItems}>
                 <span className={styles.navLink} onClick={() => router.push('/')}>Inicio</span>
                 <span className={styles.navLink} onClick={() => router.push('/history')}>Historia</span>
-                <span className={styles.navLink} onClick={() => scrollToSection('autoridades')}>Autoridades</span>
+                <span className={styles.navLink} onClick={() => router.push('/obras')}>Obras</span>
+                <span className={styles.navLink} onClick={() => router.push('/carnet')}>Carnet Simpatizante</span>
               </div>
               <div className={styles.navButtons}>
                 <div className={styles.navButtonOutline} onClick={() => scrollToSection('ser-parte')}>
@@ -100,24 +101,24 @@ const Website: React.FC = () => {
 
       {/* Sección de Noticias/Obras/Plan */}
       <div className={styles.cardsSection}>
-        <div className={styles.card}>
+        <Link href="/news" className={styles.card}>
           <img className={styles.cardImage} src="/images/Noticia-1.png" alt="Últimas noticias" />
           <div className={styles.cardCaption}>
             <span className={styles.cardCaptionText}>Últimas noticias</span>
           </div>
-        </div>
-        <div className={styles.card}>
+        </Link>
+        <Link href="/obras" className={styles.card}>
           <img className={styles.cardImage} src="/images/Obra-1.png" alt="Obras entregadas" />
           <div className={styles.cardCaption}>
             <span className={styles.cardCaptionText}>Obras entregadas</span>
           </div>
-        </div>
-        <div className={styles.card}>
+        </Link>
+        <Link href="/plan-gobierno" className={styles.card}>
           <img className={styles.cardImage} src="/images/Plan-1.png" alt="Plan de gobierno" />
           <div className={styles.cardCaption}>
             <span className={styles.cardCaptionText}>Plan de gobierno</span>
           </div>
-        </div>
+        </Link>
       </div>
 
       {/* Sección Conviértete en Simpatizante */}
@@ -201,88 +202,12 @@ const Website: React.FC = () => {
           <span className={styles.textGrayNormal}>Queremos que sean parte activa de la construcción de nuestro futuro. Sus propuestas son el motor que impulsa nuestro cambio, y nos comprometemos a darles el espacio y el reconocimiento que merecen.</span>
         </div>
       </div>
+
       {/* Sección Sé parte del cambio (Formulario) */}
-      <div id="ser-parte" className={styles.formularioSection}>
-        <div className={styles.formularioContainer}>
-          <span className={styles.titleDark}>Sé parte del cambio</span>
-          <div className={styles.formularioBox}>
-            <div className={styles.formInputsContainer}>
-              <div className={styles.formRow}>
-                <div className={styles.formInputWrapper}>
-                  <span className={styles.formLabel}>Primer nombre</span>
-                </div>
-                <div className={styles.formInputWrapper}>
-                  <span className={styles.formLabel}>Segundo nombre</span>
-                </div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.formInputWrapper}>
-                  <span className={styles.formLabel}>Apellido paterno</span>
-                </div>
-                <div className={styles.formInputWrapper}>
-                  <span className={styles.formLabel}>Apellido materno</span>
-                </div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.formInputWrapper}>
-                  <span className={styles.formLabel}>Cedula de identidad</span>
-                </div>
-                <div className={styles.formInputWrapperWithIcon}>
-                  <div className={styles.formLabelMultiline}>Fecha de nacimiento</div>
-                  <div className={styles.formIcon}><IconoChevronAbajo/></div>
-                </div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.formInputWrapper}>
-                  <span className={styles.formLabel}>Correo electrónico</span>
-                </div>
-                <div className={styles.formInputWrapperNumero}>
-                  <div className={styles.formLabelMultilineSmall}>Número de whatsApp</div>
-                  <div className={styles.formNumeroContent}>
-                    <div className={styles.formPrefijo}>
-                      <span className={styles.formPrefijoText}>+591</span>
-                      <div className={styles.formIconSmall}><IconoChevronAbajo/></div>
-                    </div>
-                    <span className={styles.formNumeroSeparador}>|</span>
-                    <span className={styles.formNumeroText}>74837560</span>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.formInputWrapperWithIcon}>
-                  <div className={styles.formLabelMultiline}>Provincia</div>
-                  <div className={styles.formIcon}><IconoChevronAbajo/></div>
-                </div>
-                <div className={styles.formInputWrapperWithIcon}>
-                  <div className={styles.formLabelMultiline}>Municipio</div>
-                  <div className={styles.formIcon}><IconoChevronAbajo/></div>
-                </div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.formInputWrapperWithIcon}>
-                  <div className={styles.formLabelMultiline}>Distrito municipal</div>
-                  <div className={styles.formIcon}><IconoChevronAbajo/></div>
-                </div>
-                <div className={styles.formInputWrapperWithIcon}>
-                  <div className={styles.formLabelMultiline}>Localidad</div>
-                  <div className={styles.formIcon}><IconoChevronAbajo/></div>
-                </div>
-              </div>
-              <div className={styles.formRowFull}>
-                <div className={styles.formInputWrapperWithIcon}>
-                  <div className={styles.formLabelMultiline}>Recinto electoral</div>
-                  <div className={styles.formIcon}><IconoChevronAbajo/></div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.formularioButton}>
-              <span className={styles.navButtonTextWhite}>Registrarme</span>
-            </div>
-          </div>
-        </div>
-      </div>
-       {/* Sección Seguinos en las redes */}
-       <div className={styles.redesSection}>
+      <SerParteForm />
+
+      {/* Sección Seguinos en las redes */}
+      <div className={styles.redesSection}>
         <span className={styles.titleWhiteMedium}>Seguinos en las redes</span>
         <div className={styles.redesIconsContainer}>
             <div className={styles.socialIconCircleLarge}><IconoFacebook /></div>

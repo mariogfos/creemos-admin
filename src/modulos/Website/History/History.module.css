@@ -1,381 +1,330 @@
-/* Variables de color y reutilizables */
-:root {
-    --primary-color: #d24067;
-    --secondary-color: #000018;
-    --background-light: #f8f8f8;
-    --text-dark: #212121;
-    --text-gray: #828282;
-    --text-light-gray: #e9e9e9;
-    --white: #ffffff;
-    --border-color: #d24067;
-  }
-  
-  /* Estilos Generales */
-  .pageContainer {
-    width: 100%;
-     /* h-[3813px] */
-    background-color: var(--white);
-    margin: 0 auto;
-    overflow-x: hidden;
-  }
-  
-  /* Barra de Navegación Superior Simplificada */
-  .headerBar {
-    height: auto; /* o una altura fija si la necesitas, ej. 80px o basada en el contenido */
-    width: 100%;
-    background-color: var(--primary-color);
-    padding: 0 120px 16px 120px; /* Mantén tu padding. pageTitleBar se centrará dentro del área de contenido definida por este padding. */
-    display: flex;
-    align-items: center; /* Alinea verticalmente headerContent en la fila */
-    /* gap: 10px; */ /* Probablemente ya no sea necesario o no afecte a pageTitleBar */
-    box-sizing: border-box;
-    position: relative; /* <<< AÑADIDO: Necesario para el posicionamiento absoluto del hijo */
-  }
-  
-  .headerContent {
-    height: 80px; /* O la altura que necesites */
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    /* width: 100%; */ /* <<< ELIMINADO o COMENTADO: Para que no ocupe todo el ancho */
-    /* z-index: 1; */ /* Opcional: si pageTitleBar se superpusiera incorrectamente, aunque no debería ser necesario aquí */
-  }
-  .headerLogoContainer {
-    width: 53px;
-    height: 80px; /* h-20 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    padding: 9.02px 4.51px;
-    flex-shrink: 0;
-  }
-  
-  .headerLogo {
-    width: 45.83px;
-    height: 45.83px;
-    object-fit: cover;
-  }
-  
-  .headerMainArea {
-    /* w-[1419px] flex items-center gap-2 */
-    /* Este div contenía los iconos sociales en el HTML original. */
-    /* Lo muevo para que esté a la izquierda del título "Historia" como sugiere el diseño. */
-    display: flex;
-    align-items: center;
-    gap: 8px; /* gap-2 */
-    flex-grow: 1;
-    justify-content: flex-start; /* Alinea los iconos a la izquierda */
-  }
-  
-  .headerSocialIcons {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* gap-2 */
-  }
-  
-  .socialIconCircleSmall {
-    width: 32px; /* w-8 */
-    height: 32px; /* h-8 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    padding: 5.33px 10.67px;
-    border-radius: 16px; /* rounded-2xl */
-  }
-  
-  .socialSvgIcon { /* Reutilizado */
-    width: auto;
-    height: 20px;
-    color: var(--primary-color);
-  }
-  
-  .pageTitleBar {
-    display: flex;
-    /* align-items: start; */   /* Considera cambiar a 'center' */
-    align-items: center;     /* <<< CAMBIADO (opcional pero recomendado): para alinear verticalmente la flecha y el título */
-    justify-content: start; /* Mantiene la flecha a la izquierda del texto "Historia" dentro de este contenedor */
-    gap: 8px;
-    /* width: 100%; */      /* <<< ELIMINADO o COMENTADO */
-    /* margin-top: 10px; */ /* <<< ELIMINADO o COMENTADO */
-  
-    position: absolute;     /* <<< AÑADIDO */
-    left: 50%;              /* <<< AÑADIDO */
-    top: 50%;               /* <<< AÑADIDO */
-    transform: translate(-50%, -50%); /* <<< AÑADIDO */
-    /* z-index: 0; */ /* Opcional: Generalmente no necesario a menos que haya problemas de superposición complejos */
-  }
-  
-  
-  .backIconContainer {
-    /* w-6 h-6 flex justify-center items-center ... rounded-2xl */
-    width: 24px;
-    height: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* El div interno w-4 h-4 se omite, el icono SVG tomará el control */
-  }
-  .backIconCircle { /* Estilo similar a socialIconCircle pero sin padding específico */
-    width: 24px; /* w-6 */
-    height: 24px; /* h-6 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    border-radius: 16px; /* rounded-2xl */
-    cursor: pointer;
-  }
-  .svgIconSmall { /* Para la flecha atrás */
-    width: 16px; /* w-4 */
-    height: 16px; /* h-4 */
-    color: var(--primary-color);
-  }
-  
-  
-  .pageTitle {
-    font-weight: 600; /* font-semibold */
-    font-size: 32px;
-    color: var(--white);
-  }
-  
-  /* Imagen Principal Grande */
-  .mainImage {
-    width: 100%; /* w-[1728px] */
-    height: 952px; /* h-[952px] */
-    object-fit: cover;
-    display: block;
-  }
-  
-  /* Sección Línea de Tiempo */
-  .timelineSectionWrapper {
-      /* w-[1728px] flex flex-col items-center pb-10 */
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-bottom: 40px; /* pb-10 */
-      box-sizing: border-box;
-  }
-  
-  .timelineSectionContainer {
-    width: 100%; /* O un ancho máximo como 1488px si está dentro de un contenedor con padding */
-    max-width: 1488px; /* Coincidiendo con w-[1488px] de antes para los controles */
-    padding: 40px 20px; /* py-10 y un padding lateral general, ajustar px-[120px] si es el padding global */
-    margin: 0 auto; /* Centrar si tiene max-width */
-    box-sizing: border-box;
-    background-color: #ffffff; /* Fondo blanco como en la imagen */
-    /* La altura h-[860px] podría ser para este contenedor o el .timelineContent */
-    /* min-height: 700px; */ /* Ejemplo de altura si se quiere mantener un espacio grande */
-  }
-  
-  .timelineTitle {
-    font-size: 28px; /* Ajustar tamaño según la imagen, parece un poco más pequeño que 32px */
-    font-weight: 600; /* font-semibold o bold */
-    color: var(--text-dark);
-    margin-bottom: 30px; /* Espacio debajo del título */
-    padding-left: 100px; /* Estimación del padding izquierdo del título según la imagen */
-  }
-  
-  .timelineContent {
-    display: flex;
-    gap: 40px; /* Espacio entre imagen y texto */
-    align-items: flex-start; /* Alinea los items al inicio si tienen alturas diferentes */
-    padding: 0 100px; /* Estimación del padding lateral del contenido */
-    /* Si el contenedor .timelineSectionContainer tiene altura fija, este podría necesitar flex-grow:1 */
-  }
-  
-  .timelineImageWrapper {
-    flex: 1.5; /* Darle más espacio a la imagen, ajustar proporción */
-    /* max-width: 60%; */ /* Otra forma de controlar el ancho */
-  }
-  
-  .timelineImage {
-    width: 100%;
-    height: auto; /* Mantiene la proporción de la imagen */
-    max-height: 450px; /* Altura máxima para evitar que sea demasiado grande */
-    object-fit: contain; /* O 'cover' dependiendo de cómo quieras que se ajuste */
-    display: block;
-    border: 1px solid #f0f0f0; /* Borde sutil si la imagen no tiene uno */
-  }
-  
-  .timelineTextWrapper {
-    flex: 1; /* Espacio para el texto */
-    /* max-width: 40%; */
-    padding-top: 10px; /* Pequeño ajuste para alinear visualmente con la imagen si es necesario */
-  }
-  
-  .timelineTextContent {
-    font-size: 16px; /* Tamaño de fuente para el párrafo */
-    line-height: 1.7;
-    color: var(--text-gray); /* Color del texto del párrafo */
-    white-space: pre-line; /* Para respetar los saltos de línea en el texto */
-    margin: 0; /* Resetear margen por defecto del párrafo */
-  }
-  
-  .timelineNavigation {
-    display: flex;
-    justify-content: flex-end; /* Alinea las flechas a la derecha */
-    gap: 10px; /* Espacio entre las flechas */
-    margin-top: 30px; /* Espacio encima de las flechas */
-    padding-right: 100px; /* Estimación del padding derecho para alinear con el contenido */
-  }
-  
-  .navArrowCircle { /* Reutilizado */
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    border-radius: 26.67px;
-    border: 0.83px solid var(--border-color);
-    cursor: pointer;
-  }
-  .navArrowSvgIcon { /* Para los iconos de flecha */
-    width: 20px;
-    height: 20px;
-    color: var(--primary-color);
-  }
-  
-  
-  /* Sección "El secuestro" */
-  .secuestroSection {
-    /* w-[1728px] flex flex-col justify-center gap-10 bg-[#f8f8f8] px-[120px] py-10 */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 40px; /* gap-10 */
-    background-color: var(--background-light);
-    padding: 40px 120px; /* py-10 px-[120px] */
-    box-sizing: border-box;
-  }
-  
-  .secuestroContentRow, .secuestroContentRowReverse {
-    /* flex items-center gap-14 self-stretch */
-    /* flex gap-14 self-stretch */
-    display: flex;
-    align-items: flex-start; /* Alineado al inicio para textos largos */
-    gap: 56px; /* gap-14 */
-    align-self: stretch;
-  }
-  .secuestroContentRowReverse {
-      flex-direction: row-reverse; /* Para la segunda fila */
-  }
-  
-  
-  .secuestroTextColumn {
-    /* w-[718px] flex flex-col gap-3 */
-    width: 718px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px; /* gap-3 */
-    flex-shrink: 0; /* Para que no se encoja si el texto es corto */
-  }
-  
-  .sectionTitleDarkLarge {
-    font-weight: 700; /* font-bold */
-    font-size: 32px;
-    color: var(--text-dark);
-  }
-  
-  .textGrayNormal {
-    font-weight: 400; /* font-normal */
-    font-size: 24px;
-    color: var(--text-gray);
-    line-height: 1.6; /* Mejorar legibilidad de párrafos largos */
-    white-space: pre-line; /* Para respetar los saltos de línea del placeholderText */
-  }
-  
-  .fullWidthText {
-      flex-grow: 1; /* Para que ocupe el espacio restante en la fila */
-      width: auto; /* Ancho automático basado en flex-grow */
-  }
-  
-  .secuestroImageLarge {
-    width: 714px; /* w-[714px] */
-    height: 526px; /* h-[526px] */
-    object-fit: cover;
-    display: block;
-  }
-  
-  .secuestroImageMedium {
-      width: 714px; /* w-[714px] */
-      /* La altura no está especificada, se ajustará o puedes fijarla */
-      height: auto; /* O una altura específica como 400px si es consistente */
-      max-height: 450px; /* Ejemplo de altura máxima */
-      object-fit: cover;
-      display: block;
-  }
-  
-  
-  /* Sección con Imagen y Texto (similar a Tu Voz al Poder) */
-  .imageTextSection {
-    /* w-[1728px] h-[489px] flex justify-center items-center gap-[60px] bg-[#f8f8f8] px-[120px] py-10 */
-    width: 100%;
-    min-height: 489px; /* h-[489px] */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 60px;
-    background-color: var(--background-light); /* Mismo fondo que "El secuestro" */
-    padding: 40px 120px; /* py-10 px-[120px] */
-    box-sizing: border-box;
-    /* Si esta sección es distinta y tiene fondo blanco, cambia el background-color */
-  }
-  
-  .imageTextSectionImage {
-    width: 721px; /* w-[721px] */
-    height: 404px; /* h-[404px] */
-    border: none;
-    display: block;
-    flex-shrink: 0;
-    border-radius: 8px; /* Optional: adds rounded corners to the video */
-  }
-  .imageTextSectionText {
-      /* El span estaba directamente como hijo del flex container */
-      /* Para controlar su ancho, se puede dar un width o flex-basis */
-      flex-basis: 50%; /* Ejemplo, ajusta según el diseño */
-      max-width: 600px; /* Ejemplo de ancho máximo */
-  }
-  
-  
-  /* Sección Seguinos en las redes (Reutilizada de la vez anterior) */
-  .redesSection {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    background-color: var(--secondary-color);
-    padding: 40px 120px;
-    box-sizing: border-box;
-  }
-  
-  .titleWhiteMedium {
-    font-weight: 700;
-    font-size: 32px;
-    text-align: center;
-    color: var(--white);
-  }
-  
-  .redesIconsContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    align-self: stretch;
-  }
-  
-  .socialIconCircleLarge { /* Reutilizado */
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    border-radius: 20px;
-  }
-  /* .socialSvgIcon ya definido */
+/* Estilos Generales */
+.pageContainer {
+  width: 100%;
+  background-color: var(--cWhite);
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+/* Barra de Navegación Superior Simplificada */
+.headerBar {
+  height: auto;
+  width: 100%;
+  background-color: var(--cPrimary);
+  padding: 0 120px 16px 120px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.headerContent {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.headerLogoContainer {
+  width: 53px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  padding: 9.02px 4.51px;
+  flex-shrink: 0;
+}
+
+.headerLogo {
+  width: 45.83px;
+  height: 45.83px;
+  object-fit: cover;
+}
+
+.headerMainArea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
+  justify-content: flex-start;
+}
+
+.headerSocialIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.socialIconCircleSmall {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  padding: 5.33px 10.67px;
+  border-radius: 16px;
+}
+
+.socialSvgIcon {
+  width: auto;
+  height: 20px;
+  color: var(--cPrimary);
+}
+
+.pageTitleBar {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.backIconContainer {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backIconCircle {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.svgIconSmall {
+  width: 16px;
+  height: 16px;
+  color: var(--cPrimary);
+}
+
+.pageTitle {
+  font-weight: 600;
+  font-size: 32px;
+  color: var(--cWhite);
+}
+
+/* Imagen Principal Grande */
+.mainImage {
+  width: 100%;
+  height: 952px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Sección Línea de Tiempo */
+.timelineSectionWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+  box-sizing: border-box;
+}
+
+.timelineSectionContainer {
+  width: 100%;
+  max-width: 1488px;
+  padding: 40px 20px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background-color: var(--cWhite);
+}
+
+.timelineTitle {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--cTextDark);
+  margin-bottom: 30px;
+  padding-left: 100px;
+}
+
+.timelineContent {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  padding: 0 100px;
+}
+
+.timelineImageWrapper {
+  flex: 1.5;
+}
+
+.timelineImage {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  object-fit: contain;
+  display: block;
+  border: 1px solid var(--cTextLightGray);
+}
+
+.timelineTextWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.timelineTextContent {
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--cTextGray);
+  line-height: 1.5;
+}
+
+.timelineNavigation {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.navArrowCircle {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 20px;
+  cursor: pointer;
+  border: 1px solid var(--cPrimary);
+}
+
+.navArrowSvgIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--cPrimary);
+}
+
+/* Sección Secuestro */
+.secuestroSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 40px 120px;
+  box-sizing: border-box;
+  background-color: var(--cBackgroundLight);
+}
+
+.secuestroContentRow, .secuestroContentRowReverse {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.secuestroContentRowReverse {
+  flex-direction: row-reverse;
+}
+
+.secuestroTextColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionTitleDarkLarge {
+  font-weight: 600;
+  font-size: 32px;
+  color: var(--cTextDark);
+}
+
+.textGrayNormal {
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--cTextGray);
+  line-height: 1.5;
+}
+
+.fullWidthText {
+  width: 100%;
+}
+
+.secuestroImageLarge {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.secuestroImageMedium {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* Sección Imagen y Texto */
+.imageTextSection {
+  width: 100%;
+  display: flex;
+  gap: 40px;
+  padding: 40px 120px;
+  box-sizing: border-box;
+  background-color: var(--cWhite);
+}
+
+.imageTextSectionImage {
+  flex: 1;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.imageTextSectionText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Sección Redes */
+.redesSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background-color: var(--cSecondary);
+  padding: 40px 120px;
+  box-sizing: border-box;
+}
+
+.titleWhiteMedium {
+  font-weight: 700;
+  font-size: 32px;
+  text-align: center;
+  color: var(--cWhite);
+}
+
+.redesIconsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.socialIconCircleLarge {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 20px;
+}

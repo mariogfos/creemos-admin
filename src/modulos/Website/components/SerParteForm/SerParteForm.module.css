@@ -1,0 +1,243 @@
+/* SerParteForm.module.css */
+.formularioSection {
+  width: 100%;
+  padding: 60px 20px; /* Ajustado un poco el padding vertical */
+  background-color: var(--cWhite, #f0f2f5); /* Un color de fondo para la sección si es necesario */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formularioContainer {
+  max-width: 800px; /* Ajustado al ancho del formularioBox del figma */
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px; /* Espacio entre título y caja del formulario */
+}
+
+.titleDark {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--cBlack, #333);
+  text-align: center;
+}
+
+/* --- Estilos basados en el diseño de Figma --- */
+
+.formOuterBox { /* Corresponde al div principal del Figma */
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* gap-6 */
+  align-self: stretch;
+  background-color: #ffffff;
+  padding: 24px; /* p-6 */
+  border-radius: 24px; /* rounded-3xl */
+  border: 0.5px solid #d24067;
+  width: 100%;
+}
+
+.formFieldsGrid { /* Corresponde a <div class="flex flex-col gap-4 self-stretch"> */
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* gap-4 */
+  align-self: stretch;
+}
+
+.formFieldsGroup { /* Corresponde a <div class="flex flex-col gap-3 self-stretch"> */
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* gap-3 */
+  align-self: stretch;
+}
+
+.fieldRow {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* gap-3 */
+  align-self: stretch;
+}
+
+.fieldControl { /* Contenedor para cada "input" */
+  display: flex;
+  flex-direction: column; /* Para permitir etiquetas arriba si es necesario */
+  justify-content: center;
+  flex-grow: 1;
+  height: 48px; /* h-12 */
+  background-color: #f8f8f8;
+  padding: 8px 12px; /* px-3 py-2 */
+  border-radius: 8px; /* rounded-lg */
+  position: relative; /* Para posicionar iconos o etiquetas flotantes */
+}
+
+.fieldControl input[type="text"],
+.fieldControl input[type="email"],
+.fieldControl input[type="tel"],
+.fieldControl input[type="date"],
+.fieldControl select { /* Estilo base para inputs y selects */
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent; /* El fondo lo da el .fieldControl */
+  font-size: 16px;
+  color: #333; /* Color del texto ingresado */
+  outline: none;
+}
+
+.fieldControl input::placeholder,
+.fieldControl select {
+  color: #a7a7a7; /* text-[#a7a7a7] */
+  font-size: 16px; /* text-[16px] */
+  font-weight: 400; /* font-normal */
+}
+/* Para inputs tipo select, el color del texto seleccionado */
+.fieldControl select:not(:-moz-placeholder-shown) { color: #333; } /* Firefox */
+.fieldControl select:not(:-ms-input-placeholder) { color: #333; } /* Internet Explorer 10-11 */
+.fieldControl select:not(:placeholder-shown) { color: #333; } /* Otros navegadores */
+
+
+/* Para inputs que simulan ser selects y necesitan un icono */
+.fieldControlWithIcon {
+  display: flex;
+  align-items: center; /* Alinea el input/texto y el icono */
+  gap: 8px; /* gap-2 */
+  /* Hereda otros estilos de .fieldControl a través de la estructura JSX */
+}
+
+.fieldControlWithIcon input,
+.fieldControlWithIcon select {
+  flex-grow: 1; /* El input/select toma el espacio disponible */
+}
+.fieldControlWithIcon .iconWrapper {
+  width: 20px; /* w-5 */
+  height: 20px; /* h-5 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a7a7a7; /* text-[#a7a7a7] for icon */
+}
+.fieldControlWithIcon .iconWrapper svg {
+  width: 14.5px;
+  height: 8.4px; /* Tamaños del SVG del Figma */
+}
+
+
+/* Específico para el campo de Fecha de Nacimiento (si la etiqueta va arriba) */
+.fieldLabelTop {
+  font-size: 14px; /* text-[14px] */
+  color: #a7a7a7; /* text-[#a7a7a7] */
+  font-weight: 400;
+  margin-bottom: 2px; /* gap-0.5 (simulado) */
+}
+.fieldControl input[type="date"] {
+  color: #a7a7a7; /* Para que el texto "aaaa/mm/dd" sea gris */
+  font-size: 16px;
+}
+.fieldControl input[type="date"]:focus,
+.fieldControl input[type="date"]:valid {
+  color: #333; /* Color cuando hay una fecha seleccionada o está en foco */
+}
+
+
+/* Específico para el campo Número de WhatsApp */
+.phoneField {
+  /* hereda de .fieldControl */
+}
+.phoneLabelTop { /* <span class="font-normal text-[12px] text-[#a7a7a7]">Número de whatsApp</span> */
+  font-size: 12px;
+  font-weight: 400;
+  color: #a7a7a7;
+  margin-bottom: 2px; /* gap-0.5 (simulado) */
+}
+.phoneInputRow { /* <div class="flex items-center gap-[5px]"> */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 100%; /* Para que ocupe la altura del .fieldControl */
+}
+.phonePrefix { /* <div class="flex items-center gap-1"> */
+  display: flex;
+  align-items: center;
+  gap: 4px; /* gap-1 */
+  cursor: pointer; /* Para indicar que es clickeable si tienes un selector de prefijo */
+}
+.phonePrefixText { /* <span class="font-normal text-[14px] text-[#828282]">+591</span> */
+  font-size: 14px;
+  font-weight: 400;
+  color: #828282;
+}
+.phonePrefix .iconWrapper { /* <div class="w-4 h-4"> */
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #828282;
+}
+.phonePrefix .iconWrapper svg {
+  width: 11.6px;
+  height: 6.7px;
+}
+.phoneSeparator { /* <span class="font-normal text-[14px] text-[#828282]">|</span> */
+  font-size: 14px;
+  font-weight: 400;
+  color: #828282;
+  margin: 0 4px; /* gap-2 (dividido) */
+}
+.phoneNumberInput { /* Para el input del número de teléfono */
+  flex-grow: 1;
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  color: #828282; /* Color del número ingresado o placeholder */
+  outline: none;
+  height: auto; /* Reset height */
+  padding: 0; /* Reset padding */
+}
+.phoneNumberInput::placeholder {
+  color: #828282; /* text-[#828282] */
+}
+
+/* Botón de envío */
+.submitButtonWrapper { /* Contenedor para centrar el botón si es necesario */
+  display: flex;
+  justify-content: flex-start; /* O center, según el diseño final */
+}
+
+.submitButton { /* <div class="w-[168px] h-12 flex justify-center items-center gap-2.5 bg-[#d24067] p-3 rounded-xl"> */
+  width: auto; /* Hacemos que el padding defina el ancho, o un min-width */
+  min-width: 168px;
+  height: 48px; /* h-12 */
+  display: inline-flex; /* Para que se ajuste al contenido pero permita flex props */
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* gap-2.5 */
+  background-color: #d24067;
+  padding: 12px 24px; /* p-3 es 12px, ajustamos para mejor apariencia */
+  border-radius: 12px; /* rounded-xl */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.submitButton:hover {
+  background-color: #b93256; /* Un tono más oscuro de #d24067 */
+}
+
+.submitButtonText { /* <span class="font-medium text-[20px] text-center text-white">Registrarme</span> */
+  font-size: 20px;
+  font-weight: 500; /* font-medium */
+  color: #ffffff;
+  text-align: center;
+}
+
+/* Para campos que ocupan toda la fila (como Recinto Electoral) */
+.fieldRowFull {
+  display: flex;
+  width: 100%;
+}
+.fieldRowFull > .fieldControl,
+.fieldRowFull > .fieldControlWithIcon {
+  width: 100%; /* Asegura que ocupe todo el espacio */
+}

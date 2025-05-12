@@ -1,0 +1,254 @@
+/* Estilos Generales */
+.pageContainer {
+  width: 100%;
+  background-color: var(--cWhite);
+  margin: 0 auto;
+  overflow-x: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Barra de Navegación */
+.headerBar {
+    height: auto;
+    width: 100%;
+    background-color: var(--cPrimary);
+    padding: 0 120px 16px 120px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  .headerContent {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+.headerLogoContainer {
+  width: 53px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  padding: 9px 4.5px;
+}
+
+.headerLogo {
+  width: 45.83px;
+  height: 45.83px;
+  object-fit: cover;
+}
+
+.headerMainArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.headerSocialIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.socialIconCircleSmall {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 20px;
+}
+
+.socialSvgIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--cPrimary);
+}
+
+
+.pageTitleBar {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+.backIconContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.backIconCircle {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.svgIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--cPrimary);
+}
+
+.pageTitle {
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--cWhite);
+}
+
+/* Contenido Principal */
+.mainContent {
+  width: 100%;
+  padding: 40px 120px;
+  box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Formulario */
+.formContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: var(--cWhite);
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.carnetImage {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formLabel {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--cPrimary);
+}
+
+.formInput {
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--cPrimary);
+  border-radius: 8px;
+  font-size: 16px;
+  color: var(--cPrimary);
+  background-color: var(--cWhite);
+  transition: all 0.3s ease;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--cSecondary);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.formInput::placeholder {
+  color: var(--cGray);
+}
+
+.submitButton {
+  height: 48px;
+  background-color: var(--cPrimary);
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--cWhite);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: var(--cSecondary);
+}
+
+.submitButton:disabled {
+  background-color: var(--cGray);
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  color: #dc2626;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Sección Seguinos en las redes */
+.redesSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background-color: var(--cSecondary);
+  padding: 40px 120px;
+  box-sizing: border-box;
+  margin-top: auto;
+}
+
+.titleWhiteMedium {
+  font-weight: 700;
+  font-size: 32px;
+  text-align: center;
+  color: var(--cWhite);
+}
+
+.redesIconsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.socialIconCircleLarge {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 20px;
+}

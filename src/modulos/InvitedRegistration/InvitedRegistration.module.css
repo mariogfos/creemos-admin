@@ -1,0 +1,157 @@
+/* Estilos Generales */
+.pageContainer {
+    width: 100%;
+    background-color: var(--cWhite);
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
+  
+  /* Barra de Navegación */
+  .headerBar {
+      height: auto;
+      width: 100%;
+      background-color: var(--cPrimary);
+      padding: 0 120px 16px 120px;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      position: relative;
+    }
+    
+    .headerContent {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+  
+  .headerLogoContainer {
+    width: 53px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cWhite);
+    padding: 9px 4.5px;
+  }
+  
+  .headerLogo {
+    width: 45.83px;
+    height: 45.83px;
+    object-fit: cover;
+  }
+  
+  .headerMainArea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+  }
+  
+  .headerSocialIcons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .socialIconCircleSmall {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cWhite);
+    border-radius: 20px;
+  }
+  
+  .socialSvgIcon {
+    width: 24px;
+    height: 24px;
+    color: var(--cPrimary);
+  }
+  
+  
+  .pageTitleBar {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      gap: 8px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  
+  .backIconContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .backIconCircle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cWhite);
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  .svgIcon {
+    width: 24px;
+    height: 24px;
+    color: var(--cPrimary);
+  }
+  
+  .pageTitle {
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--cWhite);
+  }
+  
+  /* Contenido Principal */
+  .mainContent {
+    width: 100%;
+    padding: 40px 120px;
+    box-sizing: border-box;
+  }
+  
+  /* Sección Seguinos en las redes */
+  .redesSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--cSecondary);
+    padding: 40px 120px;
+    box-sizing: border-box;
+  }
+  
+  .titleWhiteMedium {
+    font-weight: 700;
+    font-size: 32px;
+    text-align: center;
+    color: var(--cWhite);
+  }
+  
+  .redesIconsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    align-self: stretch;
+  }
+  
+  .socialIconCircleLarge {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cWhite);
+    border-radius: 20px;
+  }
+  

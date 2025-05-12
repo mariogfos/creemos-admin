@@ -1,335 +1,314 @@
-/* Variables de color y reutilizables */
-:root {
-    --primary-color: #d24067;
-    --secondary-color: #000018; /* bg-[#000018] */
-    --background-light: #f8f8f8; /* bg-[#f8f8f8] para sección Pasadas */
-    --image-placeholder-bg: #60ad2b; /* bg-[#60ad2b] */
-    --text-dark: #212121;
-    --text-gray: #828282;
-    --text-deep-blue: #000018; /* para algunos títulos de noticias */
-    --white: #ffffff;
-  }
-  
-  /* Estilos Generales */
-  .pageContainer {
-    width: 100%;
-    /* min-height: 1718px; */ /* h-[1718px] -> La altura se manejará por contenido */
-    background-color: var(--white);
-    margin: 0 auto;
-    overflow-x: hidden;
-  }
-  
-  /* --- Cabecera (Similar a History.style.module.css) --- */
-  .headerBar {
-    height: auto;
-    width: 100%;
-    background-color: var(--primary-color);
-    padding: 0 120px 16px 120px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    box-sizing: border-box;
-  }
-  
-  .headerContent {
-    height: 80px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  
-  .headerLogoContainer {
-    width: 53px;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    padding: 9.02px 4.51px;
-    flex-shrink: 0;
-  }
-  
-  .headerLogo {
-    width: 45.83px;
-    height: 45.83px;
-    object-fit: cover;
-  }
-  
-  .headerSocialIcons {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-grow: 1;
-    justify-content: flex-start;
-  }
-  
-  .socialIconCircleSmall {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    border-radius: 16px;
-  }
-  
-  .socialSvgIcon {
-    width: auto;
-    height: 20px;
-    color: var(--primary-color);
-  }
-  
-  .svgIconSmall { /* Para flecha atrás */
-    width: 16px;
-    height: 16px;
-    color: var(--primary-color);
-  }
-  
-  .pageTitleBar {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    gap: 8px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  .backIconCircle {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    border-radius: 16px;
-    cursor: pointer;
-  }
-  
-  .pageTitle {
-    font-weight: 600; /* font-semibold */
-    font-size: 32px;
-    color: var(--white);
-  }
-  /* --- Fin Cabecera --- */
-  
-  
-  /* --- Sección Seguinos en las redes (Reutilizada) --- */
-  .redesSection {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px; /* gap-4 */
-    background-color: var(--secondary-color); /* bg-[#000018] */
-    padding: 40px 120px; /* py-10 px-[120px] */
-    box-sizing: border-box;
-  }
-  
-  .titleWhiteMedium {
-    font-weight: 700; /* font-bold */
-    font-size: 32px;
-    text-align: center;
-    color: var(--white);
-  }
-  
-  .redesIconsContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px; /* gap-3 */
-    align-self: stretch;
-  }
-  
-  .socialIconCircleLarge {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    border-radius: 20px;
-  }
-  /* --- Fin Sección Seguinos en las redes --- */
-  
-  /* --- Estilos Comunes para Secciones de Noticias --- */
-  .newsSection, .newsSectionPasadas {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px; /* gap-4 */
-    padding: 40px 120px; /* py-10 px-[120px] */
-    box-sizing: border-box;
-  }
-  .newsSectionPasadas {
-    background-color: var(--background-light); /* bg-[#f8f8f8] */
-  }
-  
-  .sectionTitle {
-    font-weight: 600; /* font-semibold */
-    font-size: 32px;
-    color: var(--text-dark);
-  }
-  
-  /* --- Estilos para Tarjeta de Noticia Base --- */
-  .newsCardBase {
-    display: flex;
-    flex-direction: column;
-    background-color: var(--white);
-    border-radius: 16px; /* rounded-2xl */
-    overflow: hidden; /* Para que bordes redondeados afecten a la imagen */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Sombra sutil */
-  }
-  
-  .newsCardImageContainer {
-    align-self: stretch; /* self-stretch */
-    background-color: var(--image-placeholder-bg); /* bg-[#60ad2b] o color de placeholder */
-    border-top-left-radius: 16px; /* Para que el contenedor tenga bordes si la imagen no carga */
-    border-top-right-radius: 16px;
-    overflow: hidden; /* Asegura que la imagen no se desborde del radio */
-    display: flex; /* Para centrar la imagen si es más pequeña, aunque object-fit lo maneja */
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .newsCardImage {
-    width: 100%;
-    height: 100%; /* La altura del contenedor definirá la altura de la imagen */
-    object-fit: cover;
-  }
-  
-  .newsCardContent {
-    display: flex;
-    flex-direction: column;
-    gap: 8px; /* gap-2 */
-    align-self: stretch;
-    padding: 12px; /* p-3 o p-2 */
-    box-sizing: border-box;
-  }
-  
-  .newsCardTextMain {
-    display: flex;
-    flex-direction: column;
-    gap: 4px; /* gap-1 */
-    align-self: stretch;
-  }
-  
-  .newsTimeAgo {
-    font-weight: 400; /* font-normal */
-    font-size: 16px; /* [16px] o [14px] para pasadas */
-    color: var(--text-gray);
-  }
-  
-  .newsTitle {
-    font-weight: 600; /* font-semibold */
-    font-size: 32px; /* [32px] o [16px] para pasadas */
-    /* color manejado por props */
-    line-height: 1.2;
-  }
-  .textDark {
-    color: var(--text-dark);
-  }
-  .textDeepBlue {
-    color: var(--text-deep-blue);
-  }
-  
-  
-  .newsCaption {
-    font-weight: 400; /* font-normal */
-    font-size: 16px; /* [16px] o [14px] para pasadas */
-    color: var(--text-gray);
-  }
-  
-  
-  /* --- Sección Recientes --- */
-  .recientesContent {
-    display: flex;
-    gap: 16px; /* gap-4 */
-    align-self: stretch; /* self-stretch */
-    align-items: flex-start; /* Para alinear la columna derecha con la parte superior de la tarjeta principal */
-  }
-  
-  .recientesPrincipalCard {
-    /* h-[818px] w-[1003px] */
-    width: 1003px;
-    /* La altura total es 818px, la imagen 592px, el resto es contenido */
-    min-height: 818px; /* Asegura que la tarjeta tenga al menos esta altura */
-    flex-shrink: 0; /* Para que no se encoja */
-  }
-  .recientesPrincipalCard .newsTitle {
-    font-size: 32px;
-  }
-  .recientesPrincipalCard .newsTimeAgo,
-  .recientesPrincipalCard .newsCaption {
-    font-size: 16px;
-  }
-  
-  
-  .recientesSecundariasColumna {
-    /* w-[469px] flex flex-col gap-4 */
-    width: 469px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px; /* gap-4 entre las dos tarjetas secundarias */
-    flex-shrink: 0;
-  }
-  .recientesSecundariasColumna .newsCardBase {
-    /* h-[401px] */
-    min-height: 401px;
-  }
-  .recientesSecundariasColumna .newsTitle {
-    font-size: 32px; /* En el HTML es 32px, aunque visualmente podría ser menor para estas tarjetas */
-  }
-  .recientesSecundariasColumna .newsTimeAgo,
-  .recientesSecundariasColumna .newsCaption {
-    font-size: 16px;
-  }
-  
-  
-  /* --- Sección Pasadas --- */
-  .pasadasContent {
-    /* w-[1488px] flex items-center gap-4 */
-    display: flex;
-    gap: 16px; /* gap-4 */
-    flex-wrap: wrap; /* Para que las tarjetas pasen a la siguiente línea si no caben */
-    justify-content: flex-start; /* Alinea las tarjetas al inicio */
-  }
-  
-  .pasadaCard {
-    width: 350px; /* w-[350px] */
-    /* La altura total se determina por el contenido */
-    /* min-height: 300px;  Ejemplo si se necesita una altura mínima */
-  }
-  /* Ajuste de tamaño de fuente para tarjetas "Pasadas" */
-  .pasadaCard .newsTimeAgo,
-  .pasadaCard .newsCaption {
-    font-size: 14px;
-  }
-  .pasadaCard .newsTitle {
-    font-size: 16px;
-  }
-  .pasadaCard .newsCardContent {
-    padding: 8px; /* p-2 */
-  }
-  
-  
-  /* --- Imágenes Decorativas del Final --- */
-  .decorativeImagesContainer {
-    display: flex;
-    justify-content: space-between; /* O 'center' o 'flex-start' dependiendo de la intención */
-    padding: 20px 120px; /* Espaciado alrededor */
-    gap: 20px; /* Espacio entre ellas si están juntas */
-    /* Estas imágenes están al final del todo. Su posicionamiento puede necesitar ajustes. */
-    /* Si son elementos de barra lateral, el layout global de la página debería manejarlos. */
-    /* Aquí las pongo como elementos en el flujo normal. */
-  }
-  
-  .decorativeImageTall {
-    /* w-[99px] h-[494px] y h-[496px] */
-    width: 99px;
-    /* La altura puede variar, se puede poner una media o la más alta */
-    height: 495px;
-    object-fit: cover;
-    background-color: #f0f0f0; /* Placeholder si la imagen no carga */
-  }
+/* Estilos Generales */
+.pageContainer {
+  width: 100%;
+  background-color: var(--cWhite);
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+/* --- Cabecera (Similar a History.style.module.css) --- */
+.headerBar {
+  height: auto;
+  width: 100%;
+  background-color: var(--cPrimary);
+  padding: 0 120px 16px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.headerContent {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.headerLogoContainer {
+  width: 53px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  padding: 9.02px 4.51px;
+  flex-shrink: 0;
+}
+
+.headerLogo {
+  width: 45.83px;
+  height: 45.83px;
+  object-fit: cover;
+}
+
+.headerSocialIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
+  justify-content: flex-start;
+}
+
+.socialIconCircleSmall {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 16px;
+}
+
+.socialSvgIcon {
+  width: auto;
+  height: 20px;
+  color: var(--cPrimary);
+}
+
+.svgIconSmall { /* Para flecha atrás */
+  width: 16px;
+  height: 16px;
+  color: var(--cPrimary);
+}
+
+.pageTitleBar {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.backIconCircle {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.pageTitle {
+  font-weight: 600;
+  font-size: 32px;
+  color: var(--cWhite);
+}
+
+/* --- Fin Cabecera --- */
+
+/* --- Sección Seguinos en las redes (Reutilizada) --- */
+.redesSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background-color: var(--cSecondary);
+  padding: 40px 120px;
+  box-sizing: border-box;
+}
+
+.titleWhiteMedium {
+  font-weight: 700;
+  font-size: 32px;
+  text-align: center;
+  color: var(--cWhite);
+}
+
+.redesIconsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.socialIconCircleLarge {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 20px;
+}
+
+/* --- Fin Sección Seguinos en las redes --- */
+
+/* --- Estilos Comunes para Secciones de Noticias --- */
+.newsSection, .newsSectionPasadas {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 40px 120px;
+  box-sizing: border-box;
+}
+
+.newsSectionPasadas {
+  background-color: var(--cBackgroundLight);
+}
+
+.sectionTitle {
+  font-weight: 600;
+  font-size: 32px;
+  color: var(--cTextDark);
+}
+
+/* --- Estilos para Tarjeta de Noticia Base --- */
+.newsCardBase {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--cWhite);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.newsCardImageContainer {
+  align-self: stretch;
+  background-color: var(--cRandom8);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.newsCardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.newsCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+.newsCardTextMain {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.newsTimeAgo {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--cTextGray);
+}
+
+.newsTitle {
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--cTextDark);
+}
+
+.textDark {
+  color: var(--cTextDark);
+}
+
+.textDeepBlue {
+  color: var(--cSecondary);
+}
+
+.newsCaption {
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--cTextGray);
+  line-height: 1.5;
+}
+
+/* --- Sección Recientes --- */
+.recientesContent {
+  display: flex;
+  gap: 16px;
+  align-self: stretch;
+  align-items: flex-start;
+}
+
+.recientesPrincipalCard {
+  width: 1003px;
+  min-height: 818px;
+  flex-shrink: 0;
+}
+
+.recientesPrincipalCard .newsTitle {
+  font-size: 32px;
+}
+
+.recientesPrincipalCard .newsTimeAgo,
+.recientesPrincipalCard .newsCaption {
+  font-size: 16px;
+}
+
+.recientesSecundariasColumna {
+  width: 469px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.recientesSecundariasColumna .newsCardBase {
+  min-height: 401px;
+}
+
+.recientesSecundariasColumna .newsTitle {
+  font-size: 32px;
+}
+
+.recientesSecundariasColumna .newsTimeAgo,
+.recientesSecundariasColumna .newsCaption {
+  font-size: 16px;
+}
+
+/* --- Sección Pasadas --- */
+.pasadasContent {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.pasadaCard {
+  width: 350px;
+  min-height: 818px;
+}
+
+.pasadaCard .newsTimeAgo,
+.pasadaCard .newsCaption {
+  font-size: 14px;
+}
+
+.pasadaCard .newsTitle {
+  font-size: 16px;
+}
+
+.pasadaCard .newsCardContent {
+  padding: 8px;
+}
+
+/* --- Imágenes Decorativas del Final --- */
+.decorativeImagesContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 120px;
+  gap: 20px;
+}
+
+.decorativeImageTall {
+  width: 99px;
+  height: 495px;
+  object-fit: cover;
+  background-color: #f0f0f0;
+}

@@ -1,247 +1,224 @@
-/* Variables de color y reutilizables */
-:root {
-    --primary-color: #d24067;
-    --secondary-color: #000018;
-    --text-dark: #212121;
-    --text-gray: #828282;
-    --white: #ffffff;
-  }
-  
-  /* Estilos Generales */
-  .pageContainer {
-    width: 100%; /* Asumiendo que los estilos globales de body/html están correctos */
-    /* min-height: 5586px; La altura se determinará por el contenido */
-    background-color: var(--white);
-    margin: 0 auto;
-    overflow-x: hidden;
-  }
-  
-  /* --- Cabecera (Similar a las anteriores) --- */
-  .headerBar {
-    height: auto; /* o una altura fija si la necesitas, ej. 80px o basada en el contenido */
-    width: 100%;
-    background-color: var(--primary-color);
-    padding: 0 120px 16px 120px; /* Mantén tu padding. pageTitleBar se centrará dentro del área de contenido definida por este padding. */
-    display: flex;
-    align-items: center; /* Alinea verticalmente headerContent en la fila */
-    /* gap: 10px; */ /* Probablemente ya no sea necesario o no afecte a pageTitleBar */
-    box-sizing: border-box;
-    position: relative; /* <<< AÑADIDO: Necesario para el posicionamiento absoluto del hijo */
-  }
-  
-  .headerContent {
-    height: 80px; /* O la altura que necesites */
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    /* width: 100%; */ /* <<< ELIMINADO o COMENTADO: Para que no ocupe todo el ancho */
-    /* z-index: 1; */ /* Opcional: si pageTitleBar se superpusiera incorrectamente, aunque no debería ser necesario aquí */
-  }
-  .headerLogoContainer {
-    width: 53px;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    padding: 9.02px 4.51px;
-    flex-shrink: 0;
-  }
-  
-  .headerLogo {
-    width: 45.83px;
-    height: 45.83px;
-    object-fit: cover;
-  }
-  
-  .headerSocialIcons {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-grow: 1;
-    justify-content: flex-start;
-  }
-  
-  .socialIconCircleSmall {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    border-radius: 16px;
-  }
-  
-  .socialSvgIcon {
-    width: auto;
-    height: 20px;
-    color: var(--primary-color);
-  }
-  
-  .svgIconSmall { /* Para flecha atrás */
-    width: 16px;
-    height: 16px;
-    color: var(--primary-color);
-  }
-  
-  .pageTitleBar {
-    display: flex;
-    /* align-items: start; */   /* Considera cambiar a 'center' */
-    align-items: center;     /* <<< CAMBIADO (opcional pero recomendado): para alinear verticalmente la flecha y el título */
-    justify-content: start; /* Mantiene la flecha a la izquierda del texto "Historia" dentro de este contenedor */
-    gap: 8px;
-    /* width: 100%; */      /* <<< ELIMINADO o COMENTADO */
-    /* margin-top: 10px; */ /* <<< ELIMINADO o COMENTADO */
-  
-    position: absolute;     /* <<< AÑADIDO */
-    left: 50%;              /* <<< AÑADIDO */
-    top: 50%;               /* <<< AÑADIDO */
-    transform: translate(-50%, -50%); /* <<< AÑADIDO */
-    /* z-index: 0; */ /* Opcional: Generalmente no necesario a menos que haya problemas de superposición complejos */
-  }
-  
-  .backIconCircle {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    border-radius: 16px;
-    cursor: pointer;
-  }
-  
-  .pageTitle {
-    font-weight: 600;
-    font-size: 32px;
-    color: var(--white);
-  }
-  /* --- Fin Cabecera --- */
-  
-  
-  /* --- Sección Seguinos en las redes (Reutilizada) --- */
-  .redesSection {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    background-color: var(--secondary-color);
-    padding: 40px 120px;
-    box-sizing: border-box;
-  }
-  
-  .titleWhiteMedium {
-    font-weight: 700;
-    font-size: 32px;
-    text-align: center;
-    color: var(--white);
-  }
-  
-  .redesIconsContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    align-self: stretch;
-  }
-  
-  .socialIconCircleLarge {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--white);
-    border-radius: 20px;
-  }
-  /* --- Fin Sección Seguinos en las redes --- */
-  
-  
-  /* --- Título Principal del Plan --- */
-  .mainPlanTitleContainer {
-    /* w-[1728px] flex justify-center items-center gap-2.5 px-[120px] py-10 */
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 120px; /* py-10 px-[120px] */
-    box-sizing: border-box;
-  }
-  
-  .mainPlanTitleText {
-    font-weight: 600; /* font-semibold */
-    font-size: 32px;
-    text-align: center;
-    color: var(--text-dark); /* Asumo color oscuro, el HTML no especifica, solo el tamaño */
-    line-height: 1.4; /* Para el <br /> */
-  }
-  
-  
-  /* --- Tabla de Contenido --- */
-  .tableOfContentsContainer {
-    /* w-[1728px] flex flex-col gap-4 px-[120px] py-4 */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px; /* gap-4 */
-    padding: 16px 120px; /* py-4 px-[120px] */
-    box-sizing: border-box;
-  }
-  
-  .tocTitle {
-    font-weight: 600; /* font-semibold */
-    font-size: 32px;
-    color: var(--text-dark); /* text-[#212121] */
-  }
-  
-  .tocItems {
-    font-weight: 400; /* font-normal */
-    font-size: 24px;
-    color: var(--text-gray); /* text-[#828282] */
-    line-height: 1.6; /* Para separar las líneas con <br /> */
-    white-space: pre-line; /* Para respetar los saltos de línea si se usa \n en JS */
-  }
-  
-  
-  /* --- Secciones de Contenido --- */
-  .allContentSectionsWrapper {
-    /* w-[1728px] flex flex-col */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    /* El gap entre secciones de contenido se maneja por el padding de .contentSection */
-  }
-  
-  .contentSection {
-    /* flex flex-col gap-4 self-stretch px-[120px] py-10 */
-    /* Este es el contenedor para cada bloque (Introducción, Presentación, etc.) */
-    display: flex;
-    flex-direction: column; /* Ya es un div que contendrá .contentBlock */
-    align-self: stretch;
-    padding: 40px 120px; /* py-10 px-[120px] */
-    box-sizing: border-box;
-  }
-  
-  .contentBlock {
-    /* flex flex-col gap-4 self-stretch */
-    /* Contenido interno de cada sección */
-    display: flex;
-    flex-direction: column;
-    gap: 16px; /* gap-4 entre título y párrafos, y entre párrafos */
-    align-self: stretch;
-  }
-  
-  .contentTitle {
-    font-weight: 600; /* font-semibold */
-    font-size: 32px;
-    color: var(--text-dark); /* text-[#212121] */
-  }
-  
-  .contentText {
-    font-weight: 400; /* font-normal */
-    font-size: 24px;
-    color: var(--text-gray); /* text-[#828282] */
-    line-height: 1.7; /* Para mejor legibilidad */
-    white-space: pre-line; /* Para respetar saltos de línea del placeholder */
-  }
+/* Estilos Generales */
+.pageContainer {
+  width: 100%; /* Asumiendo que los estilos globales de body/html están correctos */
+  background-color: var(--cWhite);
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+/* --- Cabecera (Similar a las anteriores) --- */
+.headerBar {
+  height: auto; /* o una altura fija si la necesitas, ej. 80px o basada en el contenido */
+  width: 100%;
+  background-color: var(--cPrimary);
+  padding: 0 120px 16px 120px; /* Mantén tu padding. pageTitleBar se centrará dentro del área de contenido definida por este padding. */
+  display: flex;
+  align-items: center; /* Alinea verticalmente headerContent en la fila */
+  box-sizing: border-box;
+  position: relative; /* <<< AÑADIDO: Necesario para el posicionamiento absoluto del hijo */
+}
+
+.headerContent {
+  height: 80px; /* O la altura que necesites */
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.headerLogoContainer {
+  width: 53px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  padding: 9.02px 4.51px;
+  flex-shrink: 0;
+}
+
+.headerLogo {
+  width: 45.83px;
+  height: 45.83px;
+  object-fit: cover;
+}
+
+.headerSocialIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
+  justify-content: flex-start;
+}
+
+.socialIconCircleSmall {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 16px;
+}
+
+.socialSvgIcon {
+  width: auto;
+  height: 20px;
+  color: var(--cPrimary);
+}
+
+.svgIconSmall { /* Para flecha atrás */
+  width: 16px;
+  height: 16px;
+  color: var(--cPrimary);
+}
+
+.pageTitleBar {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.backIconCircle {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.pageTitle {
+  font-weight: 600;
+  font-size: 32px;
+  color: var(--cWhite);
+}
+
+/* --- Fin Cabecera --- */
+
+/* --- Sección Seguinos en las redes (Reutilizada) --- */
+.redesSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background-color: var(--cSecondary);
+  padding: 40px 120px;
+  box-sizing: border-box;
+}
+
+.titleWhiteMedium {
+  font-weight: 700;
+  font-size: 32px;
+  text-align: center;
+  color: var(--cWhite);
+}
+
+.redesIconsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.socialIconCircleLarge {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 20px;
+}
+
+/* --- Fin Sección Seguinos en las redes --- */
+
+/* --- Título Principal del Plan --- */
+.mainPlanTitleContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 120px;
+  box-sizing: border-box;
+}
+
+.mainPlanTitleText {
+  font-weight: 600;
+  font-size: 32px;
+  text-align: center;
+  color: var(--cTextDark);
+  line-height: 1.4;
+}
+
+/* --- Tabla de Contenido --- */
+.tableOfContentsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 120px;
+  box-sizing: border-box;
+}
+
+.tocTitle {
+  font-weight: 600;
+  font-size: 32px;
+  color: var(--cTextDark);
+}
+
+.tocItems {
+  font-weight: 400;
+  font-size: 24px;
+  color: var(--cTextGray);
+}
+
+/* --- Secciones de Contenido --- */
+.allContentSectionsWrapper {
+  /* w-[1728px] flex flex-col */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* El gap entre secciones de contenido se maneja por el padding de .contentSection */
+}
+
+.contentSection {
+  /* flex flex-col gap-4 self-stretch px-[120px] py-10 */
+  /* Este es el contenedor para cada bloque (Introducción, Presentación, etc.) */
+  display: flex;
+  flex-direction: column; /* Ya es un div que contendrá .contentBlock */
+  align-self: stretch;
+  padding: 40px 120px; /* py-10 px-[120px] */
+  box-sizing: border-box;
+}
+
+.contentBlock {
+  /* flex flex-col gap-4 self-stretch */
+  /* Contenido interno de cada sección */
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* gap-4 entre título y párrafos, y entre párrafos */
+  align-self: stretch;
+}
+
+.contentTitle {
+  font-weight: 600; /* font-semibold */
+  font-size: 32px;
+  color: var(--text-dark); /* text-[#212121] */
+}
+
+.contentText {
+  font-weight: 400; /* font-normal */
+  font-size: 24px;
+  color: var(--cTextGray); /* text-[#828282] */
+  line-height: 1.7; /* Para mejor legibilidad */
+  white-space: pre-line; /* Para respetar saltos de línea del placeholder */
+}

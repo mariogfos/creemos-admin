@@ -20,11 +20,21 @@
   --cHoverInfo: #39acec33;
   --cHoverError: #da5d5d33;
   --cHoverWarning: #e1c15133;
+
+  /* Colores adicionales para Website */
+  --cBackgroundLight: #f8f8f8;
+  --cTextDark: #212121;
+  --cTextGray: #828282;
+  --cTextLightGray: #e9e9e9;
+  --cTextPlaceholder: #a7a7a7;
+  --cBorderColor: #d24067;
+
   /* Paleta de los toast */
   --cError: #da5d5d;
   --cSuccess: #00af90;
   --cInfo: #39acec;
   --cWarning: #e1c151;
+
   /* Paleta de colores Random */
   --cRandom1: #a2d2bf;
   --cRandom2: #a9cce3;
@@ -54,6 +64,7 @@
   --sS: 12px;
   --sXs: 10px;
   --sXxs: 8px;
+
   /* Espaciados */
   --spXs: 4px;
   --spS: 8px;
@@ -61,23 +72,26 @@
   --spL: 16px;
   --spXl: 24px;
   --spXxl: 32px;
+
   /* Fuentes */
   --fPrimary: "Inter", sans-serif;
   --fSecondary: "Roboto", sans-serif;
+
   /* Border */
   --bRadiusS: 8px;
   --bRadius: 12px;
   --bRadiusM: 16px;
   --bRadiusL: 20px;
   --bWidth: 1px;
+
   /* Bolds */
   --bLight: 300;
   --bRegular: 400;
   --bMedium: 500;
   --bSemibold: 600;
   --bBold: 700;
-  /* button search size */
-  /* --btn-width: 8rem; */
+
+  /* Responsive */
   --responsive-tablet: 768px;
   --responsive-mobile: 480px;
 }
