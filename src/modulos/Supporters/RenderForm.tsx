@@ -1,54 +1,56 @@
+// RenderForm.tsx
+
 import Input from "@/mk/components/forms/Input/Input";
 import Select from "@/mk/components/forms/Select/Select";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
-import { useAuth } from "@/mk/contexts/AuthProvider"; // Bien para showToast
+import { useAuth } from "@/mk/contexts/AuthProvider";
 import { PREFIX_COUNTRY } from "@/mk/utils/string";
 import { checkRules, hasErrors } from "@/mk/utils/validate/Rules";
-import React, { useState, useEffect } from "react"; // Añadido useEffect por si lo necesitas para sincronizar 'item'
+import React, { useState, useEffect } from "react";
 
 const RenderForm = ({
   open,
-  onClose,      // Prop de useCrud (onCloseCrud)
-  item,         // Prop de useCrud (formState de useCrud)
-  setItem,      // Prop de useCrud (setFormState de useCrud)
-  execute,      // Prop de useCrud
-  extraData,    // Prop de useCrud
-  user,         // Prop de useCrud
-  reLoadExtra,  // Prop personalizada de Supporters.js (si aún la necesitas)
-  reLoad,       // Prop de useCrud
-  // --- NUEVA PROP ---
-  onSuccessWithQrData, 
-  // --- Props de error de useCrud (opcional si manejas errores solo localmente) ---
-  // errors: propErrors, 
-  // setErrors: propSetErrors,
+  onClose,
+  item,
+  setItem,
+  execute,
+  extraData,
+  user,
+  reLoadExtra,
+  reLoad,
+  onSuccessWithQrData,
+  // errors: propErrors, // Descomentar si los usas
+  // setErrors: propSetErrors, // Descomentar si los usas
 }: any) => {
-  // Estado local para los datos del formulario. Se inicializa con 'item' (de useCrud).
   const [formState, setFormStateLocal] = useState({ ...item });
-  // Estado local para los errores de este formulario.
   const [localErrors, setLocalErrors] = useState({});
-  // const [oldEmail, setOldEmail] = useState(formState.email); // Comentado, no usado
   const isMac = navigator.platform.toUpperCase().includes("MAC");
-  const { showToast } = useAuth(); // Correcto para mostrar notificaciones
+  const { showToast } = useAuth();
 
-  // Sincroniza el estado local del formulario si la prop 'item' cambia desde useCrud
   useEffect(() => {
-    // Solo actualiza si 'item' realmente ha cambiado para evitar bucles si 'item' es siempre una nueva referencia
-    if (JSON.stringify(item) !== JSON.stringify(formState)) {
-      setFormStateLocal({ ...item });
+    // Sincroniza si el 'item' de useCrud cambia (por ejemplo, si se selecciona otro item para editar mientras el modal está abierto)
+    // Comparamos los IDs o una serialización para evitar bucles si 'item' es una nueva referencia pero mismos datos.
+    if (item && item.id !== formState.id || JSON.stringify(item) !== JSON.stringify(formState)) {
+        setFormStateLocal({ ...item });
+        // También puedes resetear los errores locales si el item cambia completamente
+        setLocalErrors({});
     }
-  }, [item]); // Dependencia: item
+  }, [item]);
+
 
   const handleChange = (e: any) => {
-    let value = e.target.value;
-    setFormStateLocal((prev: any) => ({ ...prev, [e.target.name]: value }));
-    // Si quieres limpiar el error específico al cambiar el campo:
-    setLocalErrors((prev: any) => ({ ...prev, [e.target.name]: null }));
+    const { name, value, type, checked } = e.target;
+    setFormStateLocal((prev: any) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+    setLocalErrors((prev: any) => ({ ...prev, [name]: null }));
   };
 
   const validate = () => {
     let currentErrors: any = {};
-    // Tu lógica de checkRules actualiza currentErrors...
     currentErrors = checkRules({ value: formState.name, rules: ["required"], key: "name", errors: currentErrors });
+    // ... (tus otras validaciones) ...
     currentErrors = checkRules({ value: formState.middle_name, rules: [""], key: "middle_name", errors: currentErrors });
     currentErrors = checkRules({ value: formState.last_name, rules: ["required"], key: "last_name", errors: currentErrors });
     currentErrors = checkRules({ value: formState.mother_last_name, rules: [""], key: "mother_last_name", errors: currentErrors });
@@ -58,59 +60,62 @@ const RenderForm = ({
     currentErrors = checkRules({ value: formState?.gender, rules: ["required"], key: "gender", errors: currentErrors });
     currentErrors = checkRules({ value: formState.phone, rules: ["required"], key: "phone", errors: currentErrors });
     
-    setLocalErrors(currentErrors); // Actualiza el estado de errores local
+    setLocalErrors(currentErrors);
     return currentErrors;
   };
 
-  const onSaveInternal = async () => { // Renombrado para evitar confusión con prop onSave de useCrud
-    const currentLocalErrors = validate(); // Usa la validación que actualiza localErrors
-    if (hasErrors(currentLocalErrors)) { // Verifica los errores locales
-        console.log("RenderForm: Validación local falló", currentLocalErrors);
-        return;
+  const onSaveInternal = async () => {
+    const currentLocalErrors = validate();
+    if (hasErrors(currentLocalErrors)) {
+      console.log("RenderForm: Validación local falló", currentLocalErrors);
+      return;
     }
-    
-    console.log("RenderForm: Validación local exitosa. Ejecutando API call...");
-    let method = formState.id ? "PUT" : "POST"; // Usa el formState local
+
+    // --- MODIFICACIÓN AQUÍ ---
+    // Crear una copia del estado del formulario para enviar, y eliminar _initItem
+    const payload = { ...formState };
+    delete payload._initItem; // Elimina el campo _initItem del payload
+    // --- FIN DE LA MODIFICACIÓN ---
+
+    console.log("RenderForm: Validación local exitosa. Enviando payload:", payload); // Log del payload
+    let method = payload.id ? "PUT" : "POST"; // Usar payload.id
     const { data: response } = await execute(
-      "/supporters" + (formState.id ? "/" + formState.id : ""),
+      "/supporters" + (payload.id ? "/" + payload.id : ""),
       method,
-      { ...formState }, // Envía el formState local
+      payload, // Enviar el payload modificado sin _initItem
       false
     );
     console.log("RenderForm: Respuesta de API:", response);
 
     if (response?.success == true) {
-      // Estas funciones son props de useCrud y afectarán al padre.
-      // El remontaje de RenderForm que puedan causar ya no afectará al modal QR.
       if (reLoad) reLoad();
-      if (reLoadExtra) reLoadExtra(); // Si aún la necesitas y Supporters.js la provee
-      if (setItem) setItem(formState); // Actualiza el formState de useCrud con el estado local del formulario
+      if (reLoadExtra) reLoadExtra();
+      // setItem actualiza el formState de useCrud.
+      // Si quieres que _initItem también se actualice en useCrud tras un guardado exitoso
+      // (para que la "base" para la próxima edición sea el estado recién guardado),
+      // podrías hacer: setItem({ ...payload, _initItem: { ...payload } });
+      // O simplemente: setItem(payload); si no necesitas _initItem en useCrud después de guardar.
+      // Por ahora, lo mantenemos simple:
+      if (setItem) setItem(payload);
+
 
       showToast(response?.message || "Operación exitosa", "success");
       
-      // --- LÓGICA PARA EL MODAL QR ---
       if (response.data && onSuccessWithQrData) {
         console.log("RenderForm: Éxito con datos para QR. Llamando onSuccessWithQrData.", response.data);
-        onSuccessWithQrData(response.data); // Llama a la función del padre (Supporters.js)
+        onSuccessWithQrData(response.data);
       }
-      // --- FIN LÓGICA MODAL QR ---
-
-      // Siempre cierra el modal del formulario (DataModal) después del éxito
-      // Esto llama a onCloseCrud de useCrud
+      
       onClose(); 
     } else {
       showToast(response?.message || "Error al guardar.", "error");
-      // Aquí podrías querer actualizar los errores con setLocalErrors(response.errors)
-      // o con propSetErrors(response.errors) si la API devuelve errores de campo.
       if (response?.errors) {
         setLocalErrors(response.errors);
-        // Si también quieres que useCrud maneje estos errores:
-        // if (propSetErrors) propSetErrors(response.errors); 
+        // if (propSetErrors) propSetErrors(response.errors);
       }
     }
   };
 
-  // Funciones getMuns, getDmuns, etc., usando formState (el local)
   const getMuns = () => { if (!formState.prov_id) return []; return ( extraData?.muns.filter( (mun: any) => mun?.prov_code == Number(formState.prov_id) ) || [] ); };
   const getDmuns = () => { if (!formState.mun_id) return []; return ( extraData?.dists.filter( (dmun: any) => dmun?.mun_code == Number(formState.mun_id) ) || [] ); };
   const getLocals = () => { if (!formState?.dist_id) return []; return ( extraData?.locals.filter( (local: any) => local?.dist_code == Number(formState.dist_id) || local?.mun_code == Number(formState.mun_id) ) || [] ); };
@@ -118,23 +123,31 @@ const RenderForm = ({
 
   return (
     <DataModal
-      open={open} // Esta prop `open` viene de useCrud y controla la visibilidad de este modal
-      onClose={onClose} // Esta prop `onClose` es `onCloseCrud` de useCrud
+      open={open}
+      onClose={onClose}
       title={!formState.id ? "Crear simpatizante" : "Editar simpatizante"}
-      onSave={onSaveInternal} // Llama a la función onSave definida localmente en RenderForm
+      onSave={onSaveInternal}
     >
-      {/* Todos tus campos de formulario usan `formState` (local) y `localErrors` */}
+      {/* Campos del formulario (sin cambios aquí) */}
       <Input label="Primer nombre" name="name" value={formState.name || ''} onChange={handleChange} error={localErrors} />
       <Input label="Segundo nombre" name="middle_name" value={formState.middle_name || ''} onChange={handleChange} error={localErrors} />
       <Input label="Apellido paterno" name="last_name" value={formState.last_name || ''} onChange={handleChange} error={localErrors} />
       <Input label="Apellido materno" name="mother_last_name" value={formState.mother_last_name || ''} onChange={handleChange} error={localErrors} />
-      <Input label="Fecha de nacimiento" name="birth_date" type="date" value={formState.birth_date || ''} onChange={handleChange} error={localErrors} />
+      <Input 
+        label="Fecha de nacimiento" 
+        name="birth_date" 
+        type="date" 
+        value={formState.birth_date || ''} 
+        onChange={handleChange} 
+        error={localErrors}
+        style={{ colorScheme: 'light' }}
+      />
       <Select
         label="Tipo de Militante"
         name="militant_type"
-        value={formState?.militant_type}
+        value={formState?.militant_type || ''} // Asegurar que el value sea string si optionValue es string
         optionLabel="name"
-        optionValue="id"
+        optionValue="id" // Asumiendo que id es el tipo correcto para el value
         options={extraData?.militanses || []}
         onChange={handleChange}
         error={localErrors}
@@ -142,7 +155,7 @@ const RenderForm = ({
       <Select
         label="Genero"
         name="gender"
-        value={formState?.gender}
+        value={formState?.gender || ''}
         optionLabel="name"
         optionValue="id"
         options={[ { id: "M", name: "Masculino" }, { id: "F", name: "Femenino" }]}
