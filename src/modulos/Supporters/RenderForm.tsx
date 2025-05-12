@@ -135,7 +135,7 @@ const RenderForm = ({
         value={formState?.militant_type}
         optionLabel="name"
         optionValue="id"
-        options={[ { id: "presidente_barrio", name: "Presidente de Barrio" }, { id: "encargado_recinto", name: "Encargado de Recinto" }, { id: "simpatizante", name: "Simpatizante" }]}
+        options={extraData?.militanses || []}
         onChange={handleChange}
         error={localErrors}
       />
