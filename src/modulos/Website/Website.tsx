@@ -121,11 +121,18 @@ const Website: React.FC = () => {
         </div>
         <div className={styles.autoridadesGridContainer}>
           <div className={styles.autoridadesGrid}>
-            {[1, 2, 3, 4, 5, 6].map(i => (
+            {[
+              { name: "Luis Fernando Camacho", image: 1 },
+              { name: "Zvonko Marincovich", image: 2 },
+              { name: "Fernando Pareja", image: 3 },
+              { name: "Efrain Suarez", image: 4 },
+              { name: "Henry Montero", image: 5 },
+              { name: "Asambleista", image: 6 }
+            ].map((autoridad, i) => (
               <div key={i} className={styles.autoridadCard}>
-                <img className={styles.autoridadImage} src={`/images/Autoridad-${i}.png`} alt={`Luis Fernando Camacho ${i}`} />
+                <img className={styles.autoridadImage} src={`/images/Autoridad-${autoridad.image}.png`} alt={autoridad.name} />
                 <div className={styles.autoridadCaption}>
-                  <span className={styles.autoridadName}>Luis Fernando Camacho</span>
+                  <span className={styles.autoridadName}>{autoridad.name}</span>
                 </div>
               </div>
             ))}

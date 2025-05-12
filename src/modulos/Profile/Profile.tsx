@@ -15,11 +15,11 @@ import {
   IconGallery,
   IconLook,
   IconEdit
-} from "@/components/layout/icons/IconsBiblioteca";
+} from "@/components/layout/icons/IconsBiblioteca"; // Asegúrate que la ruta sea correcta
 import { useAuth } from "@/mk/contexts/AuthProvider";
 
 const Profile = () => {
-  const { user, getUser, showToast, setStore, userCan, logout }: any = useAuth();
+  const { user, getUser, showToast, setStore, logout }: any = useAuth(); // Removido userCan de la desestructuración si no se usa más
   const [formState, setFormState] = useState<any>({
     name: "",
     middle_name: "",
@@ -43,28 +43,21 @@ const Profile = () => {
   const [oldEmail, setOldEmail] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
 
-  // Ref para rastrear si el título ya fue establecido por esta instancia del componente
   const titleSetRef = useRef(false);
 
   useEffect(() => {
-    // Solo intentar establecer el título si setStore es una función
-    // y no se ha establecido ya por esta instancia del componente.
-    // Esto ayuda a prevenir llamadas repetidas si setStore es una referencia inestable
-    // pero la intención es solo establecer el título una vez.
     if (typeof setStore === 'function' && !titleSetRef.current) {
       setStore({
         title: "Mi perfil",
       });
-      titleSetRef.current = true; // Marcar que el título ha sido establecido
+      titleSetRef.current = true; 
     }
-    // Dejar setStore en el array de dependencias es correcto si ESLint lo requiere.
-    // El ref previene la re-ejecución de la lógica interna, no del efecto en sí si setStore cambia.
   }, [setStore]);
 
   useEffect(() => {
     if (user) {
       setFormState((prevState: any) => ({
-        ...prevState, // Mantiene el estado local como 'code'
+        ...prevState, 
         name: user.name || "",
         middle_name: user.middle_name || "",
         last_name: user.last_name || "",
@@ -75,22 +68,12 @@ const Profile = () => {
         phone: user.phone || "",
         prefix_phone: user.prefix_phone || "",
         address: user.address || "",
-        code: "", // Reinicia el código cuando el usuario cambia
+        code: "", 
       }));
       setOldEmail(user.email || "");
-      setPreview(null); // Reinicia el preview cuando el usuario cambia
-    } else {
-      // Opcional: Manejar el caso en que user es null (ej. después de logout)
-      // setFormState({ /* estado inicial vacío */ });
-      // setOldEmail("");
-      // setPreview(null);
+      setPreview(null); 
     }
-  }, [user]); // Este array de dependencias es correcto.
-              // Si 'user' desde useAuth() es inestable (nueva referencia en cada render
-              // incluso con los mismos datos), este efecto se ejecutará en cada render de Profile.
-              // Esto llama a setFormState, lo que re-renderiza Profile.
-              // Este ciclo dentro de Profile no es un bucle infinito por sí mismo A MENOS QUE
-              // de alguna manera active que AuthProvider genere una nueva referencia de 'user' otra vez.
+  }, [user]); 
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -126,8 +109,6 @@ const Profile = () => {
         });
     });
     
-    // Solo actualiza errores si realmente han cambiado para evitar re-renders innecesarios
-    // Esta es una optimización menor; el problema principal de "max depth" raramente es esto.
     if (JSON.stringify(errors) !== JSON.stringify(currentErrors)) {
         setErrors(currentErrors);
     }
@@ -154,12 +135,8 @@ const Profile = () => {
   };
 
   const onSave = async () => {
-    if (userCan && !userCan("profile", "U")) {
-      if (showToast) showToast("No tienes permisos para realizar esta acción", "error");
-      return;
-    }
-
-    const validationErrors = validate(); // Llama a validate sin argumentos para validar todos los campos relevantes del modal
+    // ELIMINADA LA VERIFICACIÓN DE PERMISOS userCan("profile", "U")
+    const validationErrors = validate(); 
     if (hasErrors(validationErrors)) {
         if (showToast) showToast("Por favor, corrige los errores en el formulario.", "error");
         return;
@@ -233,18 +210,18 @@ const Profile = () => {
     try {
       const image: any = await resizeImage(file, 720, 1024, 0.7);
       setPreview(image);
-      setFormState((prevState: any) => ({ ...prevState, avatar: image })); // Asegurar que se usa prevState
+      setFormState((prevState: any) => ({ ...prevState, avatar: image })); 
     } catch (error) {
       console.error("Error procesando imagen:", error);
       if (showToast) showToast("Error al procesar la imagen.", "error");
       setPreview(null);
-      setFormState((prevState: any) => ({ ...prevState, avatar: user.avatar || null })); // Asegurar que se usa prevState
+      setFormState((prevState: any) => ({ ...prevState, avatar: user.avatar || null })); 
     }
   };
 
   const onEditProfile = () => {
     if (user) {
-        setFormState({ // Aquí no se necesita prevState porque se resetea con 'user'
+        setFormState({ 
             ...user,
             middle_name: user.middle_name || "",
             mother_last_name: user.mother_last_name || "",
@@ -259,13 +236,13 @@ const Profile = () => {
   };
 
   const onChangeEmail = () => {
-    if (userCan && !userCan("profile", "U")) return;
+    // ELIMINADA LA VERIFICACIÓN DE PERMISOS userCan("profile", "U")
     setType("M");
     setOpenAuthModal(true);
   };
 
   const onChangePassword = () => {
-    if (userCan && !userCan("profile", "U")) return;
+    // ELIMINADA LA VERIFICACIÓN DE PERMISOS userCan("profile", "U")
     setType("P");
     setOpenAuthModal(true);
   };
@@ -274,13 +251,15 @@ const Profile = () => {
     if (preview) return preview;
     if (user?.avatar) {
       if (typeof user.avatar === 'string') return getUrlImages(user.avatar);
-      if (user.avatar.file && user.avatar.ext) {
+      // Asumiendo que user.avatar podría ser un objeto con file y ext
+      // @ts-ignore
+      if (user.avatar.file && user.avatar.ext) { 
           // @ts-ignore
           return getUrlImages(`/path/to/images/${user.avatar.file}.${user.avatar.ext}?d=${user?.updated_at}`);
       }
     }
     // @ts-ignore
-    return getUrlImages(`/ADM-${user?.id}.webp?d=${user?.updated_at}`);
+    return getUrlImages(`/ADM-${user?.id}.webp?d=${user?.updated_at}`); // Fallback
   };
   
   if (!user) {
@@ -309,11 +288,10 @@ const Profile = () => {
         <div className={styles.infoCard}>
           <div className={styles.cardHeader}>
             <h2>Información Personal</h2>
-            {userCan && userCan("profile", "U") && (
-              <button onClick={onEditProfile} className={styles.editButton}>
-                <IconEdit size={18} /> Editar
-              </button>
-            )}
+            {/* ELIMINADA LA CONDICIÓN userCan PARA MOSTRAR EL BOTÓN */}
+            <button onClick={onEditProfile} className={styles.editButton}>
+              <IconEdit size={18} /> Editar
+            </button>
           </div>
           <div className={styles.infoGrid}>
             <div><p className={styles.infoLabel}>Nombre Completo:</p> <p>{getFullName(user as any)}</p></div>
@@ -328,11 +306,13 @@ const Profile = () => {
             <h2>Ajustes de Seguridad</h2>
           </div>
           <ul className={styles.settingsList}>
-            <li onClick={userCan && userCan("profile", "U") ? onChangeEmail : undefined} className={userCan && userCan("profile", "U") ? styles.settingItem : styles.settingItemDisabled}>
+            {/* ELIMINADA LA CONDICIÓN userCan Y CLASE CONDICIONAL */}
+            <li onClick={onChangeEmail} className={styles.settingItem}>
               <IconEmail />
               <span>Cambiar correo electrónico</span>
             </li>
-            <li onClick={userCan && userCan("profile", "U") ? onChangePassword : undefined} className={userCan && userCan("profile", "U") ? styles.settingItem : styles.settingItemDisabled}>
+            {/* ELIMINADA LA CONDICIÓN userCan Y CLASE CONDICIONAL */}
+            <li onClick={onChangePassword} className={styles.settingItem}>
               <IconLook />
               <span>Cambiar contraseña</span>
             </li>
@@ -370,7 +350,8 @@ const Profile = () => {
             <div className={styles.modalAvatarSection}>
               <Avatar
                 name={getFullName(formState as any)}
-                src={preview || (formState.avatar && typeof formState.avatar === 'string' ? formState.avatar : currentAvatarSrc())}
+                // Corregido para manejar el caso de que formState.avatar sea un objeto File
+                src={preview || (formState.avatar && typeof formState.avatar === 'string' ? getUrlImages(formState.avatar) : (user?.avatar && typeof user.avatar === 'string' ? getUrlImages(user.avatar) : currentAvatarSrc() ) )}
                 w={100}
                 h={100}
               />
@@ -388,10 +369,10 @@ const Profile = () => {
             
             <InputFullName
               value={formState}
-              name={"full_name"}
+              name={"full_name"} // Asegúrate que InputFullName maneje esto para distribuir a name, last_name, etc. o ajusta según corresponda
               errors={errors}
               onChange={handleChange}
-              disabled={false}
+              disabled={false} // O según tu lógica, pero la petición es quitar permisos de edición.
               onBlur={(e: any) => validate([e.target.name])}
             />
             
@@ -411,13 +392,14 @@ const Profile = () => {
             <div className={styles.formField}>
               <label htmlFor="codeModal" className={styles.label}>Código de Seguridad (4 dígitos):</label>
               <input
-                type="password"
+                type="password" // Cambiado a password para ocultar el código
                 id="codeModal" name="code"
                 className={`${styles.inputField} ${errors.code ? styles.inputError : ''}`}
                 value={formState.code || ""}
                 onChange={handleChange}
                 maxLength={4}
                 placeholder="••••"
+                autoComplete="new-password" // Para evitar autocompletado de contraseñas guardadas
                 onBlur={() => validate(['code'] as any[])}
               />
               {errors.code && <p className={styles.errorText}>{errors.code}</p>}
@@ -431,8 +413,8 @@ const Profile = () => {
           open={openAuthModal}
           onClose={() => setOpenAuthModal(false)}
           type={type}
-          formState={formState}
-          setFormState={setFormState as any}
+          formState={formState} // Se pasa el formState actual
+          setFormState={setFormState as any} // Para que Authentication pueda actualizarlo si es necesario
           errors={errors}
           setErrors={setErrors as any}
           execute={execute}

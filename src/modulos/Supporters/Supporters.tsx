@@ -48,7 +48,7 @@ const Supporters = () => {
     return {
       id: { rules: [], api: "e" },
       created_at: { api: "", label: " Fecha y hora de registro", form: false, list: { width: "300px", onRender: ({ value }: any) => getDateTimeStrMes(value) }},
-      id_admin: { rules: [], api: "", label: "Administrador", form: false, list: false, filter: { label: "Administrador", width: "150px", extraData: "admins" }},
+      user_id: { rules: [], api: "", label: "Administrador", form: false, list: false, filter: { label: "Administrador", width: "150px", extraData: "admins" }},
       fullName: { api: "ae", label: "Nombre", form: false, onRender: ({ item }: any) => (<div style={{ display: "flex", alignItems: "center", gap: 12 }}><Avatar src={getUrlImages("/AFF-" + item?.affiliate_id + ".webp?d=" + item?.updated_at)} name={getFullName(item)} /><p>{getFullName(item)}</p></div>), list: true },
       name: { rules: ["required"], api: "ae", label: "Primer nombre", form: { type: "text" }, list: false },
       middle_name: { rules: [""], api: "ae", label: "Segundo nombre", form: { type: "text" }, list: false },
@@ -153,7 +153,7 @@ const Supporters = () => {
         <CardMetricts value={extraData?.grals?.total_supporters} label="Total de simpatizantes" icon={<IconUserV2 color="var(--cInfo)" />} />
         <CardMetricts value={extraData?.grals?.male_supporters} label="Simpatizantes masculinos" icon={<IconUserMen viewBox="0 0 30 30" color="var(--cSuccess)" />} />
         <CardMetricts value={extraData?.grals?.female_supporters} label="Simpatizantes femeninos" icon={<IconUserWomen viewBox="0 0 30 30" color="#F0A8B2" />} />
-        <CardMetricts value={extraData?.grals?.undefined_supporters} label="Simpatizantes no definidos " icon={<IconUserMen viewBox="0 0 30 30" color="var(--cWarning)" />} />
+        
       </div>
       <List onTabletRow={renderItem} />
 
