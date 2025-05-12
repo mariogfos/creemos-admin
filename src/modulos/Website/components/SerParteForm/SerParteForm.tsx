@@ -79,7 +79,7 @@ const SerParteForm: React.FC = () => {
         return;
       }
       try {
-        const response = await axios.get(`${apiUrl}/map-metrics`);
+        const response = await axios.get(`${apiUrl}/map-metrics-public`);
         // Ajusta esta línea según la estructura real de tu respuesta:
         // Si la API devuelve { data: { areas: { provs: [], ... } } } -> response.data.data.areas
         // Si la API devuelve { areas: { provs: [], ... } } -> response.data.areas
