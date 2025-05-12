@@ -19,6 +19,7 @@ import {
 } from "@/components/layout/icons/IconsBiblioteca";
 import QrModal from "./QrModal/QrModal"; // Asegúrate que la ruta sea correcta
 
+
 const paramsInitial = {
   perPage: 10,
   page: 1,
@@ -84,6 +85,7 @@ const Supporters = () => {
         // Por ahora, asumiré que RenderForm lo gestiona o que showToast está en propsFromUseCrud.
       />
     ),
+  
     // ... otras configuraciones de 'mod' que tenías
   }), [handleShowQr]); // La dependencia de `handleShowQr` asegura que se pasa la instancia correcta.
 

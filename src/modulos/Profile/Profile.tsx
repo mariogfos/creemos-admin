@@ -1,7 +1,7 @@
 "use client";
 
 import useAxios from "@/mk/hooks/useAxios";
-import React, { useEffect, useState, useRef } from "react"; // Importa useRef
+import React, { useEffect, useState, useRef } from "react";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 import { getFullName, getUrlImages } from "@/mk/utils/string";
 import InputFullName from "@/mk/components/forms/InputFullName/InputFullName";
@@ -9,24 +9,24 @@ import styles from "./profile.module.css";
 import { checkRules, hasErrors } from "@/mk/utils/validate/Rules";
 import Authentication from "./Authentication";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
-import { resizeImage } from "@/mk/utils/images";
+import { resizeImage } from "@/mk/utils/images"; // Asumo que esta función devuelve un data URL
 import {
   IconEmail,
   IconGallery,
   IconLook,
   IconEdit
-} from "@/components/layout/icons/IconsBiblioteca"; // Asegúrate que la ruta sea correcta
+} from "@/components/layout/icons/IconsBiblioteca";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 
 const Profile = () => {
-  const { user, getUser, showToast, setStore, logout }: any = useAuth(); // Removido userCan de la desestructuración si no se usa más
+  const { user, getUser, showToast, setStore, logout }: any = useAuth();
   const [formState, setFormState] = useState<any>({
     name: "",
     middle_name: "",
     last_name: "",
     mother_last_name: "",
     email: "",
-    avatar: null,
+    avatar: null, // Puede ser null, string (URL), o el nuevo objeto { file, ext }
     ci: "",
     phone: "",
     prefix_phone: "",
@@ -34,7 +34,7 @@ const Profile = () => {
     pin: "",
   });
   const [errors, setErrors] = useState<any>({});
-  const [preview, setPreview] = useState<any>(null);
+  const [preview, setPreview] = useState<any>(null); // Para la previsualización (data URL)
   const { execute }: any = useAxios();
   const [openProfileModal, setOpenProfileModal] = useState(false);
   const [openAuthModal, setOpenAuthModal] = useState(false);
@@ -63,7 +63,7 @@ const Profile = () => {
         last_name: user.last_name || "",
         mother_last_name: user.mother_last_name || "",
         email: user.email || "",
-        avatar: user.avatar || null,
+        avatar: user.avatar || null, // Inicialmente puede ser una URL o null
         ci: user.ci || "",
         phone: user.phone || "",
         prefix_phone: user.prefix_phone || "",
@@ -85,21 +85,17 @@ const Profile = () => {
 
   const validate = (fieldsToValidate: any[] = []) => {
     let currentErrors: any = { ...errors };
-
     const allFields: any[] = [
       { key: "name", rules: ["required", "alpha"] },
       { key: "last_name", rules: ["required", "alpha"] },
       { key: "email", rules: ["required", "email"] },
     ];
-
     if (openProfileModal) {
         allFields.push({ key: "pin", rules: ["required", "numeric", "len:4"] });
     }
-
     let fieldsToProcess: any[] = fieldsToValidate.length > 0 ?
         allFields.filter((f: any) => fieldsToValidate.includes(f.key)) :
         allFields;
-
     fieldsToProcess.forEach((field: any) => {
         currentErrors = checkRules({
             value: formState[field.key],
@@ -108,13 +104,11 @@ const Profile = () => {
             errors: currentErrors,
         });
     });
-    
     if (JSON.stringify(errors) !== JSON.stringify(currentErrors)) {
         setErrors(currentErrors);
     }
     return currentErrors;
   };
-
 
   const _onExistEmail = async () => {
     if (!formState.email || formState.email === oldEmail) {
@@ -134,8 +128,8 @@ const Profile = () => {
     }
   };
 
+  // --- INICIO DE MODIFICACIÓN en onSave ---
   const onSave = async () => {
-    // ELIMINADA LA VERIFICACIÓN DE PERMISOS userCan("profile", "U")
     const validationErrors = validate(); 
     if (hasErrors(validationErrors)) {
         if (showToast) showToast("Por favor, corrige los errores en el formulario.", "error");
@@ -149,13 +143,28 @@ const Profile = () => {
       mother_last_name: formState.mother_last_name || "",
       email: formState.email,
       pin: formState.pin,
+      // Otros campos que puedas tener y quieras enviar:
+      ci: formState.ci || "",
+      phone: formState.phone || "",
+      prefix_phone: formState.prefix_phone || "",
+      address: formState.address || "",
     };
 
-    if (typeof formState.avatar === "string" && formState.avatar.startsWith("data:image")) {
-        payload.avatar = formState.avatar;
+    // Lógica para manejar el avatar según el formato deseado
+    if (formState.avatar && typeof formState.avatar === 'object' && formState.avatar.file && formState.avatar.ext) {
+      // Si avatar es un objeto { file, ext }, se envía tal cual (nueva imagen procesada)
+      payload.avatar = formState.avatar;
     } else if (formState.avatar === "") {
-        payload.avatar = "";
+      // Si avatar es un string vacío, se envía para indicar eliminación
+      payload.avatar = "";
     }
+    // Si formState.avatar es una URL (string) del avatar existente y no se cambió,
+    // no se incluye en el payload, asumiendo que el backend no lo modificará si no se envía.
+    // Si tu backend requiere que envíes la URL existente para conservarla, descomenta la siguiente línea:
+    // else if (typeof formState.avatar === 'string' && formState.avatar === user.avatar) {
+    //   payload.avatar = user.avatar;
+    // }
+
 
     const { data, error: err }: any = await execute(
       `/users/${user.id}`,
@@ -164,11 +173,12 @@ const Profile = () => {
     );
 
     if (data?.success === true) {
-      if (getUser) await getUser();
+      if (getUser) await getUser(); // Actualiza el usuario en el contexto
       if (showToast) showToast("Cambios guardados exitosamente", "success");
       setOpenProfileModal(false);
-      setFormState((prevState: any) => ({ ...prevState, pin: "" }));
-      setPreview(null);
+      setFormState((prevState: any) => ({ ...prevState, pin: "" })); // Limpia el PIN
+      // setPreview(null); // Limpia la previsualización después de guardar exitosamente,
+                         // la próxima vez se cargará desde user.avatar actualizado.
     } else {
       console.log("Error al guardar perfil:", err);
       const backendErrors = err?.data?.errors || {};
@@ -183,41 +193,79 @@ const Profile = () => {
       }
     }
   };
+  // --- FIN DE MODIFICACIÓN en onSave ---
+
 
   const onCancel = () => {
     setOpenProfileModal(false);
     if (user) {
       setFormState((prevState: any) => ({
         ...prevState,
-        ...user,
-        avatar: user.avatar || null,
-        pin: "",
+        ...user, // Restaura todos los campos del usuario
+        avatar: user.avatar || null, // Restaura el avatar original
+        pin: "", // Limpia el PIN
       }));
     }
     setErrors({});
-    setPreview(null);
+    setPreview(null); // Limpia la previsualización
   };
 
+  // --- INICIO DE MODIFICACIÓN en onChangeFile ---
   const onChangeFile = async (e: any) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (!["png", "jpg", "jpeg", "webp"].includes(file.name.slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2).toLowerCase())) {
-      if (showToast) showToast("Solo se permiten imágenes png, jpg, jpeg, webp", "error");
+    const validExtensions = ["png", "jpg", "jpeg", "webp"];
+    const fileExtension = file.name.slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2).toLowerCase();
+
+    if (!validExtensions.includes(fileExtension)) {
+      if (showToast) showToast(`Solo se permiten imágenes ${validExtensions.join(", ")}`, "error");
       return;
     }
 
     try {
-      const image: any = await resizeImage(file, 720, 1024, 0.7);
-      setPreview(image);
-      setFormState((prevState: any) => ({ ...prevState, avatar: image })); 
-    } catch (error) {
+      // resizeImage devuelve un data URL (ej: "data:image/webp;base64,...")
+      const imageDataUrl: any = await resizeImage(file, 720, 1024, 0.7);
+
+      if (imageDataUrl) {
+        setPreview(imageDataUrl); // Para la previsualización en la UI
+
+        // Parsear el data URL para obtener base64 y extensión
+        const parts = imageDataUrl.split(',');
+        if (parts.length === 2) {
+          const metaPart = parts[0]; // Ej: "data:image/webp;base64"
+          const base64Data = parts[1]; // El contenido base64 puro
+
+          const typeMatch = metaPart.match(/data:image\/(\w+);base64/);
+          if (typeMatch && typeMatch[1]) {
+            const detectedExtension = typeMatch[1].toLowerCase(); // ej: "webp"
+            
+            // Almacenar en el formato deseado para el payload
+            setFormState((prevState: any) => ({ 
+              ...prevState, 
+              avatar: {
+                file: base64Data,
+                ext: detectedExtension 
+              }
+            }));
+          } else {
+            throw new Error("No se pudo determinar la extensión de la imagen desde el data URL.");
+          }
+        } else {
+          throw new Error("Data URL de imagen inválido.");
+        }
+      } else {
+        throw new Error("La función resizeImage no devolvió una imagen.");
+      }
+    } catch (error: any) {
       console.error("Error procesando imagen:", error);
-      if (showToast) showToast("Error al procesar la imagen.", "error");
-      setPreview(null);
-      setFormState((prevState: any) => ({ ...prevState, avatar: user.avatar || null })); 
+      if (showToast) showToast(error.message || "Error al procesar la imagen.", "error");
+      setPreview(user.avatar ? getUrlImages(user.avatar) : null); // Revertir preview al avatar actual del usuario
+      setFormState((prevState: any) => ({ ...prevState, avatar: user.avatar || null })); // Revertir avatar en formState
     }
   };
+  // --- FIN DE MODIFICACIÓN en onChangeFile ---
+
 
   const onEditProfile = () => {
     if (user) {
@@ -225,41 +273,40 @@ const Profile = () => {
             ...user,
             middle_name: user.middle_name || "",
             mother_last_name: user.mother_last_name || "",
-            avatar: user.avatar || null,
+            avatar: user.avatar || null, // El avatar actual (puede ser URL o null)
             pin: "",
         });
+        // @ts-ignore // user.avatar puede ser string o el objeto {file, ext} si ya se actualizó antes sin recargar
+        setPreview(user.avatar && typeof user.avatar === 'string' ? getUrlImages(user.avatar) : null );
     }
     setErrors({});
-    // @ts-ignore
-    setPreview(user.avatar ? getUrlImages(typeof user.avatar === 'string' ? user.avatar : `/ADM-${user.id}.webp?d=${user.updated_at}`) : null);
     setOpenProfileModal(true);
   };
 
   const onChangeEmail = () => {
-    // ELIMINADA LA VERIFICACIÓN DE PERMISOS userCan("profile", "U")
     setType("M");
     setOpenAuthModal(true);
   };
 
   const onChangePassword = () => {
-    // ELIMINADA LA VERIFICACIÓN DE PERMISOS userCan("profile", "U")
     setType("P");
     setOpenAuthModal(true);
   };
 
   const currentAvatarSrc = () => {
-    if (preview) return preview;
+    if (preview) return preview; // Si hay preview (nuevo archivo seleccionado en data URL), mostrarlo
+    
+    // Si formState.avatar es el objeto {file,ext}, no se puede usar directamente como src.
+    // En ese caso, deberíamos haber guardado el dataURL en preview.
+    // Esta función se usa más para el avatar principal fuera del modal de edición.
     if (user?.avatar) {
       if (typeof user.avatar === 'string') return getUrlImages(user.avatar);
-      // Asumiendo que user.avatar podría ser un objeto con file y ext
-      // @ts-ignore
-      if (user.avatar.file && user.avatar.ext) { 
-          // @ts-ignore
-          return getUrlImages(`/path/to/images/${user.avatar.file}.${user.avatar.ext}?d=${user?.updated_at}`);
-      }
+      // Si user.avatar fuera el objeto {file,ext} (poco probable directamente del backend así),
+      // necesitarías reconstruir el dataURL o tener una URL pre-firmada.
+      // Por ahora, asumimos que user.avatar del backend es una URL o null.
     }
     // @ts-ignore
-    return getUrlImages(`/ADM-${user?.id}.webp?d=${user?.updated_at}`); // Fallback
+    return getUrlImages(`/ADM-${user?.id}.webp?d=${user?.updated_at}`); // Fallback genérico
   };
   
   if (!user) {
@@ -288,7 +335,6 @@ const Profile = () => {
         <div className={styles.infoCard}>
           <div className={styles.cardHeader}>
             <h2>Información Personal</h2>
-            {/* ELIMINADA LA CONDICIÓN userCan PARA MOSTRAR EL BOTÓN */}
             <button onClick={onEditProfile} className={styles.editButton}>
               <IconEdit size={18} /> Editar
             </button>
@@ -306,12 +352,10 @@ const Profile = () => {
             <h2>Ajustes de Seguridad</h2>
           </div>
           <ul className={styles.settingsList}>
-            {/* ELIMINADA LA CONDICIÓN userCan Y CLASE CONDICIONAL */}
             <li onClick={onChangeEmail} className={styles.settingItem}>
               <IconEmail />
               <span>Cambiar correo electrónico</span>
             </li>
-            {/* ELIMINADA LA CONDICIÓN userCan Y CLASE CONDICIONAL */}
             <li onClick={onChangePassword} className={styles.settingItem}>
               <IconLook />
               <span>Cambiar contraseña</span>
@@ -350,8 +394,7 @@ const Profile = () => {
             <div className={styles.modalAvatarSection}>
               <Avatar
                 name={getFullName(formState as any)}
-                // Corregido para manejar el caso de que formState.avatar sea un objeto File
-                src={preview || (formState.avatar && typeof formState.avatar === 'string' ? getUrlImages(formState.avatar) : (user?.avatar && typeof user.avatar === 'string' ? getUrlImages(user.avatar) : currentAvatarSrc() ) )}
+                src={preview || (formState.avatar && typeof formState.avatar === 'string' ? getUrlImages(formState.avatar) : currentAvatarSrc())}
                 w={100}
                 h={100}
               />
@@ -369,10 +412,10 @@ const Profile = () => {
             
             <InputFullName
               value={formState}
-              name={"full_name"} // Asegúrate que InputFullName maneje esto para distribuir a name, last_name, etc. o ajusta según corresponda
+              name={"full_name"} 
               errors={errors}
               onChange={handleChange}
-              disabled={false} // O según tu lógica, pero la petición es quitar permisos de edición.
+              disabled={false}
               onBlur={(e: any) => validate([e.target.name])}
             />
             
@@ -413,8 +456,8 @@ const Profile = () => {
           open={openAuthModal}
           onClose={() => setOpenAuthModal(false)}
           type={type}
-          formState={formState} // Se pasa el formState actual
-          setFormState={setFormState as any} // Para que Authentication pueda actualizarlo si es necesario
+          formState={formState}
+          setFormState={setFormState as any}
           errors={errors}
           setErrors={setErrors as any}
           execute={execute}
