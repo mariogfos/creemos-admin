@@ -75,7 +75,7 @@
 .pageTitleBar {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 8px;
   position: absolute;
   left: 50%;
@@ -92,6 +92,7 @@
   background-color: var(--cWhite);
   border-radius: 16px;
   cursor: pointer;
+  color: var(--cPrimary);
 }
 
 .pageTitle {
@@ -175,10 +176,32 @@
   color: var(--cTextDark);
 }
 
+.paragraphContainer {
+  margin-bottom: 1.5rem;
+}
+
+.contentSubtitle {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
 .tocItems {
-  font-weight: 400;
-  font-size: 24px;
-  color: var(--cTextGray);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tocItem {
+  color: #2c3e50;
+  transition: color 0.2s ease;
+}
+
+.tocItem:hover {
+  color: #3498db;
+  text-decoration: underline;
 }
 
 /* --- Secciones de Contenido --- */

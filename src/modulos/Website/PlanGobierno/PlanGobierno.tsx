@@ -3,73 +3,122 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './PlanGobierno.module.css';
-
-// --- Iconos SVG (Reutilizar/Definir como en las páginas anteriores) ---
-const IconoFlechaAtras = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className={styles.svgIconSmall}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-  </svg>
-);
-
-const IconoFacebook = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={styles.socialSvgIcon}>
-    <path d="M9.198 21.5h4v-8.01h2.669l.399-2.969h-3.068V8.435c0-.86.238-1.446 1.474-1.446h1.565V4.349c-.27-.036-1.2-.117-2.279-.117-2.251 0-3.793 1.348-3.793 3.896v2.197H6.396v2.969h2.802v8.01Z" />
-  </svg>
-);
-
-const IconoTwitter = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={styles.socialSvgIcon}>
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z" />
-  </svg>
-);
-
-const IconoInstagram = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={styles.socialSvgIcon}>
-    <path fillRule="evenodd" d="M12.315 2.5a9.815 9.815 0 0 0-9.815 9.815c0 5.424 4.391 9.815 9.815 9.815s9.815-4.391 9.815-9.815S17.739 2.5 12.315 2.5Zm0 1.636a8.179 8.179 0 1 0 0 16.358 8.179 8.179 0 0 0 0-16.358Z" clipRule="evenodd" />
-    <path d="M12.315 6.545a5.77 5.77 0 1 0 0 11.54 5.77 5.77 0 0 0 0-11.54Zm0 1.636a4.134 4.134 0 1 0 0 8.268 4.134 4.134 0 0 0 0-8.268Z" />
-    <path d="M18.301 7.182a1.227 1.227 0 1 1-2.454 0 1.227 1.227 0 0 1 2.454 0Z" />
-  </svg>
-);
-
-const IconoYouTube = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={styles.socialSvgIcon}>
-        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.411 0 5.923 0 12.001c0 6.079.488 8.59 3.383 8.818 3.6.245 11.626.246 15.23 0C21.513 20.59 22 18.08 22 12.001c0-6.078-.487-8.59-3.385-8.817ZM9.597 17.002V7.002l6.803 5.001-6.803 4.999Z" />
-    </svg>
-);
-// --- Fin Iconos ---
+import { 
+  IconoFlechaAtras,
+  IconoFacebook,
+  IconoTwitter,
+  IconoInstagram,
+  IconoYouTube 
+} from '../components/Icons';
 
 interface ContentSectionProps {
   title: string;
-  paragraphs: string[];
+  paragraphs: {
+    subtitle: string;
+    content: string;
+  }[];
 }
 
 const ContentSection: React.FC<ContentSectionProps> = ({ title, paragraphs }) => {
   return (
-    <div className={styles.contentSection}>
+    <div id={title.toLowerCase().replace(/\s+/g, '-')} className={styles.contentSection}>
       <div className={styles.contentBlock}>
         <span className={styles.contentTitle}>{title}</span>
         {paragraphs.map((paragraph, index) => (
-          <span key={index} className={styles.contentText}>
-            {paragraph}
-          </span>
+          <div key={index} className={styles.paragraphContainer}>
+            <span className={styles.contentSubtitle}>{paragraph.subtitle}</span>
+            <span className={styles.contentText}>{paragraph.content}</span>
+          </div>
         ))}
       </div>
     </div>
   );
 };
 
-
 const PlanDeGobierno: React.FC = () => {
   const router = useRouter();
-  const placeholderParagraph = "nisi volutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in nisi volutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in nisi volutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in cidunt Vestibuluolutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrice.\n\nnisi volutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in nisi volutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in nisi volutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in cidunt Vestibuluolutpat placerat placerat amet, urna. elit nec convallis. faucibus elit tincidunt Vestibulum ultrices tempor Cras maximus gravida tincidunt tincidunt in Vestibulum ultrice.";
-
   const sectionsData: ContentSectionProps[] = [
-    { title: "Introducción", paragraphs: [placeholderParagraph, placeholderParagraph, placeholderParagraph] },
-    { title: "Presentación de la organización política", paragraphs: [placeholderParagraph, placeholderParagraph, placeholderParagraph] },
-    { title: "Principios ideológicos", paragraphs: [placeholderParagraph, placeholderParagraph, placeholderParagraph] },
-    { title: "Valores", paragraphs: [placeholderParagraph, placeholderParagraph, placeholderParagraph] },
-    { title: "Programas y acciones", paragraphs: [placeholderParagraph, placeholderParagraph, placeholderParagraph] },
+    { 
+      title: "Introducción", 
+      paragraphs: [
+        {
+          subtitle: "Visión General",
+          content: "Creemos presenta un proyecto transformador para construir una Bolivia unida, próspera y con oportunidades para todos. Nuestro plan se sustenta en el diálogo constructivo y la búsqueda de consensos, superando las divisiones del pasado para enfocarnos en el desarrollo sostenible y la justicia social."
+        },
+        {
+          subtitle: "Enfoque",
+          content: "Proponemos una nueva forma de hacer política: técnica, eficiente y alejada de populismos. Nuestra hoja de ruta prioriza la reactivación económica, la modernización del Estado y la protección de nuestros recursos naturales para las futuras generaciones."
+        }
+      ]
+    },
+    { 
+      title: "Presentación de la organización política", 
+      paragraphs: [
+        {
+          subtitle: "Origen y Expansión",
+          content: "Creemos es un movimiento ciudadano nacido en Santa Cruz que se ha expandido a nivel nacional, representando los valores de trabajo, progreso y libertad responsable. Desde nuestra fundación en 2019, nos consolidamos como alternativa seria ante la polarización tradicional."
+        },
+        {
+          subtitle: "Liderazgo",
+          content: "Liderados por profesionales con experiencia en gestión pública y sector privado, promovemos un modelo de desarrollo integral que combina crecimiento económico con protección social, respetando nuestra diversidad cultural y geográfica."
+        }
+      ]
+    },
+    { 
+      title: "Principios ideológicos", 
+      paragraphs: [
+        {
+          subtitle: "Fundamentos",
+          content: "1. Democracia Participativa: Fortalecimiento de mecanismos de consulta ciudadana y rendición de cuentas\n2. Autonomías Responsables: Profundización del proceso autonómico con equilibrio regional\n3. Economía Social de Mercado: Fomento a la iniciativa privada con protección a sectores vulnerables\n4. Sustentabilidad Ambiental: Crecimiento compatible con la preservación de ecosistemas\n5. Transparencia Radical: Cero tolerancia a la corrupción con sistemas de control ciudadano"
+        }
+      ]
+    },
+    { 
+      title: "Valores", 
+      paragraphs: [
+        {
+          subtitle: "Pilares Fundamentales",
+          content: "● Integridad: Ética como base de toda acción pública\n● Equidad: Oportunidades para todos los bolivianos\n● Solidaridad: Protección efectiva a los más necesitados\n● Innovación: Gobierno digital y modernización administrativa\n● Patriotismo: Defensa de la soberanía con integración global"
+        }
+      ]
+    },
+    { 
+      title: "Programas y acciones", 
+      paragraphs: [
+        {
+          subtitle: "Desarrollo Económico",
+          content: "Reactivación Productiva: Plan Nacional de Infraestructura (5,000 km de caminos), créditos a MIPYMES y atracción de inversiones estratégicas"
+        },
+        {
+          subtitle: "Educación",
+          content: "Educación del Siglo XXI: Universalización de la educación digital, becas internacionales y modernización curricular"
+        },
+        {
+          subtitle: "Salud",
+          content: "Salud Preventiva: Red de 100 nuevos centros especializados y seguro universal gratuito"
+        },
+        {
+          subtitle: "Seguridad",
+          content: "Seguridad Ciudadana: Sistema unificado de emergencias, modernización policial y lucha contra el narcotráfico"
+        },
+        {
+          subtitle: "Medio Ambiente",
+          content: "Medio Ambiente: Transición energética progresiva y ley de economía circular"
+        },
+        {
+          subtitle: "Tecnología",
+          content: "Tecnología: Conectividad total a internet y transformación digital del Estado"
+        }
+      ]
+    },
   ];
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className={styles.pageContainer}>
@@ -103,13 +152,18 @@ const PlanDeGobierno: React.FC = () => {
       {/* Tabla de Contenido */}
       <div className={styles.tableOfContentsContainer}>
         <span className={styles.tocTitle}>Tabla de contenido</span>
-        <span className={styles.tocItems}>
-          Introducción<br />
-          Presentación de la organización política<br />
-          Principios ideológicos<br />
-          Valores<br />
-          Programas y acciones
-        </span>
+        <div className={styles.tocItems}>
+          {sectionsData.map((section, index) => (
+            <span 
+              key={index} 
+              className={styles.tocItem}
+              onClick={() => scrollToSection(section.title.toLowerCase().replace(/\s+/g, '-'))}
+              style={{ cursor: 'pointer' }}
+            >
+              {section.title}
+            </span>
+          ))}
+        </div>
       </div>
 
       {/* Secciones de Contenido */}

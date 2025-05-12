@@ -6,16 +6,16 @@
   overflow-x: hidden;
 }
 
-/* --- Cabecera (Similar a History.style.module.css) --- */
+/* --- Cabecera --- */
 .headerBar {
   height: auto;
   width: 100%;
   background-color: var(--cPrimary);
   padding: 0 120px 16px 120px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
   box-sizing: border-box;
+  position: relative;
 }
 
 .headerContent {
@@ -27,13 +27,12 @@
 
 .headerLogoContainer {
   width: 53px;
-  height: 80px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  padding: 9.02px 4.51px;
-  flex-shrink: 0;
+  padding: 9px 4.5px;
 }
 
 .headerLogo {
@@ -42,40 +41,49 @@
   object-fit: cover;
 }
 
+.headerMainArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+}
+
 .headerSocialIcons {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-grow: 1;
-  justify-content: flex-start;
 }
 
 .socialIconCircleSmall {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  border-radius: 16px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.socialIconCircleSmall:hover {
+  background-color: var(--cPrimary);
+}
+
+.socialIconCircleSmall:hover svg {
+  color: var(--cWhite);
 }
 
 .socialSvgIcon {
-  width: auto;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   color: var(--cPrimary);
-}
-
-.svgIconSmall { /* Para flecha atrás */
-  width: 16px;
-  height: 16px;
-  color: var(--cPrimary);
+  transition: all 0.3s ease;
 }
 
 .pageTitleBar {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 8px;
   position: absolute;
   left: 50%;
@@ -90,8 +98,15 @@
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  border-radius: 16px;
+  border-radius: 20px;
   cursor: pointer;
+  color: var(--cPrimary);
+}
+
+.svgIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--cPrimary);
 }
 
 .pageTitle {
