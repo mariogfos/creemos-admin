@@ -31,7 +31,7 @@ const Profile = () => {
     phone: "",
     prefix_phone: "",
     address: "",
-    code: "",
+    pin: "",
   });
   const [errors, setErrors] = useState<any>({});
   const [preview, setPreview] = useState<any>(null);
@@ -68,7 +68,7 @@ const Profile = () => {
         phone: user.phone || "",
         prefix_phone: user.prefix_phone || "",
         address: user.address || "",
-        code: "", 
+        pin: "", 
       }));
       setOldEmail(user.email || "");
       setPreview(null); 
@@ -93,7 +93,7 @@ const Profile = () => {
     ];
 
     if (openProfileModal) {
-        allFields.push({ key: "code", rules: ["required", "numeric", "len:4"] });
+        allFields.push({ key: "pin", rules: ["required", "numeric", "len:4"] });
     }
 
     let fieldsToProcess: any[] = fieldsToValidate.length > 0 ?
@@ -148,7 +148,7 @@ const Profile = () => {
       last_name: formState.last_name,
       mother_last_name: formState.mother_last_name || "",
       email: formState.email,
-      code: formState.code,
+      pin: formState.pin,
     };
 
     if (typeof formState.avatar === "string" && formState.avatar.startsWith("data:image")) {
@@ -167,7 +167,7 @@ const Profile = () => {
       if (getUser) await getUser();
       if (showToast) showToast("Cambios guardados exitosamente", "success");
       setOpenProfileModal(false);
-      setFormState((prevState: any) => ({ ...prevState, code: "" }));
+      setFormState((prevState: any) => ({ ...prevState, pin: "" }));
       setPreview(null);
     } else {
       console.log("Error al guardar perfil:", err);
@@ -178,8 +178,8 @@ const Profile = () => {
         if (showToast) showToast("Error al guardar los cambios. Inténtalo de nuevo.", "error");
       }
       setErrors((prevErrors: any) => ({ ...prevErrors, ...backendErrors }));
-      if (backendErrors.code) {
-         if (showToast) showToast("El código de seguridad es incorrecto.", "error");
+      if (backendErrors.pin) {
+         if (showToast) showToast("El PIN de seguridad es incorrecto.", "error");
       }
     }
   };
@@ -191,7 +191,7 @@ const Profile = () => {
         ...prevState,
         ...user,
         avatar: user.avatar || null,
-        code: "",
+        pin: "",
       }));
     }
     setErrors({});
@@ -226,7 +226,7 @@ const Profile = () => {
             middle_name: user.middle_name || "",
             mother_last_name: user.mother_last_name || "",
             avatar: user.avatar || null,
-            code: "",
+            pin: "",
         });
     }
     setErrors({});
@@ -390,19 +390,19 @@ const Profile = () => {
             </div>
 
             <div className={styles.formField}>
-              <label htmlFor="codeModal" className={styles.label}>Código de Seguridad (4 dígitos):</label>
+              <label htmlFor="pinModal" className={styles.label}>PIN de Seguridad (4 dígitos):</label>
               <input
-                type="password" // Cambiado a password para ocultar el código
-                id="codeModal" name="code"
-                className={`${styles.inputField} ${errors.code ? styles.inputError : ''}`}
-                value={formState.code || ""}
+                type="password"
+                id="pinModal" name="pin"
+                className={`${styles.inputField} ${errors.pin ? styles.inputError : ''}`}
+                value={formState.pin || ""}
                 onChange={handleChange}
                 maxLength={4}
                 placeholder="••••"
-                autoComplete="new-password" // Para evitar autocompletado de contraseñas guardadas
-                onBlur={() => validate(['code'] as any[])}
+                autoComplete="new-password"
+                onBlur={() => validate(['pin'] as any[])}
               />
-              {errors.code && <p className={styles.errorText}>{errors.code}</p>}
+              {errors.pin && <p className={styles.errorText}>{errors.pin}</p>}
             </div>
           </div>
         </DataModal>
