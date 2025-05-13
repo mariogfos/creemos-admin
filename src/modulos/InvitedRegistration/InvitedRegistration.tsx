@@ -47,7 +47,7 @@ const InvitedRegistration: React.FC<CarnetSimpatizanteProps> = ({ id }) => {
 
       {/* Contenido Principal */}
       <div className={styles.mainContent}>
-        <SerParteForm />
+        <SerParteForm user_id={id} />
       </div>
 
       {/* Sección Seguinos en las redes */}

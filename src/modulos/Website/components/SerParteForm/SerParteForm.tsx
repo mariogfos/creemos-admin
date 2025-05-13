@@ -36,10 +36,15 @@ interface FormDataInterface {
   municipio: string; 
   distrito: string;  
   localidad: string; 
-  recinto: string;   
+  recinto: string;
+  genero: string;   
 }
 
-const SerParteForm: React.FC = () => {
+interface SerParteFormProps {
+  user_id?: string;
+}
+
+const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
   const initialFormData: FormDataInterface = {
     primer_nombre: '',
     segundo_nombre: '',
@@ -54,7 +59,8 @@ const SerParteForm: React.FC = () => {
     municipio: '',
     distrito: '',
     localidad: '',
-    recinto: ''
+    recinto: '',
+    genero: ''
   };
 
   const [formData, setFormData] = useState<FormDataInterface>(initialFormData);
@@ -254,6 +260,8 @@ const SerParteForm: React.FC = () => {
       dist_code: (formData.provincia === '1' && formData.municipio === '1' && formData.distrito) ? parseInt(formData.distrito, 10) : null,
       local_code: formData.localidad ? parseInt(formData.localidad, 10) : null,
       recint_code: formData.recinto ? parseInt(formData.recinto, 10) : null,
+      gender: formData.genero,
+      ...(user_id && { user_id: user_id })
     };
 
     try {
@@ -315,9 +323,23 @@ const SerParteForm: React.FC = () => {
                 <div className={styles.fieldControl}><input type="text" name="cedula" value={formData.cedula} onChange={handleInputChange} placeholder="Cédula de identidad" required disabled={isLoading || isLoadingAreaData} /></div>
                 <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon}`}><input type="date" name="fecha_nacimiento" value={formData.fecha_nacimiento} onChange={handleInputChange} style={{ WebkitAppearance: 'none', MozAppearance: 'textfield' }} required disabled={isLoading || isLoadingAreaData} /></div>
               </div>
-              {/* Fila 4: Correo */}
+              {/* Fila 4: Correo y Género */}
               <div className={styles.fieldRow}>
                 <div className={styles.fieldControl}><input type="email" name="correo" value={formData.correo} onChange={handleInputChange} placeholder="Correo electrónico" required disabled={isLoading || isLoadingAreaData} /></div>
+                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon}`}>
+                  <select 
+                    name="genero" 
+                    value={formData.genero} 
+                    onChange={handleInputChange} 
+                    required 
+                    disabled={isLoading || isLoadingAreaData}
+                  >
+                    <option value="">Seleccione su género</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                  </select>
+                  <div className={styles.iconWrapper}><IconoChevronAbajo /></div>
+                </div>
               </div>
               {/* Fila 5: WhatsApp y Dirección */}
               <div className={styles.fieldRow}>

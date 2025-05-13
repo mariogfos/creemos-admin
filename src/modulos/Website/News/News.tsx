@@ -50,16 +50,16 @@ const NewsCard: React.FC<NewsCardProps> = ({
 const UltimasNoticias: React.FC = () => {
   const router = useRouter();
   const noticiasRecientesPrincipal = {
-    imageUrl: "https://via.placeholder.com/1003x592/60ad2b/ffffff?Text=AssureSoft+Development+Center",
+    imageUrl: "https://www.assuresoft.com/sites/default/files/pic-santa.png.webp", // Imagen del edificio Green Tower en Santa Cruz
     imageAlt: "AssureSoft Development Center en Green Tower",
     timeAgo: "Hace 2 semanas",
     title: "AssureSoft Expande Operaciones con Nuevo Centro de Desarrollo en Santa Cruz",
     caption: "El centro en Green Tower planea contratar a más de 200 desarrolladores, impulsando la industria tecnológica local.",
   };
-
+  
   const noticiasRecientesSecundarias = [
     {
-      imageUrl: "https://via.placeholder.com/469x251/60ad2b/ffffff?Text=Reforestation+Project",
+      imageUrl: "https://pulsoempresarial.com.bo/wp-content/uploads/2022/11/Proyecto-nuevo-almacigos.jpg", // Imagen de la campaña de reforestación en Santa Cruz
       imageAlt: "Proyecto de reforestación en Santa Cruz",
       timeAgo: "Hace 1 mes",
       title: "Gran Iniciativa de Reforestación Lanzada en Santa Cruz",
@@ -67,7 +67,7 @@ const UltimasNoticias: React.FC = () => {
       titleColor: styles.textDeepBlue,
     },
     {
-      imageUrl: "https://via.placeholder.com/483x251/60ad2b/ffffff?Text=Creemos+Conference",
+      imageUrl: "https://vision360-s3.cdn.net.ar/s3i233/2024/11/vision360/images/01/21/24/1212421_8025996730cab995b69e4a06d1ed54bdea2566ecb822a650683c45f00779a885/md.webp", // Imagen del foro empresarial organizado por CAINCO
       imageAlt: "Conferencia de Creemos sobre crecimiento económico",
       timeAgo: "Hace 1 día",
       title: "Creemos Organiza Conferencia sobre Estrategias de Crecimiento Económico",
@@ -75,15 +75,15 @@ const UltimasNoticias: React.FC = () => {
       titleColor: styles.textDeepBlue,
     },
   ];
-
+  
   const noticiasPasadas = Array(7).fill({
-    imageUrl: "https://via.placeholder.com/350x202/cccccc/ffffff?Text=Health+Project",
+    imageUrl: "https://estaticos.unitel.bo/binrepository/498x281/45c0/420d280/none/246276540/RCEC/elon-musk_101-8428275_20240306202448.png", // Imagen representativa de proyectos de salud indígena en Santa Cruz
     imageAlt: "Proyecto de salud en Santa Cruz",
     timeAgo: "Hace 3 meses",
     title: "Santa Cruz Lidera en Participación Social para la Salud Indígena",
     caption: "Iniciativa mejora el acceso a la salud para comunidades indígenas con apoyo de la OPS/OMS.",
   });
-
+  
   return (
     <div className={styles.pageContainer}>
       {/* Cabecera */}
@@ -145,10 +145,18 @@ const UltimasNoticias: React.FC = () => {
         </div>
       </div>
 
-      {/* Imágenes del final (decorativas/laterales?) */}
+      {/* Video de Facebook */}
       <div className={styles.decorativeImagesContainer}>
-        <img className={styles.decorativeImageTall} src="https://via.placeholder.com/99x494/eeeeee/999999?Text=Ad" alt="Decoración lateral 1" />
-        <img className={styles.decorativeImageTall} src="https://via.placeholder.com/99x496/eeeeee/999999?Text=Ad" alt="Decoración lateral 2" />
+        <iframe 
+          src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D973786977952703&show_text=false"
+          width="100%"
+          height="495"
+          style={{border: 'none', overflow: 'hidden'}}
+          scrolling="no"
+          frameBorder="0"
+          allowFullScreen={true}
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+        />
       </div>
 
       {/* Sección Seguinos en las redes */}

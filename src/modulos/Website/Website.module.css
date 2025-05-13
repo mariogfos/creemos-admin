@@ -1,46 +1,48 @@
-/* Estilos Generales */
 .pageContainer {
-  width: 100%; /* Ancho total de la página */
+  width: 100%;
   background-color: var(--cWhite);
-  margin: 0 auto; /* Centrar la página si el viewport es más grande */
-  overflow-x: hidden; /* Evitar scroll horizontal si algo se desborda */
+  margin: 0 auto;
+  overflow-x: hidden;
 }
 
 .heroImage {
-  width: 100%; /* Ajustar al contenedor de la página */
+  width: 100%;
   height: 784px;
   object-fit: cover;
-  display: block; /* Evitar espacio extra debajo de la imagen */
+  display: block;
 }
 
-/* Barra de Navegación */
 .navBar {
-  height: 80px;
+  height: auto;
+  min-height: 80px;
   width: 100%;
   background-color: var(--cPrimary);
-  padding: 0 120px; /* px-[120px] */
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px; /* gap-2.5 */
+  justify-content: center;
   box-sizing: border-box;
 }
 
 .navContent {
   display: flex;
   align-items: center;
-  gap: 16px; /* gap-4 */
+  justify-content: space-between;
+  gap: 16px;
   align-self: stretch;
-  height: 100%;
+  min-height: 80px;
+  flex-wrap: wrap;
 }
 
 .navLogoContainer {
   width: 53px;
-  height: 100%; /* h-20 */
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  padding: 9px 4.5px; /* py-[9.02px] px-[4.51px] */
+  padding: 9px 4.5px;
+  flex-shrink: 0;
 }
 
 .navLogo {
@@ -54,72 +56,81 @@
   justify-content: space-between;
   align-items: center;
   flex-grow: 1;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .socialIconsContainer {
   display: flex;
   align-items: center;
-  gap: 8px; /* gap-2 */
-  /* grow se maneja por navLinksAndActions */
+  gap: 8px;
 }
 
 .socialIconCircle {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  border-radius: 20px;
+  border-radius: 50%;
 }
 
 .socialSvgIcon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   color: var(--cPrimary);
 }
 
 .navMenuAndButtons {
   display: flex;
   align-items: center;
-  gap: 64px; /* gap-16 */
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .navMenuItems {
   display: flex;
   align-items: center;
-  gap: 24px; /* gap-6 */
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .navLink {
-  font-weight: 400; /* font-normal */
-  font-size: 20px;
+  font-weight: 400;
+  font-size: 18px;
   color: var(--cWhite);
   cursor: pointer;
+  padding: 8px 4px;
 }
 
 .navButtons {
   display: flex;
   align-items: center;
-  gap: 12px; /* gap-3 */
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .navButtonBase {
-  height: 48px; /* h-12 */
+  height: 44px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px; /* gap-2.5 */
-  padding: 12px; /* p-3 */
-  border-radius: 12px; /* rounded-xl */
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 10px;
   box-sizing: border-box;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 16px;
 }
 
 .navButtonOutline {
   composes: navButtonBase;
-  width: 144px; /* w-36 */
+  min-width: 120px;
   border: 1px solid var(--cWhite);
 }
 
@@ -130,6 +141,7 @@
 .navButtonSolid {
   composes: navButtonBase;
   background-color: var(--cWhite);
+  min-width: 130px;
 }
 
 .navButtonSolid:hover {
@@ -137,388 +149,391 @@
 }
 
 .navButtonTextWhite {
-  font-weight: 500; /* font-medium */
-  font-size: 20px;
+  font-weight: 500;
+  font-size: inherit;
   text-align: center;
   color: var(--cWhite);
 }
 
 .navButtonTextPrimary {
-  font-weight: 500; /* font-medium */
-  font-size: 20px;
+  font-weight: 500;
+  font-size: inherit;
   text-align: center;
   color: var(--cPrimary);
 }
 
-/* Sección de Noticias/Obras/Plan */
 .cardsSection {
-  width: 1488px; /* w-[1488px] */
+  max-width: 1488px;
+  width: 90%;
   display: flex;
-  align-items: center;
-  gap: 36px; /* gap-9 */
-  margin-left: auto;  /* Para centrar horizontalmente */
-  margin-right: auto; /* Para centrar horizontalmente */
-  margin-top: -78.4px; /* 10% de 784px de la heroImage. Ajusta este valor si la altura de heroImage cambia. */
-  margin-bottom: 32px; /* Mantenemos o ajustamos el margen inferior según sea necesario */
-  padding: 32px 0; /* Asumiendo que px-[120px] del padre ya aplica */
-  position: relative; /* Necesario para que z-index funcione correctamente */
-  z-index: 10;        /* Un valor mayor que el z-index de heroImage (que por defecto es auto o 0) */
-  background-color: transparent; /* O el color de fondo de pageContainer si es necesario para evitar solapamientos visuales extraños                                          entre las tarjetas y el fondo de la página, aunque las tarjetas ya tienen su propio fondo.                                           Si las tarjetas no cubren todo el ancho de cardsSection y hay espacios,                                         un fondo aquí podría ser útil. Por ahora, transparente debería funcionar bien. */
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -70px;
+  margin-bottom: 32px;
+  padding: 32px 0;
+  position: relative;
+  z-index: 10;
+  background-color: transparent;
 }
 
 .card {
-  height: 384px; /* h-96 */
-  width: 472px; /* w-[472px] */
+  height: 360px;
+  width: 100%;
+  max-width: 420px;
+  min-width: 280px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Para que el caption quede abajo */
-  align-items: center; /* items-center */
-  gap: 10px; /* gap-2.5 */
-  border-radius: 12px; /* rounded-xl */
-  overflow: hidden; /* Para que el caption no se salga si la imagen es más pequeña */
-  position: relative; /* Para el caption absoluto si es necesario */
+  justify-content: flex-end;
+  align-items: center;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  background-color: var(--cWhite);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .cardImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px; /* rounded-xl */
   display: block;
 }
 
 .cardCaption {
-  /* Este div estaba DENTRO de la imagen en el HTML, lo cual no es estándar.
-     Lo coloco como un elemento hermano que se superpone o se coloca debajo.
-     Aquí lo pongo como un pie de imagen.
-  */
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px; /* gap-2.5 */
-  align-self: stretch; /* self-stretch */
+  gap: 10px;
+  align-self: stretch;
   background-color: var(--cPrimary);
-  padding: 12px; /* p-3 */
-  border-bottom-left-radius: 12px; /* rounded-bl-xl */
-  border-bottom-right-radius: 12px; /* rounded-br-xl */
-  position: absolute; /* Para que esté sobre la imagen */
+  padding: 12px;
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .cardCaptionText {
-  font-weight: 600; /* font-semibold */
-  font-size: 24px;
+  font-weight: 600;
+  font-size: 20px;
   color: var(--cWhite);
+  text-align: center;
 }
 
-/* Sección Conviértete en Simpatizante */
 .simpatizanteSection {
-  width: 100%; /* w-[1728px] */
+  width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 56px; /* gap-14 */
+  gap: 32px;
   background-color: var(--cBackgroundLight);
-  padding: 32px 120px; /* py-8 px-[120px] */
+  padding: 32px 20px;
   box-sizing: border-box;
 }
 
 .simpatizanteImage {
-  height: 384px; /* h-96 */
-  width: 592px; /* w-[592px] */
+  height: auto;
+  max-height: 384px;
+  width: 100%;
+  max-width: 500px;
   object-fit: cover;
-  border-radius: 12px; /* rounded-xl */
+  border-radius: 12px;
 }
 
 .simpatizanteTextContainer {
   display: flex;
-  align-items: center; /* items-center */
-  gap: 40px; /* gap-10 */
-  /* El HTML original tiene un div para texto y otro para icono. */
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+  max-width: 700px;
 }
 
 .simpatizanteTextContent {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 8px; /* gap-2 */
-  align-self: stretch; /* self-stretch */
-  width: 478px; /* w-[478px] */
+  gap: 8px;
+  align-self: stretch;
+  width: 100%;
 }
 
 .titleDark {
-  font-weight: 700; /* font-bold */
-  font-size: 32px;
+  font-weight: 700;
+  font-size: 28px;
   color: var(--cTextDark);
 }
 
 .textGrayNormal {
-  font-weight: 400; /* font-normal */
-  font-size: 24px;
+  font-weight: 400;
+  font-size: 18px;
   color: var(--cTextGray);
+  line-height: 1.6;
 }
 
 .simpatizanteIconContainer {
-  width: 204px; /* w-[204px] */
+  width: auto;
+  max-width: 204px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* Padding y gap del HTML original parecen muy específicos para el contenido del icono */
-  /* px-[73.15px] py-[82.45px] gap-[4.04px] */
 }
 
 .simpatizanteIcon {
-  width: 204px; /* w-[47.69px] */
-  height: 202px; /* h-[37.47px] */
+  width: 100%;
+  max-width: 180px;
+  height: auto;
 }
 
-/* Sección Conoce Nuestras Autoridades */
 .autoridadesSection {
-  width: 100%; /* w-[1728px] */
+  width: 100%;
   display: flex;
-  align-items: center; /* items-center (verticalmente) */
-  gap: 40px; /* gap-10 */
-  padding: 40px 120px; /* py-10 px-[120px] */
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 40px 20px;
   box-sizing: border-box;
 }
 
 .autoridadesText {
-  width: 514px; /* w-[514px] */
+  width: 100%;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
-  gap: 8px; /* gap-2 */
+  text-align: center;
+  gap: 8px;
 }
 
 .autoridadesGridContainer {
-  width: 950px; /* w-[950px] */
+  width: 100%;
+  max-width: 950px;
   display: flex;
   flex-direction: column;
-  gap: 24px; /* gap-6 */
+  gap: 24px;
 }
 
 .autoridadesGrid {
-  display: grid; /* Usar grid para 3x2 */
-  grid-template-columns: repeat(3, 1fr); /* Tres columnas */
-  gap: 8px; /* gap-2 entre imágenes y captions */
-  align-self: stretch; /* self-stretch */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  align-self: stretch;
 }
 
 .autoridadCard {
-  /* Cada tarjeta de autoridad */
-  width: 306px; /* w-[306px] */
-  position: relative; /* Para el caption */
+  width: 100%;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #eee;
 }
 
 .autoridadImage {
-  width: 100%; /* w-[306px] */
-  height: 339px; /* h-[339px] */
-  object-fit: cover; /* object-cover para algunas */
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
   display: block;
-  /* Los placeholders vacíos no se pueden replicar sin un color de fondo */
-  background-color: #eee; /* Placeholder para las img vacías */
 }
 
 .autoridadCaption {
-  width: 100%; /* w-[306px] */
-  height: 52px; /* h-[52px] */
+  width: 100%;
+  height: auto;
+  min-height: 52px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px; /* gap-2.5 */
+  text-align: center;
+  gap: 10px;
   background-color: var(--cPrimary);
-  padding: 12px; /* p-3 */
-  border-bottom-left-radius: 12px; /* rounded-bl-xl */
-  border-bottom-right-radius: 12px; /* rounded-br-xl */
+  padding: 12px;
   box-sizing: border-box;
-  /* Estaba fuera de las imágenes en el HTML, pero es un caption */
-  /* Para replicar el HTML, necesitarías poner estos divs después de cada fila de imágenes */
-  /* O usar posicionamiento absoluto si es por tarjeta */
   position: absolute;
   bottom: 0;
   left: 0;
 }
 
 .autoridadName {
-  font-weight: 600; /* font-semibold */
-  font-size: 24px;
+  font-weight: 600;
+  font-size: 18px;
   color: var(--cWhite);
 }
 
 .autoridadesNav {
-  width: 934px; /* w-[934px] */
+  width: 100%;
+  max-width: 934px;
   display: flex;
-  justify-content: flex-end; /* Estaba items-end, pero parece más un control de nav */
-  gap: 12px; /* gap-3 (entre los dos círculos) */
-  /* align-items: end;  flex items-end */
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .navArrowCircle {
-  width: 40px; /* w-10 */
-  height: 40px; /* h-10 */
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  border-radius: 26.67px; /* rounded-[26.66px] */
+  border-radius: 50%;
   border: 0.83px solid var(--cPrimary);
   cursor: pointer;
-  /* El contenido del div original era otro div, aquí usamos SVG directamente */
 }
 
-.svgIcon { /* Para los iconos de flecha */
-  width: 20px; /* Ajusta según el tamaño deseado, el div interno era 26px */
+.svgIcon {
+  width: 20px;
   height: 20px;
-  color: var(--cPrimary); /* Color del borde */
+  color: var(--cPrimary);
 }
 
-/* Sección Portada con Texto */
+.chevronSvgIcon {
+  width: 20px;
+  height: 20px;
+}
+
 .portadaFullWidth {
-  width: 100%; /* w-[1728px] */
-  display: flex; /* flex flex-col */
+  width: 100%;
+  display: flex;
   flex-direction: column;
-  position: relative; /* Para superponer texto */
+  position: relative;
 }
 
 .portadaFullWidthImage {
-  height: 448px; /* h-[448px] */
+  width: 100%;
+  height: 448px;
   object-fit: cover;
   display: block;
 }
 
 .portadaColorBar {
-  /* El div tenía: flex justify-center gap-[60px] self-stretch h-[26px] bg-[#d24067] px-[120px] */
-  /* Esto sugiere que podría haber contenido, pero el HTML no lo muestra */
   height: 26px;
   background-color: var(--cPrimary);
-  width: 100%; /* self-stretch */
-  /* padding: 0 120px; Si tuviera contenido */
-  /* display: flex; justify-content: center; gap: 60px; */
+  width: 100%;
 }
 
 .portadaTextOverlay {
-    /* Este div no estaba en el HTML original, pero es necesario para posicionar el texto */
-    /* sobre la imagen o en un área designada. Ajusta el posicionamiento según diseño. */
-    position: absolute;
-    top: 50%; /* Ejemplo: centrado verticalmente */
-    left: 120px; /* px-[120px] */
-    transform: translateY(-50%); /* Ajuste para centrado vertical */
-    z-index: 1;
-    /* background-color: rgba(0,0,0,0.5); Ejemplo si se necesita un fondo para legibilidad */
-    padding: 20px; /* Espaciado interno */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  padding: 20px;
+  width: 90%;
+  max-width: 501px;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .portadaTextContent {
-  /* Contenedor del texto dentro de la portada */
-  /* El HTML original tenía: w-[501px] flex flex-col gap-4 */
-  width: 501px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px; /* gap-4 */
+  align-items: center;
+  gap: 16px;
 }
 
-/* El siguiente div w-[409px] en el HTML está fuera de lugar o es un error.
-   Lo interpretaré como el contenido de texto para esta sección. */
 .titleWhiteLarge {
-  font-weight: 700; /* font-bold */
-  font-size: 32px;
+  font-weight: 700;
+  font-size: 28px;
   color: var(--cWhite);
 }
 
 .textLightGray {
-  font-weight: 400; /* font-normal */
-  font-size: 24px;
+  font-weight: 400;
+  font-size: 18px;
   color: var(--cTextLightGray);
+  line-height: 1.6;
 }
 
-
-/* Sección ¡Una nueva Bolivia! */
 .nuevaBoliviaSection {
-    /* Esta sección en el HTML estaba dentro de la anterior. La separo. */
-    /* w-[1728px] flex flex-col */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Para alinear el contenido a la izquierda */
-    padding: 40px 120px; /* Asumiendo padding similar a otras secciones */
-    background-color: var(--cPrimary); /* Si el fondo es el color primario */
-    box-sizing: border-box;
-    height: 26px; /* Altura de ejemplo */
-    justify-content: center; /* Para centrar el contenido si es poco */
-}
-
-.nuevaBoliviaContent {
-    /* w-[501px] flex flex-col gap-4 */
-    width: 501px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px; /* gap-4 */
-    /* Si la sección tiene su propio color de fondo, el texto debe ser visible */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--cPrimary);
+  box-sizing: border-box;
+  height: auto;
+  min-height: 26px;
+  justify-content: center;
+  text-align: center;
 }
 
 .nuevaBoliviaButton {
-    /* w-[168px] h-12 flex justify-center items-center gap-2.5 bg-[#d24067] p-3 rounded-xl */
-    /* Si el fondo de la sección ya es d24067, este botón necesitará contraste */
-    width: 168px;
-    height: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    background-color: var(--cWhite); /* Contraste */
-    padding: 12px;
-    border-radius: 12px;
-    cursor: pointer;
-    margin-top: 16px; /* Espacio adicional */
+  composes: navButtonBase;
+  background-color: var(--cWhite);
+  margin-top: 16px;
+  padding: 12px 24px;
 }
-.nuevaBoliviaButton > .navButtonTextWhite { /* Hereda la clase de texto pero cambiamos color */
-    color: var(--cPrimary);
+
+.nuevaBoliviaButton > .navButtonTextWhite {
+  color: var(--cPrimary);
 }
 
 
-/* Sección ¡Tu voz al poder! */
 .tuVozSection {
-  width: 100%; /* w-[1728px] */
-  height: auto; /* h-[489px] -> altura depende del contenido */
+  width: 100%;
+  height: auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 60px; /* gap-[60px] */
+  gap: 32px;
   background-color: var(--cBackgroundLight);
-  padding: 40px 120px; /* py-10 px-[120px] */
+  padding: 40px 20px;
   box-sizing: border-box;
 }
 
+.tuVozVideoContainer {
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 16 / 9;
+}
+
+.tuVozVideoContainer iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 .tuVozImage {
-  width: 720px; /* w-[720px] */
-  height: 409.87px; /* h-[409.86px] */
+  width: 100%;
+  max-width: 720px;
+  height: auto;
   object-fit: cover;
 }
 
+
 .tuVozText {
-  width: 425px; /* w-[425px] */
+  width: 100%;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
-  gap: 8px; /* gap-2 */
+  text-align: center;
+  gap: 8px;
 }
 
-/* Sección Seguinos en las redes */
 .redesSection {
-  width: 100%; /* w-[1728px] */
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px; /* gap-4 */
-  background-color: var(--cSecondary); /* #000018 */
-  padding: 40px 120px; /* py-10 px-[120px] */
+  gap: 16px;
+  background-color: var(--cSecondary);
+  padding: 40px 20px;
   box-sizing: border-box;
 }
 
 .titleWhiteMedium {
-  font-weight: 700; /* font-bold */
-  font-size: 32px; /* Mismo que titleDark pero en blanco */
+  font-weight: 700;
+  font-size: 28px;
   text-align: center;
   color: var(--cWhite);
 }
@@ -527,187 +542,456 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px; /* gap-3 */
-  align-self: stretch; /* self-stretch */
+  gap: 16px;
+  align-self: stretch;
+  flex-wrap: wrap;
 }
 
 .socialIconCircleLarge {
-  width: 40px; /* w-10 */
-  height: 40px; /* h-10 */
+  width: 48px;
+  height: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  border-radius: 20px; /* rounded-[20px] */
-  /* padding: 6.67px 13.33px;  py-[6.66px] px-[13.33px] */
+  border-radius: 50%;
 }
-/* .socialSvgIcon ya definido, se reutiliza */
+.socialIconCircleLarge .socialSvgIcon {
+    width: 28px;
+    height: 28px;
+}
 
 
-/* Sección Sé parte del cambio (Formulario) */
 .formularioSection {
-  width: 100%; /* w-[1728px] */
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px; /* gap-2.5 */
-  padding: 40px 120px; /* py-10 px-[120px] */
+  gap: 10px;
+  padding: 40px 20px;
   box-sizing: border-box;
-  background-color: var(--cWhite); /* El fondo del div exterior es blanco */
+  background-color: var(--cWhite);
 }
 
 .formularioContainer {
-  width: 761px; /* w-[761px] */
+  width: 100%;
+  max-width: 761px;
   display: flex;
   flex-direction: column;
-  gap: 24px; /* gap-6 */
-  align-items: center; /* Para centrar el botón de Registrarme */
+  gap: 24px;
+  align-items: center;
 }
 
 .formularioBox {
   display: flex;
   flex-direction: column;
-  gap: 24px; /* gap-6 */
-  align-self: stretch; /* self-stretch */
+  gap: 24px;
+  align-self: stretch;
   background-color: var(--cWhite);
-  padding: 24px; /* p-6 */
-  border-radius: 24px; /* rounded-3xl */
-  border: 0.5px solid var(--cBorderColor);
+  padding: 24px;
+  border-radius: 24px;
+  border: 0.5px solid var(--cBorderColor, #e0e0e0);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .formInputsContainer {
   display: flex;
   flex-direction: column;
-  gap: 16px; /* gap-4 */
-  align-self: stretch; /* self-stretch */
+  gap: 16px;
+  align-self: stretch;
 }
 
 .formRow {
   display: flex;
-  align-items: center;
-  gap: 12px; /* gap-3 */
-  align-self: stretch; /* self-stretch */
+  flex-direction: column;
+  gap: 16px;
+  align-self: stretch;
 }
-.formRowFull { /* Para filas con un solo input */
+
+.formRowFull {
   composes: formRow;
 }
 
 
 .formInputWrapperBase {
   display: flex;
-  flex-direction: column; /* Para etiquetas arriba o inputs con más contenido */
+  flex-direction: column;
   justify-content: center;
-  flex-grow: 1; /* grow */
-  height: 48px; /* h-12 */
-  background-color: var(--cBackgroundLight); /* bg-[#f8f8f8] */
-  padding: 8px 12px; /* py-2 px-3 */
-  border-radius: 8px; /* rounded-lg */
+  flex-grow: 1;
+  min-height: 48px;
+  background-color: var(--cBackgroundLight, #f8f8f8);
+  padding: 8px 12px;
+  border-radius: 8px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .formInputWrapper {
   composes: formInputWrapperBase;
 }
-.formInputWrapper > .formLabel { /* Estilo directo para el span dentro */
-    font-weight: 400; /* font-normal */
+.formInputWrapper > .formLabel {
+    font-weight: 400;
     font-size: 16px;
-    color: var(--cTextPlaceholder); /* #a7a7a7 */
+    color: var(--cTextPlaceholder, #a7a7a7);
 }
 
 
 .formInputWrapperWithIcon {
   composes: formInputWrapperBase;
-  display: flex;
-  flex-direction: row; /* Para alinear texto e icono */
-  align-items: center; /* Centrar verticalmente */
-  justify-content: space-between; /* Separar texto de icono */
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 .formInputWrapperWithIcon > .formLabelMultiline {
-    /* El div interno: flex flex-col gap-0.5 grow */
     flex-grow: 1;
-    font-weight: 400; /* font-normal */
+    font-weight: 400;
     font-size: 14px;
-    color: var(--cTextPlaceholder);
+    color: var(--cTextPlaceholder, #a7a7a7);
 }
 .formInputWrapperWithIcon > .formIcon {
-    width: 20px; /* w-5 */
-    height: 20px; /* h-5 */
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.chevronSvgIcon {
+.formInputWrapperWithIcon .chevronSvgIcon {
     width: 14.57px;
     height: 8.39px;
-    color: var(--cTextPlaceholder);
+    color: var(--cTextPlaceholder, #a7a7a7);
 }
 
 .formInputWrapperNumero {
   composes: formInputWrapperBase;
-  display: flex; /* items-center */
+  display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 8px; /* gap-2 */
+  gap: 8px;
 }
 .formInputWrapperNumero > .formLabelMultilineSmall {
     font-weight: 400;
     font-size: 12px;
-    color: var(--cTextPlaceholder);
-    /* flex-grow: 1; */ /* Ajustar si es necesario */
+    color: var(--cTextPlaceholder, #a7a7a7);
 }
 .formNumeroContent {
     display: flex;
     align-items: center;
-    gap: 5px; /* gap-[5px] */
+    gap: 5px;
     flex-grow: 1;
 }
 .formPrefijo {
     display: flex;
     align-items: center;
-    gap: 4px; /* gap-1 */
+    gap: 4px;
 }
 .formPrefijoText {
     font-weight: 400;
     font-size: 14px;
-    color: var(--cTextGray); /* #828282 */
+    color: var(--cTextGray, #828282);
 }
-.formIconSmall { /* w-4 h-4 */
+.formIconSmall {
     width: 16px;
     height: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.formIconSmall > .chevronSvgIcon {
+.formIconSmall .chevronSvgIcon {
     width: 11.65px;
     height: 6.71px;
-    color: var(--cTextGray);
+    color: var(--cTextGray, #828282);
 }
 .formNumeroSeparador {
     font-weight: 400;
     font-size: 14px;
-    color: var(--cTextGray);
+    color: var(--cTextGray, #828282);
 }
 .formNumeroText {
     font-weight: 400;
     font-size: 14px;
-    color: var(--cTextGray);
+    color: var(--cTextGray, #828282);
 }
 
 
 .formularioButton {
-  /* w-[168px] h-12 flex justify-center items-center gap-2.5 bg-[#d24067] p-3 rounded-xl */
-  width: 168px;
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+  composes: navButtonBase;
   background-color: var(--cPrimary);
-  padding: 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  /* Ya está centrado por .formularioContainer align-items: center */
+  color: var(--cWhite);
+  width: auto;
+  min-width: 168px;
+  padding: 12px 24px;
 }
-/* .navButtonTextWhite ya definido, se reutiliza */
+
+.formularioButton > .navButtonTextWhite {
+  color: var(--cWhite);
+}
+
+
+@media (max-width: 1200px) {
+  .navBar {
+    padding: 0 60px;
+  }
+  .cardsSection {
+    width: 95%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .heroImage {
+    height: 600px;
+  }
+  .navBar {
+    padding: 0 30px;
+    min-height: 70px;
+  }
+  .navLogoContainer {
+    height: 70px;
+  }
+  .navContent {
+     min-height: 70px;
+     justify-content: space-between;
+  }
+  .navLinksAndActions {
+    gap: 20px;
+  }
+  .navMenuAndButtons {
+    gap: 20px;
+  }
+  .navLink {
+    font-size: 16px;
+  }
+  .navButtonBase {
+    height: 40px;
+    padding: 8px 12px;
+    font-size: 15px;
+  }
+  .cardsSection {
+    margin-top: -60px;
+    gap: 20px;
+  }
+  .card {
+    height: 320px;
+    max-width: 350px;
+  }
+  .cardCaptionText {
+    font-size: 18px;
+  }
+  .titleDark {
+    font-size: 26px;
+  }
+  .textGrayNormal {
+    font-size: 17px;
+  }
+  .simpatizanteImage {
+    max-height: 320px;
+  }
+  .autoridadImage {
+    height: 260px;
+  }
+  .autoridadName {
+    font-size: 17px;
+  }
+  .portadaFullWidthImage {
+    height: 400px;
+  }
+  .titleWhiteLarge {
+    font-size: 26px;
+  }
+  .textLightGray {
+    font-size: 17px;
+  }
+  .titleWhiteMedium {
+    font-size: 26px;
+  }
+  .formularioBox {
+    padding: 20px;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+  .heroImage {
+    height: 450px;
+  }
+  .navBar {
+    padding: 0 15px;
+  }
+  .navContent {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 0;
+  }
+  .navLogoContainer {
+    align-self: flex-start;
+    margin-bottom: 10px;
+  }
+  .navLinksAndActions {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 15px;
+  }
+  .socialIconsContainer {
+     justify-content: flex-start;
+     width: 100%;
+  }
+  .navMenuAndButtons {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 15px;
+  }
+  .navMenuItems {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+  .navButtons {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 10px;
+  }
+  .navButtonOutline, .navButtonSolid, .formularioButton, .nuevaBoliviaButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cardsSection {
+    margin-top: -50px;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+  }
+  .card {
+    height: auto;
+    min-height: 300px;
+    width: 100%;
+    max-width: 400px;
+  }
+  .simpatizanteSection {
+    padding: 20px 15px;
+    gap: 20px;
+  }
+  .simpatizanteTextContainer {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .simpatizanteImage {
+    max-width: 100%;
+    max-height: 280px;
+  }
+  .autoridadesSection {
+    padding: 30px 15px;
+  }
+  .autoridadesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .autoridadImage {
+    height: 220px;
+  }
+  .portadaFullWidthImage {
+    height: 350px;
+  }
+  .portadaTextOverlay {
+    position: relative;
+    transform: none;
+    top: auto;
+    left: auto;
+    background-color: rgba(0,0,0,0.3);
+    padding: 20px;
+    margin-top: -50px;
+    z-index: 1;
+  }
+  .titleDark, .titleWhiteLarge, .titleWhiteMedium {
+    font-size: 22px;
+  }
+  .textGrayNormal, .textLightGray {
+    font-size: 16px;
+  }
+  .tuVozSection {
+    padding: 30px 15px;
+  }
+  .formRow {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .formInputWrapperBase {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroImage {
+    height: 350px;
+  }
+  .navBar {
+    padding: 0 10px;
+  }
+  .navLink {
+    font-size: 15px;
+    padding: 6px 2px;
+  }
+  .navButtonBase {
+     font-size: 14px;
+     height: 38px;
+  }
+  .cardsSection {
+    margin-top: -40px;
+  }
+  .card {
+     min-height: 280px;
+  }
+  .cardCaptionText {
+    font-size: 16px;
+  }
+  .titleDark, .titleWhiteLarge, .titleWhiteMedium {
+    font-size: 20px;
+  }
+  .textGrayNormal, .textLightGray {
+    font-size: 15px;
+  }
+  .simpatizanteImage {
+     max-height: 240px;
+  }
+  .simpatizanteIcon {
+    max-width: 150px;
+  }
+  .autoridadImage {
+    height: 200px;
+  }
+  .autoridadName {
+    font-size: 15px;
+  }
+  .portadaFullWidthImage {
+    height: 300px;
+  }
+  .portadaTextOverlay {
+    margin-top: -40px;
+  }
+  .socialIconCircleLarge {
+    width: 40px;
+    height: 40px;
+  }
+  .socialIconCircleLarge .socialSvgIcon {
+    width: 22px;
+    height: 22px;
+  }
+  .formularioBox {
+    padding: 15px;
+  }
+  .formInputWrapper > .formLabel,
+  .formInputWrapperWithIcon > .formLabelMultiline,
+  .formPrefijoText,
+  .formNumeroText,
+  .formNumeroSeparador {
+    font-size: 13px;
+  }
+  .formInputWrapperNumero > .formLabelMultilineSmall {
+    font-size: 11px;
+  }
+}
