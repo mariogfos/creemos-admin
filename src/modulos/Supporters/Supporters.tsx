@@ -185,7 +185,7 @@ const Supporters = () => {
       <QrModal
         open={isInvitationQrVisible}
         onClose={() => setIsInvitationQrVisible(false)}
-        qrData={`${process.env.NEXT_PUBLIC_WEB_SITE_URL}?ref=${authUser?.id}`}
+        qrData={`${process.env.NEXT_PUBLIC_WEB_SITE_URL}/${authUser?.id}`}
         title="QR de Invitación"
       />
 
