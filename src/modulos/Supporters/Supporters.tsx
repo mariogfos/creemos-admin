@@ -18,6 +18,7 @@ import {
   IconUserWomen,
 } from "@/components/layout/icons/IconsBiblioteca";
 import QrModal from "./QrModal/QrModal"; // Asegúrate que la ruta sea correcta
+import RenderView from "./RenderView";
 
 
 const paramsInitial = {
@@ -73,6 +74,7 @@ const Supporters = () => {
     export: true,
     filter: true,
     extraData: true, // Para que useCrud cargue extraData
+    renderView: RenderView,
     renderForm: (propsFromUseCrud: any) => (
       <RenderForm
         {...propsFromUseCrud} // Pasa todas las props estándar de useCrud

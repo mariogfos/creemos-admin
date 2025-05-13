@@ -35,7 +35,7 @@ const RenderView: React.FC<RenderViewProps> = ({ item, open, onClose }) => {
           <Avatar
             src={getUrlImages(
               // Use affiliate_id if present, otherwise fallback to id for the avatar
-              "/AFF-" + (item?.affiliate_id || item?.id) + ".webp?d=" + item?.updated_at
+              "/ADM-" + (item?.affiliate_id || item?.id) + ".webp?d=" + item?.updated_at
             )}
             name={getFullName(item)}
             h={60} // Example height

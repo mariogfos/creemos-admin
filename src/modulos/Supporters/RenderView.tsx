@@ -74,7 +74,7 @@ const RenderView: React.FC<RenderViewSupporterProps> = ({ item, open, onClose, e
               {getFullName(item)} {/* Usar getFullName es más robusto */}
             </h2>
             <p className={styles.userRole}>
-              {getMilitantType(item.militant_type)}
+              {getMilitantType(item.militancy_id)}
             </p>
           </div>
         </div>
@@ -93,7 +93,7 @@ const RenderView: React.FC<RenderViewSupporterProps> = ({ item, open, onClose, e
               </div>
               <div className={styles.detailItem}>
                 <span className={styles.detailLabel}>Fecha de Nacimiento:</span>
-                <span className={styles.detailValue}>{item.birth_date ? getDateTimeStrMes(item.birth_date) : 'No especificada'}</span>
+                <span className={styles.detailValue}>{item.birthdate ? getDateTimeStrMes(item.birthdate) : 'No especificada'}</span>
               </div>
             </div>
           </div>
@@ -119,23 +119,23 @@ const RenderView: React.FC<RenderViewSupporterProps> = ({ item, open, onClose, e
             <div className={styles.detailGrid}>
               <div className={styles.detailItem}>
                 <span className={styles.detailLabel}>Provincia:</span>
-                <span className={styles.detailValue}>{getNameFromExtraData(item.prov_id, 'provs', 'code')}</span>
+                <span className={styles.detailValue}>{getNameFromExtraData(item.prov_code, 'provs', 'code')}</span>
               </div>
               <div className={styles.detailItem}>
                 <span className={styles.detailLabel}>Municipio:</span>
-                <span className={styles.detailValue}>{getNameFromExtraData(item.mun_id, 'muns', 'code')}</span>
+                <span className={styles.detailValue}>{getNameFromExtraData(item.mun_code, 'muns', 'code')}</span>
               </div>
               <div className={styles.detailItem}>
                 <span className={styles.detailLabel}>Distrito Municipal:</span>
-                <span className={styles.detailValue}>{getNameFromExtraData(item.dist_id, 'dists', 'code')}</span>
+                <span className={styles.detailValue}>{getNameFromExtraData(item.dist_code, 'dists', 'code')}</span>
               </div>
               <div className={styles.detailItem}>
                 <span className={styles.detailLabel}>Localidad:</span>
-                <span className={styles.detailValue}>{getNameFromExtraData(item.local_id, 'locals', 'code')}</span>
+                <span className={styles.detailValue}>{getNameFromExtraData(item.local_code, 'locals', 'code')}</span>
               </div>
               <div className={styles.detailItem}>
                 <span className={styles.detailLabel}>Recinto:</span>
-                <span className={styles.detailValue}>{getNameFromExtraData(item.recint_id, 'recints', 'code')}</span>
+                <span className={styles.detailValue}>{getNameFromExtraData(item.recint_code, 'recints', 'code')}</span>
               </div>
             </div>
           </div>
