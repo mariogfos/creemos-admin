@@ -131,6 +131,7 @@ const Profile = () => {
   // --- INICIO DE MODIFICACIÓN en onSave ---
   const onSave = async () => {
     const validationErrors = validate(); 
+    console.log("Resultado de la validación:", validationErrors);
     if (hasErrors(validationErrors)) {
         if (showToast) showToast("Por favor, corrige los errores en el formulario.", "error");
         return;
@@ -239,13 +240,18 @@ const Profile = () => {
           const typeMatch = metaPart.match(/data:image\/(\w+);base64/);
           if (typeMatch && typeMatch[1]) {
             const detectedExtension = typeMatch[1].toLowerCase(); // ej: "webp"
-            
-            // Almacenar en el formato deseado para el payload
-            setFormState((prevState: any) => ({ 
-              ...prevState, 
+            const rawBase64Data = base64Data; // Base64 puro
+
+            // --- APLICA LA CODIFICACIÓN URI AQUÍ ---
+            const encodedBase64Data = encodeURIComponent(rawBase64Data);
+            // -----------------------------------------
+
+            // Almacenar en el formato objeto, pero usando la Base64 CODIFICADA
+            setFormState((prevState: any) => ({
+              ...prevState,
               avatar: {
-                file: base64Data,
-                ext: detectedExtension 
+                file: encodedBase64Data, // <-- Usa la versión codificada
+                ext: detectedExtension
               }
             }));
           } else {
@@ -412,11 +418,11 @@ const Profile = () => {
             
             <InputFullName
               value={formState}
-              name={"full_name"} 
+              name={""} 
               errors={errors}
               onChange={handleChange}
               disabled={false}
-              onBlur={(e: any) => validate([e.target.name])}
+              onBlur={validate}
             />
             
             <div className={styles.formField}>
