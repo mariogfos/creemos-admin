@@ -92,7 +92,7 @@ const Supporters = () => {
       address: { rules: [], api: "ae", label: "Dirección", form: { type: "text" }, list: false },
       birthdate: { rules: [], api: "ae", label: "Fecha de Nacimiento", form: { type: "date" }, list: false }, // Asume un input de fecha
       gender: { rules: [], api: "ae", label: "Género", form: { type: "select", options: [{value: 'M', label: 'Masculino'}, {value: 'F', label: 'Femenino'}, /* añade otros si es necesario */] }, list: false }, // Ejemplo de select
-      militancy_code: { rules: [], api: "ae", label: "Código Militancia", form: { type: "text" }, list: false }, // Si aplica
+      militancy_id: { rules: [], api: "ae", label: "Código Militancia", form: { type: "text" }, list: false }, // Si aplica
 
       // --- Campos de $fillable que probablemente NO se editan aquí ---
       // password: { rules: [], api: "ae", label: "Contraseña", form: { type: "password" }, list: false }, // Descomentar si es necesario editar contraseña aquí
