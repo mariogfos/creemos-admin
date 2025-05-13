@@ -64,6 +64,8 @@ const RenderForm = ({
     const payload = { ...formState };
     delete payload._initItem;
     delete payload.rep_email;
+    delete payload.created_at;
+    delete payload.updated_at;
 
     let method = payload.id ? "PUT" : "POST";
     const { data: response } = await execute(
