@@ -184,13 +184,13 @@ const RenderForm = ({
       />
       <Select
         label="Tipo de Militante"
-        name="militancy_code" // ** CAMBIO **
-        value={formState?.militancy_code || ''} // ** CAMBIO **
+        name="militancy_id" // ** CAMBIO **
+        value={formState?.militancy_id || ''} // ** CAMBIO **
         optionLabel="name"
         optionValue="id" // Mantenido de tu original (envía ID)
         options={extraData?.militanses || []}
         onChange={handleChange}
-        error={localErrors['militancy_code' as keyof typeof localErrors]} // Acceso seguro a errores
+        error={localErrors['militancy_id' as keyof typeof localErrors]} // Acceso seguro a errores
       />
       <Select
         label="Genero"
