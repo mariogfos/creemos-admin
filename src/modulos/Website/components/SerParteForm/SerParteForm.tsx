@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import axios, { AxiosError } from 'axios';
 import styles from './SerParteForm.module.css';
 import { IconoChevronAbajo } from '../../Website'; // Asegúrate que la ruta sea correcta
+import { PREFIX_COUNTRY } from '@/mk/utils/string';
 
 // Interfaz para los datos de las áreas geográficas
 interface AreaItem {
@@ -57,6 +58,7 @@ const SerParteForm: React.FC = () => {
   };
 
   const [formData, setFormData] = useState<FormDataInterface>(initialFormData);
+  const [selectedPrefix, setSelectedPrefix] = useState('591'); // Default to Bolivia
   const [isLoading, setIsLoading] = useState(false); 
   const [submitError, setSubmitError] = useState<string | null>(null); 
 
@@ -242,17 +244,16 @@ const SerParteForm: React.FC = () => {
       ci: formData.cedula,
       email: formData.correo,
       phone: formData.whatsapp,
+      prefix_phone: selectedPrefix,
       address: formData.address,
       type: "SUP",
       status: "A",
       birthdate: formData.fecha_nacimiento,
-      country_code: "BOL",
-      prov_id: formData.provincia ? parseInt(formData.provincia, 10) : null,
-      muni_id: formData.municipio ? parseInt(formData.municipio, 10) : null,
-      // Solo enviar dist_id si es SCZ y se seleccionó un distrito válido
-      dist_id: (formData.provincia === '1' && formData.municipio === '1' && formData.distrito) ? parseInt(formData.distrito, 10) : null,
-      local_id: formData.localidad ? parseInt(formData.localidad, 10) : null,
-      recint_id: formData.recinto ? parseInt(formData.recinto, 10) : null,
+      prov_code: formData.provincia ? parseInt(formData.provincia, 10) : null,
+      mun_code: formData.municipio ? parseInt(formData.municipio, 10) : null,
+      dist_code: (formData.provincia === '1' && formData.municipio === '1' && formData.distrito) ? parseInt(formData.distrito, 10) : null,
+      local_code: formData.localidad ? parseInt(formData.localidad, 10) : null,
+      recint_code: formData.recinto ? parseInt(formData.recinto, 10) : null,
     };
 
     try {
@@ -323,12 +324,45 @@ const SerParteForm: React.FC = () => {
                 <div className={`${styles.fieldControl} ${styles.phoneField}`}>
                   <span className={styles.phoneLabelTop}>Número de WhatsApp</span>
                   <div className={styles.phoneInputRow}>
-                    <div className={styles.phonePrefix}><span className={styles.phonePrefixText}>+591</span><div className={styles.iconWrapper}><IconoChevronAbajo /></div></div>
+                    <div className={styles.phonePrefix}>
+                      <select 
+                        value={selectedPrefix}
+                        onChange={(e) => setSelectedPrefix(e.target.value)}
+                        className={styles.phonePrefixSelect}
+                        disabled={isLoading || isLoadingAreaData}
+                      >
+                        {PREFIX_COUNTRY.map((country) => (
+                          <option key={country.id} value={country.id}>
+                            +{country.id} {country.name}
+                          </option>
+                        ))}
+                      </select>
+                      <div className={styles.iconWrapper}><IconoChevronAbajo /></div>
+                    </div>
                     <span className={styles.phoneSeparator}>|</span>
-                    <input type="tel" className={styles.phoneNumberInput} name="whatsapp" value={formData.whatsapp} onChange={handleInputChange} placeholder="74837560" required disabled={isLoading || isLoadingAreaData} />
+                    <input 
+                      type="tel" 
+                      className={styles.phoneNumberInput} 
+                      name="whatsapp" 
+                      value={formData.whatsapp} 
+                      onChange={handleInputChange} 
+                      placeholder="74837560" 
+                      required 
+                      disabled={isLoading || isLoadingAreaData} 
+                    />
                   </div>
                 </div>
-                <div className={styles.fieldControl}><input type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Dirección" required disabled={isLoading || isLoadingAreaData} /></div>
+                <div className={styles.fieldControl}>
+                  <input 
+                    type="text" 
+                    name="address" 
+                    value={formData.address} 
+                    onChange={handleInputChange} 
+                    placeholder="Dirección" 
+                    required 
+                    disabled={isLoading || isLoadingAreaData} 
+                  />
+                </div>
               </div>
 
               {/* Fila 6: Provincia y Municipio */}
