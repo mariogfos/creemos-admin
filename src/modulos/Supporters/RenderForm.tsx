@@ -95,10 +95,10 @@ const RenderForm = ({
     }
   };
 
-  const getMuns = () => { if (!formState.prov_id) return []; return ( extraData?.muns.filter( (mun: any) => mun?.prov_code == Number(formState.prov_id) ) || [] ); };
-  const getDmuns = () => { if (!formState.mun_id) return []; return ( extraData?.dists.filter( (dmun: any) => dmun?.mun_code == Number(formState.mun_id) ) || [] ); };
-  const getLocals = () => { if (!formState?.dist_id) return []; return ( extraData?.locals.filter( (local: any) => local?.dist_code == Number(formState.dist_id) || local?.mun_code == Number(formState.mun_id) ) || [] ); };
-  const getRecints = () => { if (!formState.local_id) return []; return ( extraData?.recints.filter( (rec: any) => rec?.local_code == Number(formState.local_id) ) || [] ); };
+  const getMuns = () => { if (!formState.prov_code) return []; return ( extraData?.muns.filter( (mun: any) => mun?.prov_code == Number(formState.prov_code) ) || [] ); };
+  const getDmuns = () => { if (!formState.mun_code) return []; return ( extraData?.dists.filter( (dmun: any) => dmun?.mun_code == Number(formState.mun_code) ) || [] ); };
+  const getLocals = () => { if (!formState?.dist_code) return []; return ( extraData?.locals.filter( (local: any) => local?.dist_code == Number(formState.dist_code) || local?.mun_code == Number(formState.mun_code) ) || [] ); };
+  const getRecints = () => { if (!formState.local_code) return []; return ( extraData?.recints.filter( (rec: any) => rec?.local_code == Number(formState.local_code) ) || [] ); };
 
   return (
     <DataModal

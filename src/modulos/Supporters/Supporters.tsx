@@ -56,7 +56,7 @@ const Supporters = () => {
       last_name: { rules: ["required"], api: "ae", label: "Apellido paterno", form: { type: "text" }, list: false },
       mother_last_name: { rules: [""], api: "ae", label: "Apellido materno", form: { type: "text" }, list: false },
       ci: { rules: ["required"], api: "ae", label: "Cédula de identidad", form: { type: "text" }, list: { width: "190px" }},
-      prov_code: { rules: ["required"], api: "ae", label: "Provincia", form: false, list: { width: "150px", onRender: ({ item, extraData: listExtraData }: any) => listExtraData?.provs?.find( (prov: any) => prov?.id == item?.prov_id )?.name }},
+      prov_code: { rules: ["required"], api: "ae", label: "Provincia", form: false, list: { width: "150px", onRender: ({ item, extraData: listExtraData }: any) => listExtraData?.provs?.find( (prov: any) => prov?.id == item?.prov_code )?.name }},
       prefix_phone: { rules: ["required"], api: "ae", label: "Prefijo teléfono", form: { type: "number", precarga: 591 }, list: false },
       phone: { rules: ["required"], api: "ae", label: "Teléfono", form: { type: "number" }, list: { width: "150px" }},
       email: { rules: ["required"], api: "ae", label: "Correo electrónico", form: { type: "text" }, list: { width: "300px" }},
