@@ -184,8 +184,7 @@ const Supporters = () => {
 
   // --- Renderizado del Componente ---
 
-  // Verifica permisos antes de renderizar
-  if (!userCan(modConfig.permiso || 'supporters', "R")) return <NotAccess />; // Usa un permiso por defecto si no está definido
+
 
   return (
     <div className={styles.Users}>
