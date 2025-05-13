@@ -16,9 +16,11 @@ import {
   IconUserMen,
   IconUserV2,
   IconUserWomen,
+  IconGenericQr,
 } from "@/components/layout/icons/IconsBiblioteca";
 import QrModal from "./QrModal/QrModal"; // Asegúrate que la ruta sea correcta
 import RenderView from "./RenderView";
+import { useAuth } from "@/mk/contexts/AuthProvider";
 
 
 const paramsInitial = {
@@ -29,9 +31,11 @@ const paramsInitial = {
 };
 
 const Supporters = () => {
+  const { user: authUser } = useAuth();
   // --- PASO 1: Definir estados y manejadores que NO dependen de useCrud ---
   const [isQrModalVisible, setIsQrModalVisible] = useState(false);
   const [qrModalData, setQrModalData] = useState(null);
+  const [isInvitationQrVisible, setIsInvitationQrVisible] = useState(false);
 
   const handleShowQr = useCallback((dataForQr: any) => {
     console.log("Supporters.js: handleShowQr llamado con datos:", dataForQr);
@@ -43,6 +47,16 @@ const Supporters = () => {
     setIsQrModalVisible(false);
     setQrModalData(null);
   }, []); // useCallback para estabilidad
+
+  const handleShowInvitationQr = useCallback(() => {
+    const websiteUrl = process.env.NEXT_PUBLIC_WEB_SITE_URL;
+    if (!websiteUrl) {
+      console.error("WEB_SITE_URL no está definido en las variables de entorno");
+      return;
+    }
+    const invitationUrl = `${websiteUrl}?ref=${authUser?.id}`;
+    setIsInvitationQrVisible(true);
+  }, [authUser?.id]);
 
   // --- PASO 2: Definir 'fields' y 'mod' que se pasarán a useCrud ---
   // 'fields' no suele tener dependencias complejas de este scope
@@ -167,6 +181,26 @@ const Supporters = () => {
         qrData={qrModalData}
         title={`QR para ${modConfig.singular}`}
       />
+
+      <QrModal
+        open={isInvitationQrVisible}
+        onClose={() => setIsInvitationQrVisible(false)}
+        qrData={`${process.env.NEXT_PUBLIC_WEB_SITE_URL}?ref=${authUser?.id}`}
+        title="QR de Invitación"
+      />
+
+      <button 
+        onClick={handleShowInvitationQr}
+        className={styles.floatingQrButton}
+        title="Generar QR de invitación"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 3H11V11H3V3Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M13 3H21V11H13V3Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M3 13H11V21H3V13Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M13 13H21V21H13V13Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
       
       {/* Tu lógica para el modal de importación si es diferente al de useCrud */}
       {/* Ejemplo: <ImportDataModal open={openImportHook} onClose={() => setOpenImportHook(false)} ... /> */}

@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 import styles from './SerParteForm.module.css';
 import { IconoChevronAbajo } from '../../Website'; // Asegúrate que la ruta sea correcta
 import { PREFIX_COUNTRY } from '@/mk/utils/string';
+import QrModal from '@/modulos/Supporters/QrModal/QrModal';
 
 // Interfaz para los datos de las áreas geográficas
 interface AreaItem {
@@ -71,6 +72,11 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
   const [areaData, setAreaData] = useState<AreasData | null>(null);
   const [isLoadingAreaData, setIsLoadingAreaData] = useState(true);
   const [areaDataError, setAreaDataError] = useState<string | null>(null);
+
+  const [showQrModal, setShowQrModal] = useState(false);
+  const [qrData, setQrData] = useState<any>(null);
+
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   useEffect(() => {
     const fetchAreaData = async () => {
@@ -229,6 +235,13 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     ];
   }, [areaData, formData.provincia, formData.municipio, formData.localidad, formData.distrito, isLoadingAreaData, distritosOptions]); // Añadido distritosOptions como dependencia
 
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+    setTimeout(() => {
+      setToast(null);
+    }, 3000);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -238,6 +251,7 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     if (!apiUrl) {
       console.error("Error: NEXT_PUBLIC_API_URL no está definido.");
       setSubmitError("Error de configuración: URL de API no disponible.");
+      showToast("Error de configuración: URL de API no disponible.", "error");
       setIsLoading(false);
       return;
     }
@@ -267,8 +281,15 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     try {
       const response = await axios.post(fullUrl, payload);
       console.log('Respuesta del servidor:', response.data);
-      alert('Registro exitoso');
-      setFormData(initialFormData);
+      if (response.data.status && response.data.data) {
+        setQrData(response.data.data);
+        setShowQrModal(true);
+        setFormData(initialFormData);
+        showToast("Registro exitoso", "success");
+      } else {
+        showToast("Registro exitoso", "success");
+        setFormData(initialFormData);
+      }
     } catch (err: any) {
       console.error('Error al enviar el formulario:', err);
       let errorMessage = 'Error desconocido al enviar el formulario.';
@@ -288,7 +309,7 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
         errorMessage = `Ocurrió un error inesperado: ${err.message}`;
       }
       setSubmitError(errorMessage);
-      alert(errorMessage);
+      showToast(errorMessage, "error");
     } finally {
       setIsLoading(false);
     }
@@ -471,6 +492,17 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
           </div>
         </form>
       </div>
+      <QrModal
+        open={showQrModal}
+        onClose={() => setShowQrModal(false)}
+        qrData={qrData}
+        title="QR de Simpatizante"
+      />
+      {toast && (
+        <div className={`${styles.toast} ${styles[`toast${toast.type === 'success' ? 'Success' : 'Error'}`]}`}>
+          {toast.message}
+        </div>
+      )}
     </div>
   );
 };
