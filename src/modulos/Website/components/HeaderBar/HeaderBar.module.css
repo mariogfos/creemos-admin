@@ -1,0 +1,256 @@
+/* SharedHeader.module.css */
+.headerBar {
+    height: auto;
+    width: 100%;
+    background-color: var(--cPrimary); /* Asegúrate que --cPrimary esté definido globalmente o reemplaza */
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column; /* Para permitir que headerContent y pageTitleBar (en móvil) se apilen si es necesario */
+    box-sizing: border-box;
+  }
+  
+  .headerContent {
+    min-height: 60px; /* Altura mínima para la barra */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Principalmente para desktop */
+    gap: 16px;
+    width: 100%;
+    position: relative; /* Para el centrado absoluto del pageTitleBar en desktop */
+    flex-wrap: wrap; /* Para móvil */
+  }
+  
+  .headerLogoAndSocial {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* Espacio entre logo y redes sociales */
+  }
+  
+  .headerLogoContainerLink {
+    display: inline-block; /* Para que el enlace tome las dimensiones del div */
+    line-height: 0; /* Evitar espacio extra si el enlace añade alguno */
+  }
+  
+  .headerLogoContainer {
+    width: 45px; /* Más pequeño para cabeceras secundarias */
+    height: 70px; /* Altura de la barra */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cWhite);
+    padding: 8px 4px; /* Ajusta si es necesario */
+    flex-shrink: 0;
+  }
+  
+  .headerLogo {
+    width: 38px; /* Un poco más pequeño */
+    height: 38px;
+    object-fit: cover;
+  }
+  
+  .headerSocialIcons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .socialIconCircleSmall {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cWhite);
+    border-radius: 50%; /* Círculo perfecto */
+    transition: all 0.3s ease;
+    color: var(--cPrimary); /* Color del icono por defecto */
+  }
+  .socialIconCircleSmall:hover {
+    background-color: var(--cPrimary);
+    border: 1px solid var(--cWhite); /* Borde opcional al hacer hover */
+  }
+  .socialIconCircleSmall:hover svg {
+    color: var(--cWhite); /* Icono blanco al hacer hover */
+  }
+  .socialIconCircleSmall svg { /* Para aplicar al SVG dentro del <a> */
+    width: 18px;
+    height: 18px;
+    color: inherit; /* Hereda color del <a> o .socialIconCircleSmall */
+    transition: all 0.3s ease;
+  }
+  
+  
+  .pageTitleBar {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centrar flecha y título juntos */
+    gap: 12px;
+    text-align: center;
+    /* En móvil, esto tomará todo el ancho si es necesario */
+    order: -1; /* En móvil, el título va primero */
+    width: 100%; 
+    padding-bottom: 10px; /* Espacio si el logo y redes van debajo en móvil */
+  }
+  
+  .backIconCircle {
+    width: 30px; /* Tamaño del círculo del icono de atrás */
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cWhite);
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--cPrimary); /* Color del icono de atrás */
+    flex-shrink: 0; /* Para que no se encoja */
+  }
+  .backIconCircle svg {
+    width: 18px; /* Tamaño del SVG de la flecha */
+    height: 18px;
+    color: inherit; /* Hereda de .backIconCircle */
+  }
+  
+  .pageTitle {
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--cWhite);
+    flex-grow: 1; /* Permite que el título tome espacio, pero se centra por el padre */
+    text-align: center; /* Asegurar centrado si el flex-grow es muy agresivo */
+  }
+  
+  .headerRightPlaceholder {
+    display: none; /* Oculto por defecto, solo para desktop si es necesario */
+  }
+  
+  
+  /* --- Media Queries para Responsividad --- */
+  
+  @media (min-width: 769px) {
+    .headerBar {
+      padding: 0 60px 16px 60px; /* Padding original para desktop */
+    }
+    .headerContent {
+      height: 80px; /* Altura original de la barra en desktop */
+      flex-wrap: nowrap; /* Evitar que se envuelva en desktop */
+      justify-content: space-between; /* Espacio entre los 3 bloques principales */
+    }
+    .headerLogoContainer {
+      width: 53px; /* Tamaño original del logo */
+      height: 80px;
+      padding: 9.02px 4.51px;
+    }
+    .headerLogo {
+      width: 45.83px;
+      height: 45.83px;
+    }
+    .headerLogoAndSocial {
+      order: 1; /* Bloque de logo y redes a la izquierda */
+      flex-shrink: 0;
+    }
+    .pageTitleBar {
+      order: 2; /* Título en el medio */
+      position: absolute; /* Centrado absoluto */
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: auto; /* Ancho automático para el contenido */
+      padding-bottom: 0; /* Sin padding extra en desktop */
+    }
+    .pageTitle {
+      font-size: 32px; /* Tamaño de título original para desktop */
+    }
+    .socialIconCircleSmall {
+      width: 40px; /* Tamaño original de iconos sociales */
+      height: 40px;
+    }
+    .socialIconCircleSmall svg {
+      width: 24px;
+      height: 24px;
+    }
+    .headerRightPlaceholder { /* Espacio a la derecha para balancear el flex-grow de pageTitleBar si no está absoluto */
+      display: flex; /* Mostrar en desktop */
+      order: 3;
+      min-width: calc(53px + 16px + (4 * 40px) + (3 * 8px)); /* Ancho aproximado del bloque logo+sociales */
+      visibility: hidden; /* Hacerlo invisible pero que ocupe espacio */
+    }
+  }
+  
+  @media (min-width: 1025px) {
+    .headerBar {
+      padding: 0 120px 16px 120px;
+    }
+  }
+  
+  @media (max-width: 768px) { /* Tablet y móvil grande */
+    .headerContent {
+      min-height: auto; /* Altura automática */
+      padding-top: 10px;
+      padding-bottom: 10px;
+      flex-direction: column; /* Apilar elementos */
+      align-items: center; /* Centrar bloques */
+    }
+    .pageTitleBar {
+      order: 1; /* Título primero */
+      position: static; /* Quitar absoluto */
+      transform: none;
+      width: 100%; /* Ancho completo */
+      justify-content: center;
+      padding-bottom: 15px; /* Espacio antes del siguiente bloque */
+    }
+    .headerLogoAndSocial {
+      order: 2; /* Logo y sociales después del título */
+      flex-direction: column; /* Apilar logo y redes si no caben o por diseño */
+      gap: 10px;
+    }
+    .headerSocialIcons {
+      justify-content: center; /* Centrar iconos sociales si se apilan */
+    }
+    .headerRightPlaceholder {
+      display: none;
+    }
+    .pageTitle {
+      font-size: 22px;
+    }
+  }
+  
+  @media (max-width: 480px) { /* Móvil pequeño */
+    .headerBar {
+      padding: 10px 15px;
+    }
+    .pageTitleBar {
+      gap: 6px;
+      padding-top: 5px;
+      padding-bottom: 10px;
+    }
+    .pageTitle {
+      font-size: 18px;
+    }
+    .headerLogoContainer {
+      height: 50px; /* Logo más pequeño */
+      width: 40px;
+      padding: 6px 3px;
+    }
+    .headerLogo {
+      width: 30px;
+      height: 30px;
+    }
+    .headerLogoAndSocial {
+      gap: 12px; /* Más espacio vertical si están apilados */
+    }
+    .socialIconCircleSmall {
+      width: 28px; /* Iconos sociales más pequeños */
+      height: 28px;
+    }
+    .socialIconCircleSmall svg {
+      width: 16px;
+      height: 16px;
+    }
+    .backIconCircle {
+      width: 28px;
+      height: 28px;
+    }
+    .backIconCircle svg {
+      width: 16px;
+      height: 16px;
+    }
+  }

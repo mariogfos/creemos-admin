@@ -7,9 +7,9 @@ import QrModal from '@/modulos/Supporters/QrModal/QrModal';
 
 // Interfaz para los datos de las áreas geográficas
 interface AreaItem {
-  code: string | number; 
+  code: string | number;
   name: string;
-  prov_code?: string | number; 
+  prov_code?: string | number;
   mun_code?: string | number;
   local_code?: string | number;
   dist_code?: string | number;
@@ -33,12 +33,12 @@ interface FormDataInterface {
   whatsapp: string;
   address: string;
   fecha_nacimiento: string;
-  provincia: string; 
-  municipio: string; 
-  distrito: string;  
-  localidad: string; 
+  provincia: string;
+  municipio: string;
+  distrito: string;
+  localidad: string;
   recinto: string;
-  genero: string;   
+  genero: string;
 }
 
 interface SerParteFormProps {
@@ -66,8 +66,8 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
 
   const [formData, setFormData] = useState<FormDataInterface>(initialFormData);
   const [selectedPrefix, setSelectedPrefix] = useState('591'); // Default to Bolivia
-  const [isLoading, setIsLoading] = useState(false); 
-  const [submitError, setSubmitError] = useState<string | null>(null); 
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const [areaData, setAreaData] = useState<AreasData | null>(null);
   const [isLoadingAreaData, setIsLoadingAreaData] = useState(true);
@@ -77,6 +77,10 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
   const [qrData, setQrData] = useState<any>(null);
 
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  // Nuevos estados para validación
+  const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof FormDataInterface, string>>>({});
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
     const fetchAreaData = async () => {
@@ -90,7 +94,6 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
         return;
       }
       try {
-        // Especifica el tipo de la respuesta de Axios según la estructura de tu API
         const response = await axios.get<{ data: { areas: AreasData } }>(`${apiUrl}/map-metrics-public`);
         if (response.data && response.data.data && response.data.data.areas) {
             setAreaData(response.data.data.areas);
@@ -112,6 +115,13 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     fetchAreaData();
   }, []);
 
+  // Función para verificar si hay opciones reales más allá del placeholder
+  const hasActualOptions = (options: Array<{ value: string | number, label: string }>) => {
+    if (isLoadingAreaData) return false; // Si está cargando, no hay opciones "reales" aún
+    return options.some(opt => opt.value !== "" && !opt.label.toLowerCase().includes("cargando") && !opt.label.toLowerCase().includes("seleccione") && !opt.label.toLowerCase().includes("no hay") && !opt.label.toLowerCase().includes("n/a") && !opt.label.toLowerCase().includes("datos de") && !opt.label.toLowerCase().includes("primero"));
+  };
+
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => {
@@ -126,13 +136,21 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
         newState.distrito = "";
         newState.localidad = "";
         newState.recinto = "";
-      } else if (name === "distrito") { 
-        newState.recinto = ""; // Si distrito cambia (incluso si es N/A), resetea recinto
+      } else if (name === "distrito") {
+        newState.recinto = "";
       } else if (name === "localidad") {
         newState.recinto = "";
       }
       return newState;
     });
+
+    if (formSubmitted) {
+      setValidationErrors(prevErrors => {
+        const newErrors = { ...prevErrors };
+        delete newErrors[name as keyof FormDataInterface];
+        return newErrors;
+      });
+    }
   };
 
   // --- Opciones para los selects (memoizadas y con corrección de tipos) ---
@@ -158,24 +176,19 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
   }, [areaData, formData.provincia, isLoadingAreaData]);
 
   const distritosOptions = useMemo(() => {
-    // No mostrar "Seleccione..." si no es SCZ y no hay municipio, o si no hay datos.
-    if (!formData.provincia || !formData.municipio) {
-      // Para el caso SCZ, si no hay municipio, indicarlo. Para otros, podría ser N/A directamente.
-      if (formData.provincia === '1' && !formData.municipio) {
-        return [{ value: "", label: "Seleccione municipio primero" }];
-      }
-      // Si no es SCZ y falta municipio, este select estará deshabilitado de todas formas.
-      // Devolver N/A si no se espera que el usuario interactúe hasta que municipio esté seleccionado.
-      return [{ value: "", label: "N/A" }]; 
+    if (formData.provincia !== '1' || !formData.municipio) { // Solo relevantes si provincia es SCZ y municipio seleccionado
+        if (formData.provincia === '1' && !formData.municipio) {
+            return [{ value: "", label: "Seleccione municipio primero" }];
+        }
+        return [{ value: "", label: "N/A" }]; // N/A si no es SCZ o falta municipio en SCZ
     }
     if (isLoadingAreaData) return [{ value: "", label: "Cargando distritos..." }];
     if (!areaData?.dists) return [{ value: "", label: "Datos de distrito no disponibles" }];
 
-    // Lógica específica para Santa Cruz (prov_code '1' y mun_code '1')
-    if (formData.provincia === '1' && formData.municipio === '1') {
-      const filtered = areaData.dists.filter(d => 
-          String(d.prov_code) === formData.provincia && 
-          String(d.mun_code) === formData.municipio
+    if (formData.provincia === '1' && formData.municipio === '1') { // Específicamente para SCZ capital
+      const filtered = areaData.dists.filter(d =>
+        String(d.prov_code) === formData.provincia &&
+        String(d.mun_code) === formData.municipio
       );
       if (filtered.length === 0) return [{ value: "", label: "No hay distritos para esta selección" }];
       return [
@@ -183,21 +196,21 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
         ...filtered.map(d => ({ value: String(d.code), label: d.name }))
       ];
     }
-    return [{ value: "", label: "N/A para esta selección" }]; // Para no SCZ o si no hay match
+    return [{ value: "", label: "N/A para esta selección" }]; // Otros municipios de SCZ (no capital) o si no hay match
   }, [areaData, formData.provincia, formData.municipio, isLoadingAreaData]);
 
   const localidadesOptions = useMemo(() => {
     if (!formData.provincia || !formData.municipio) return [{ value: "", label: "Seleccione provincia y municipio" }];
     if (isLoadingAreaData) return [{ value: "", label: "Cargando localidades..." }];
     if (!areaData?.locals) return [{ value: "", label: "Datos de localidad no disponibles" }];
-    const filtered = areaData.locals.filter(l => 
-        String(l.prov_code) === formData.provincia && 
+    const filtered = areaData.locals.filter(l =>
+        String(l.prov_code) === formData.provincia &&
         String(l.mun_code) === formData.municipio
     );
     if (filtered.length === 0 && formData.municipio) return [{ value: "", label: "No hay localidades para esta selección" }];
     return [
       { value: "", label: "Seleccione su localidad" },
-      ...filtered.map(l => ({ value: String(l.code), label: l.name })) // Asumiendo l.code puede ser numérico
+      ...filtered.map(l => ({ value: String(l.code), label: l.name }))
     ];
   }, [areaData, formData.provincia, formData.municipio, isLoadingAreaData]);
 
@@ -206,8 +219,13 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     if (isLoadingAreaData) return [{ value: "", label: "Cargando recintos..." }];
     if (!areaData?.recints) return [{ value: "", label: "Datos de recinto no disponibles" }];
 
-    const isSCZMunicipality = formData.provincia === '1' && formData.municipio === '1';
-    
+    const isSCZCapital = formData.provincia === '1' && formData.municipio === '1';
+
+    // Para SCZ Capital, si el distrito no está seleccionado o no es aplicable, no mostrar recintos aún.
+    if (isSCZCapital && (!formData.distrito || distritosOptions[0]?.label === "N/A" || distritosOptions[0]?.label === "No hay distritos para esta selección" || distritosOptions[0]?.label === "Seleccione municipio primero" )) {
+        return [{ value: "", label: "Seleccione distrito municipal primero" }];
+    }
+
     const filtered = areaData.recints.filter(rec => {
       let match = String(rec.prov_code) === formData.provincia &&
                   String(rec.mun_code) === formData.municipio &&
@@ -215,25 +233,21 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
 
       if (!match) return false;
 
-      if (isSCZMunicipality) {
-        // Para SCZ, el distrito es obligatorio para filtrar recintos.
-        // Si no hay distrito seleccionado en el form, no se puede filtrar.
-        if (!formData.distrito || formData.distrito === "" || distritosOptions[0]?.label === "N/A para esta selección" || distritosOptions[0]?.label === "No hay distritos para esta selección") {
-            return false; 
-        }
+      if (isSCZCapital) {
+        // Ya hemos verificado formData.distrito arriba.
+        // Si llegamos aquí, formData.distrito es válido y seleccionado para SCZ Capital.
         return String(rec.dist_code) === formData.distrito;
       }
-      // Para municipios no SCZ, el distrito no es un criterio de filtro obligatorio aquí
-      // (se asume que la API ya provee los recintos correctos para la localidad seleccionada,
-      // o que los recintos no tienen un 'dist_code' que deba coincidir con un 'formData.distrito' vacío o "N/A").
-      return true; 
+      return true; // Para no SCZ Capital, el filtro de distrito no aplica aquí
     });
+
     if (filtered.length === 0 && formData.localidad) return [{ value: "", label: "No hay recintos para esta selección" }];
     return [
       { value: "", label: "Seleccione su recinto" },
       ...filtered.map(r => ({ value: String(r.code), label: r.name }))
     ];
-  }, [areaData, formData.provincia, formData.municipio, formData.localidad, formData.distrito, isLoadingAreaData, distritosOptions]); // Añadido distritosOptions como dependencia
+  }, [areaData, formData.provincia, formData.municipio, formData.localidad, formData.distrito, isLoadingAreaData, distritosOptions]);
+
 
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
@@ -242,10 +256,72 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     }, 3000);
   };
 
+  const validateForm = (data: FormDataInterface): Partial<Record<keyof FormDataInterface, string>> => {
+    const errors: Partial<Record<keyof FormDataInterface, string>> = {};
+    const genericRequiredMsg = "Este campo es requerido.";
+    const selectionRequiredMsg = (field: string) => `Seleccione ${field}.`;
+
+    if (!data.primer_nombre.trim()) errors.primer_nombre = genericRequiredMsg;
+    if (!data.apellido_paterno.trim()) errors.apellido_paterno = genericRequiredMsg;
+    if (!data.apellido_materno.trim()) errors.apellido_materno = genericRequiredMsg;
+    if (!data.cedula.trim()) errors.cedula = genericRequiredMsg;
+    if (!data.correo.trim()) errors.correo = genericRequiredMsg;
+    else if (!/\S+@\S+\.\S+/.test(data.correo)) errors.correo = "Correo electrónico no es válido.";
+    if (!data.whatsapp.trim()) errors.whatsapp = genericRequiredMsg;
+    if (!data.address.trim()) errors.address = genericRequiredMsg;
+    if (!data.fecha_nacimiento) errors.fecha_nacimiento = genericRequiredMsg;
+    if (!data.genero) errors.genero = selectionRequiredMsg("su género");
+
+    // Provincia
+    const provinciaSelectIsEnabled = !isLoadingAreaData && !(provinciasOptions.length === 1 && (provinciasOptions[0].label === "Cargando provincias..." || provinciasOptions[0].label === "No hay datos de provincia"));
+    if (provinciaSelectIsEnabled && hasActualOptions(provinciasOptions) && !data.provincia) {
+        errors.provincia = selectionRequiredMsg("su provincia");
+    }
+
+    // Municipio
+    const municipioSelectIsEnabled = !isLoadingAreaData && !!data.provincia && !(municipiosOptions.length === 1 && (municipiosOptions[0].label.includes("primero") || municipiosOptions[0].label.includes("Cargando") || municipiosOptions[0].label.includes("No hay") || municipiosOptions[0].label.includes("no disponibles")));
+    if (municipioSelectIsEnabled && hasActualOptions(municipiosOptions) && !data.municipio) {
+        errors.municipio = selectionRequiredMsg("su municipio");
+    }
+
+    // Distrito
+    const distritoIsRelevantForSCZ = data.provincia === '1' && data.municipio === '1';
+    const distritoSelectIsEnabled = !isLoadingAreaData && distritoIsRelevantForSCZ && !(distritosOptions.length === 1 && (distritosOptions[0].label.includes("N/A") || distritosOptions[0].label.includes("Cargando") || distritosOptions[0].label.includes("No hay") || distritosOptions[0].label.includes("no disponibles")|| distritosOptions[0].label.includes("primero")));
+    if (distritoSelectIsEnabled && hasActualOptions(distritosOptions) && !data.distrito) {
+        errors.distrito = selectionRequiredMsg("su distrito municipal");
+    }
+    
+    // Localidad
+    const localidadSelectIsEnabled = !isLoadingAreaData && !!data.municipio && !(localidadesOptions.length === 1 && (localidadesOptions[0].label.includes("primero") || localidadesOptions[0].label.includes("Cargando") || localidadesOptions[0].label.includes("No hay") || localidadesOptions[0].label.includes("no disponibles")));
+    if (localidadSelectIsEnabled && hasActualOptions(localidadesOptions) && !data.localidad) {
+        errors.localidad = selectionRequiredMsg("su localidad");
+    }
+
+    // Recinto
+    const recintoCanBeSelectedBasedOnDistritoForSCZ = !(data.provincia === '1' && data.municipio === '1' && (!data.distrito || distritosOptions[0]?.label === "N/A para esta selección" || distritosOptions[0]?.label === "No hay distritos para esta selección" || distritosOptions[0]?.label.includes("primero")));
+    const recintoSelectIsEnabled = !isLoadingAreaData && !!data.localidad && recintoCanBeSelectedBasedOnDistritoForSCZ && !(recintosOptions.length === 1 && (recintosOptions[0].label.includes("P., M. y L.") || recintosOptions[0].label.includes("Cargando") || recintosOptions[0].label.includes("No hay") || recintosOptions[0].label.includes("no disponibles") || recintosOptions[0].label.includes("distrito municipal primero")));
+    if (recintoSelectIsEnabled && hasActualOptions(recintosOptions) && !data.recinto) {
+        errors.recinto = selectionRequiredMsg("su recinto");
+    }
+
+    return errors;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setFormSubmitted(true); // Marcar que se intentó enviar
+    setIsLoading(true); // Mantener isLoading para el botón, pero la validación es prioritaria
+
+    const errors = validateForm(formData);
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      showToast("Por favor, corrija los campos marcados en rojo.", "error");
+      setIsLoading(false);
+      return;
+    }
+    // Si no hay errores de validación, limpiar submitError de intentos previos de API
     setSubmitError(null);
+
 
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     if (!apiUrl) {
@@ -285,10 +361,17 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
         setQrData(response.data.data);
         setShowQrModal(true);
         setFormData(initialFormData);
+        setFormSubmitted(false); // Resetear estado de envío
+        setValidationErrors({}); // Limpiar errores de validación
         showToast("Registro exitoso", "success");
       } else {
-        showToast("Registro exitoso", "success");
-        setFormData(initialFormData);
+        // Considerar si este caso también es un éxito y debe resetear el formulario
+        showToast(response.data.message || "Registro completado, pero hubo un detalle.", response.data.status ? "success" : "error");
+        if (response.data.status) {
+            setFormData(initialFormData);
+            setFormSubmitted(false);
+            setValidationErrors({});
+        }
       }
     } catch (err: any) {
       console.error('Error al enviar el formulario:', err);
@@ -315,47 +398,58 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     }
   };
 
-  // Función para verificar si hay opciones reales más allá del placeholder
-  const hasActualOptions = (options: Array<{ value: string | number, label: string }>) => {
-    return options.some(opt => opt.value !== "");
-  };
 
   return (
     <div id="ser-parte" className={styles.formularioSection}>
       <div className={styles.formularioContainer}>
         <span className={styles.titleDark}>Sé parte del cambio</span>
         {areaDataError && <p className={styles.errorMessage} style={{textAlign: 'center', marginBlock: '1rem'}}>{areaDataError}</p>}
-        <form onSubmit={handleSubmit} className={styles.formOuterBox}>
+        <form onSubmit={handleSubmit} className={styles.formOuterBox} noValidate> {/* noValidate para usar nuestra propia validación */}
           <div className={styles.formFieldsGrid}>
             <div className={styles.formFieldsGroup}>
 
               {/* Fila 1: Nombres */}
               <div className={styles.fieldRow}>
-                <div className={styles.fieldControl}><input type="text" name="primer_nombre" value={formData.primer_nombre} onChange={handleInputChange} placeholder="Primer nombre" required disabled={isLoading || isLoadingAreaData} /></div>
-                <div className={styles.fieldControl}><input type="text" name="segundo_nombre" value={formData.segundo_nombre} onChange={handleInputChange} placeholder="Segundo nombre (opcional)" disabled={isLoading || isLoadingAreaData} /></div>
+                <div className={`${styles.fieldControl} ${formSubmitted && validationErrors.primer_nombre ? styles.fieldError : ''}`}>
+                    <input type="text" name="primer_nombre" value={formData.primer_nombre} onChange={handleInputChange} placeholder="Primer nombre" required disabled={isLoading || isLoadingAreaData} />
+                    {/* {formSubmitted && validationErrors.primer_nombre && <small className={styles.inlineErrorMsg}>{validationErrors.primer_nombre}</small>} */}
+                </div>
+                <div className={styles.fieldControl}> {/* segundo_nombre es opcional */}
+                    <input type="text" name="segundo_nombre" value={formData.segundo_nombre} onChange={handleInputChange} placeholder="Segundo nombre (opcional)" disabled={isLoading || isLoadingAreaData} />
+                </div>
               </div>
               {/* Fila 2: Apellidos */}
               <div className={styles.fieldRow}>
-                <div className={styles.fieldControl}><input type="text" name="apellido_paterno" value={formData.apellido_paterno} onChange={handleInputChange} placeholder="Apellido paterno" required disabled={isLoading || isLoadingAreaData} /></div>
-                <div className={styles.fieldControl}><input type="text" name="apellido_materno" value={formData.apellido_materno} onChange={handleInputChange} placeholder="Apellido materno" required disabled={isLoading || isLoadingAreaData} /></div>
+                <div className={`${styles.fieldControl} ${formSubmitted && validationErrors.apellido_paterno ? styles.fieldError : ''}`}>
+                    <input type="text" name="apellido_paterno" value={formData.apellido_paterno} onChange={handleInputChange} placeholder="Apellido paterno" required disabled={isLoading || isLoadingAreaData} />
+                </div>
+                <div className={`${styles.fieldControl} ${formSubmitted && validationErrors.apellido_materno ? styles.fieldError : ''}`}>
+                    <input type="text" name="apellido_materno" value={formData.apellido_materno} onChange={handleInputChange} placeholder="Apellido materno" required disabled={isLoading || isLoadingAreaData} />
+                </div>
               </div>
               {/* Fila 3: CI y Fecha de Nacimiento */}
               <div className={styles.fieldRow}>
-                <div className={styles.fieldControl}><input type="text" name="cedula" value={formData.cedula} onChange={handleInputChange} placeholder="Cédula de identidad" required disabled={isLoading || isLoadingAreaData} /></div>
-                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon}`}><input type="date" name="fecha_nacimiento" value={formData.fecha_nacimiento} onChange={handleInputChange} style={{ WebkitAppearance: 'none', MozAppearance: 'textfield' }} required disabled={isLoading || isLoadingAreaData} /></div>
+                <div className={`${styles.fieldControl} ${formSubmitted && validationErrors.cedula ? styles.fieldError : ''}`}>
+                    <input type="text" name="cedula" value={formData.cedula} onChange={handleInputChange} placeholder="Cédula de identidad" required disabled={isLoading || isLoadingAreaData} />
+                </div>
+                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon} ${formSubmitted && validationErrors.fecha_nacimiento ? styles.fieldError : ''}`}>
+                    <input type="date" name="fecha_nacimiento" value={formData.fecha_nacimiento} onChange={handleInputChange} style={{ WebkitAppearance: 'none', MozAppearance: 'textfield' }} required disabled={isLoading || isLoadingAreaData} />
+                </div>
               </div>
               {/* Fila 4: Correo y Género */}
               <div className={styles.fieldRow}>
-                <div className={styles.fieldControl}><input type="email" name="correo" value={formData.correo} onChange={handleInputChange} placeholder="Correo electrónico" required disabled={isLoading || isLoadingAreaData} /></div>
-                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon}`}>
-                  <select 
-                    name="genero" 
-                    value={formData.genero} 
-                    onChange={handleInputChange} 
-                    required 
+                <div className={`${styles.fieldControl} ${formSubmitted && validationErrors.correo ? styles.fieldError : ''}`}>
+                    <input type="email" name="correo" value={formData.correo} onChange={handleInputChange} placeholder="Correo electrónico" required disabled={isLoading || isLoadingAreaData} />
+                </div>
+                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon} ${formSubmitted && validationErrors.genero ? styles.fieldError : ''}`}>
+                  <select
+                    name="genero"
+                    value={formData.genero}
+                    onChange={handleInputChange}
+                    required
                     disabled={isLoading || isLoadingAreaData}
                   >
-                    <option value="">Seleccione su género</option>
+                    <option value="">Seleccione su género</option>,
                     <option value="M">Masculino</option>
                     <option value="F">Femenino</option>
                   </select>
@@ -364,11 +458,11 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
               </div>
               {/* Fila 5: WhatsApp y Dirección */}
               <div className={styles.fieldRow}>
-                <div className={`${styles.fieldControl} ${styles.phoneField}`}>
+                <div className={`${styles.fieldControl} ${styles.phoneField} ${formSubmitted && validationErrors.whatsapp ? styles.fieldError : ''}`}>
                   <span className={styles.phoneLabelTop}>Número de WhatsApp</span>
                   <div className={styles.phoneInputRow}>
                     <div className={styles.phonePrefix}>
-                      <select 
+                      <select
                         value={selectedPrefix}
                         onChange={(e) => setSelectedPrefix(e.target.value)}
                         className={styles.phonePrefixSelect}
@@ -383,52 +477,52 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
                       <div className={styles.iconWrapper}><IconoChevronAbajo /></div>
                     </div>
                     <span className={styles.phoneSeparator}>|</span>
-                    <input 
-                      type="tel" 
-                      className={styles.phoneNumberInput} 
-                      name="whatsapp" 
-                      value={formData.whatsapp} 
-                      onChange={handleInputChange} 
-                      placeholder="74837560" 
-                      required 
-                      disabled={isLoading || isLoadingAreaData} 
+                    <input
+                      type="tel"
+                      className={styles.phoneNumberInput}
+                      name="whatsapp"
+                      value={formData.whatsapp}
+                      onChange={handleInputChange}
+                      placeholder="74837560"
+                      required
+                      disabled={isLoading || isLoadingAreaData}
                     />
                   </div>
                 </div>
-                <div className={styles.fieldControl}>
-                  <input 
-                    type="text" 
-                    name="address" 
-                    value={formData.address} 
-                    onChange={handleInputChange} 
-                    placeholder="Dirección" 
-                    required 
-                    disabled={isLoading || isLoadingAreaData} 
+                <div className={`${styles.fieldControl} ${formSubmitted && validationErrors.address ? styles.fieldError : ''}`}>
+                  <input
+                    type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    placeholder="Dirección"
+                    required
+                    disabled={isLoading || isLoadingAreaData}
                   />
                 </div>
               </div>
 
               {/* Fila 6: Provincia y Municipio */}
               <div className={styles.fieldRow}>
-                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon}`}>
-                  <select 
-                    name="provincia" 
-                    value={formData.provincia} 
-                    onChange={handleInputChange} 
-                    required 
-                    disabled={isLoadingAreaData || !hasActualOptions(provinciasOptions)}
+                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon} ${formSubmitted && validationErrors.provincia ? styles.fieldError : ''}`}>
+                  <select
+                    name="provincia"
+                    value={formData.provincia}
+                    onChange={handleInputChange}
+                    required={!isLoadingAreaData && hasActualOptions(provinciasOptions) && !(provinciasOptions.length === 1 && (provinciasOptions[0].label === "Cargando provincias..." || provinciasOptions[0].label === "No hay datos de provincia"))}
+                    disabled={isLoadingAreaData || (provinciasOptions.length <= 1 && !hasActualOptions(provinciasOptions))}
                   >
                     {provinciasOptions.map(opt => (<option key={opt.value || 'prov_load_key'} value={opt.value} disabled={opt.value === "" && opt.label !== "Seleccione su provincia"}>{opt.label}</option>))}
                   </select>
                   <div className={styles.iconWrapper}><IconoChevronAbajo /></div>
                 </div>
-                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon}`}>
-                  <select 
-                    name="municipio" 
-                    value={formData.municipio} 
-                    onChange={handleInputChange} 
-                    required={!!formData.provincia && hasActualOptions(municipiosOptions)}
-                    disabled={isLoadingAreaData || !formData.provincia || !hasActualOptions(municipiosOptions)}
+                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon} ${formSubmitted && validationErrors.municipio ? styles.fieldError : ''}`}>
+                  <select
+                    name="municipio"
+                    value={formData.municipio}
+                    onChange={handleInputChange}
+                    required={!isLoadingAreaData && !!formData.provincia && hasActualOptions(municipiosOptions) && !(municipiosOptions.length === 1 && (municipiosOptions[0].label.includes("primero") || municipiosOptions[0].label.includes("Cargando") || municipiosOptions[0].label.includes("No hay") || municipiosOptions[0].label.includes("no disponibles")))}
+                    disabled={isLoadingAreaData || !formData.provincia || (municipiosOptions.length <=1 && !hasActualOptions(municipiosOptions))}
                   >
                     {municipiosOptions.map(opt => (<option key={opt.value || 'mun_load_key'} value={opt.value} disabled={opt.value === "" && opt.label !== "Seleccione su municipio" }>{opt.label}</option>))}
                   </select>
@@ -438,25 +532,25 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
               
               {/* Fila 7: Distrito Municipal y Localidad */}
               <div className={styles.fieldRow}>
-                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon}`}>
-                  <select 
-                    name="distrito" 
-                    value={formData.distrito} 
-                    onChange={handleInputChange} 
-                    required={formData.provincia === '1' && formData.municipio === '1' && hasActualOptions(distritosOptions) && distritosOptions[0]?.label !== "N/A para esta selección"}
-                    disabled={isLoadingAreaData || !(formData.provincia === '1' && formData.municipio === '1') || !hasActualOptions(distritosOptions) || distritosOptions[0]?.label === "N/A para esta selección"}
+                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon} ${formSubmitted && validationErrors.distrito ? styles.fieldError : ''}`}>
+                  <select
+                    name="distrito"
+                    value={formData.distrito}
+                    onChange={handleInputChange}
+                    required={!isLoadingAreaData && (formData.provincia === '1' && formData.municipio === '1') && hasActualOptions(distritosOptions) && !(distritosOptions.length === 1 && (distritosOptions[0].label.includes("N/A") || distritosOptions[0].label.includes("Cargando") || distritosOptions[0].label.includes("No hay") || distritosOptions[0].label.includes("no disponibles") || distritosOptions[0].label.includes("primero")))}
+                    disabled={isLoadingAreaData || !(formData.provincia === '1' && formData.municipio === '1') || (distritosOptions.length <=1 && !hasActualOptions(distritosOptions)) || (distritosOptions.length === 1 && (distritosOptions[0].label.includes("N/A") || distritosOptions[0].label.includes("primero")))}
                   >
-                    {distritosOptions.map(opt => (<option key={opt.value || 'dist_load_key'} value={opt.value} disabled={(opt.value === "" && opt.label !== "Seleccione su distrito municipal") || opt.label.startsWith("N/A")}>{opt.label}</option>))}
+                    {distritosOptions.map(opt => (<option key={opt.value || 'dist_load_key'} value={opt.value} disabled={(opt.value === "" && opt.label !== "Seleccione su distrito municipal") || opt.label.startsWith("N/A") || opt.label.startsWith("Seleccione municipio primero")}>{opt.label}</option>))}
                   </select>
                   <div className={styles.iconWrapper}><IconoChevronAbajo /></div>
                 </div>
-                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon}`}>
-                  <select 
-                    name="localidad" 
-                    value={formData.localidad} 
-                    onChange={handleInputChange} 
-                    required={!!formData.municipio && hasActualOptions(localidadesOptions)} 
-                    disabled={isLoadingAreaData || !formData.municipio || !hasActualOptions(localidadesOptions)}
+                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon} ${formSubmitted && validationErrors.localidad ? styles.fieldError : ''}`}>
+                  <select
+                    name="localidad"
+                    value={formData.localidad}
+                    onChange={handleInputChange}
+                    required={!isLoadingAreaData && !!formData.municipio && hasActualOptions(localidadesOptions) && !(localidadesOptions.length === 1 && (localidadesOptions[0].label.includes("primero") || localidadesOptions[0].label.includes("Cargando") || localidadesOptions[0].label.includes("No hay") || localidadesOptions[0].label.includes("no disponibles")))}
+                    disabled={isLoadingAreaData || !formData.municipio || (localidadesOptions.length <= 1 && !hasActualOptions(localidadesOptions))}
                   >
                     {localidadesOptions.map(opt => (<option key={opt.value || 'loc_load_key'} value={opt.value} disabled={opt.value === "" && opt.label !== "Seleccione su localidad"}>{opt.label}</option>))}
                   </select>
@@ -466,13 +560,25 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
 
               {/* Fila 8: Recinto Electoral */}
               <div className={styles.fieldRowFull}>
-                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon}`}>
-                  <select 
-                    name="recinto" 
-                    value={formData.recinto} 
-                    onChange={handleInputChange} 
-                    required={!!formData.localidad && hasActualOptions(recintosOptions) && !(formData.provincia === '1' && formData.municipio === '1' && !formData.distrito)}
-                    disabled={isLoadingAreaData || !formData.localidad || !hasActualOptions(recintosOptions) || (formData.provincia === '1' && formData.municipio === '1' && (!formData.distrito || distritosOptions[0]?.label === "N/A para esta selección" || distritosOptions[0]?.label === "No hay distritos para esta selección")) }
+                <div className={`${styles.fieldControl} ${styles.fieldControlWithIcon} ${formSubmitted && validationErrors.recinto ? styles.fieldError : ''}`}>
+                  <select
+                    name="recinto"
+                    value={formData.recinto}
+                    onChange={handleInputChange}
+                    required={
+                        !isLoadingAreaData &&
+                        !!formData.localidad &&
+                        hasActualOptions(recintosOptions) &&
+                        !(formData.provincia === '1' && formData.municipio === '1' && (!formData.distrito || distritosOptions[0]?.label === "N/A para esta selección" || distritosOptions[0]?.label === "No hay distritos para esta selección" || distritosOptions[0]?.label.includes("primero"))) &&
+                        !(recintosOptions.length === 1 && (recintosOptions[0].label.includes("P., M. y L.") || recintosOptions[0].label.includes("Cargando") || recintosOptions[0].label.includes("No hay") || recintosOptions[0].label.includes("no disponibles") || recintosOptions[0].label.includes("distrito municipal primero")))
+                    }
+                    disabled={
+                        isLoadingAreaData || 
+                        !formData.localidad || 
+                        (recintosOptions.length <= 1 && !hasActualOptions(recintosOptions)) || 
+                        (formData.provincia === '1' && formData.municipio === '1' && (!formData.distrito || distritosOptions[0]?.label === "N/A para esta selección" || distritosOptions[0]?.label === "No hay distritos para esta selección" || distritosOptions[0]?.label.includes("primero"))) ||
+                        (recintosOptions.length === 1 && recintosOptions[0].label.includes("distrito municipal primero"))
+                    }
                   >
                     {recintosOptions.map(opt => (<option key={opt.value || 'rec_load_key'} value={opt.value} disabled={opt.value === "" && opt.label !== "Seleccione su recinto"}>{opt.label}</option>))}
                   </select>

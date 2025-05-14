@@ -1,158 +1,346 @@
-/* Estilos Generales */
 .pageContainer {
-    width: 100%;
-    background-color: var(--cWhite);
-    margin: 0 auto;
-    overflow-x: hidden;
-  }
-  
-  /* Barra de Navegación */
+  width: 100%;
+  background-color: var(--cWhite);
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+.headerBar {
+  height: auto;
+  width: 100%;
+  background-color: var(--cPrimary);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.headerContent {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.headerLogoContainer {
+  width: 45px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  padding: 8px 4px;
+  flex-shrink: 0;
+}
+
+.headerLogo {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+}
+
+.headerMainArea {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.headerSocialIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.socialIconCircleSmall {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 50%;
+}
+
+.socialIconCircleSmall .socialSvgIcon,
+.socialIconCircleSmall svg {
+  width: 18px;
+  height: 18px;
+  color: var(--cPrimary);
+}
+
+.pageTitleBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  order: -1;
+  padding-bottom: 10px;
+  flex-basis: 100%;
+  text-align: center;
+}
+
+.backIconContainer {
+  display: flex;
+  align-items: center;
+}
+
+.backIconCircle {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--cPrimary);
+}
+
+.backIconCircle .svgIcon,
+.backIconCircle svg {
+  width: 20px;
+  height: 20px;
+  color: var(--cPrimary);
+}
+
+.pageTitle {
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--cWhite);
+  text-align: center;
+  flex-grow: 1;
+}
+
+.mainContent {
+  width: 100%;
+  padding: 30px 20px;
+  box-sizing: border-box;
+}
+
+.redesSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background-color: var(--cSecondary);
+  padding: 30px 20px;
+  box-sizing: border-box;
+}
+
+.titleWhiteMedium {
+  font-weight: 700;
+  font-size: 28px;
+  text-align: center;
+  color: var(--cWhite);
+}
+
+.redesIconsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  flex-wrap: wrap;
+}
+
+.socialIconCircleLarge {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cWhite);
+  border-radius: 50%;
+}
+
+.socialIconCircleLarge .socialSvgIcon,
+.socialIconCircleLarge svg {
+  width: 24px;
+  height: 24px;
+  color: var(--cPrimary);
+}
+
+@media (min-width: 769px) {
   .headerBar {
-      height: auto;
-      width: 100%;
-      background-color: var(--cPrimary);
-      padding: 0 120px 16px 120px;
-      display: flex;
-      align-items: center;
-      box-sizing: border-box;
-      position: relative;
-    }
-    
-    .headerContent {
+      padding: 0 60px 16px 60px;
+  }
+  .headerContent {
       height: 80px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-  
-  .headerLogoContainer {
-    width: 53px;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--cWhite);
-    padding: 9px 4.5px;
-  }
-  
-  .headerLogo {
-    width: 45.83px;
-    height: 45.83px;
-    object-fit: cover;
-  }
-  
-  .headerMainArea {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-grow: 1;
-  }
-  
-  .headerSocialIcons {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .socialIconCircleSmall {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--cWhite);
-    border-radius: 20px;
-  }
-  
-  .socialSvgIcon {
-    width: 24px;
-    height: 24px;
-    color: var(--cPrimary);
-  }
-  
-  
-  .pageTitleBar {
-      display: flex;
-      align-items: center;
+      flex-wrap: nowrap;
       justify-content: flex-start;
-      gap: 8px;
+  }
+  .headerLogoContainer {
+      width: 53px;
+      height: 80px;
+      padding: 9px 4.5px;
+      order: 1;
+  }
+  .headerLogo {
+      width: 45.83px;
+      height: 45.83px;
+  }
+  .headerMainArea {
+      order: 2;
+      justify-content: flex-start;
+      flex-grow: 0;
+      margin-left: 16px;
+  }
+  .pageTitleBar {
       position: absolute;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-    }
-  
-  .backIconContainer {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+      width: auto;
+      order: 3;
+      padding-bottom: 0;
+      flex-basis: auto;
   }
-  
-  .backIconCircle {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--cWhite);
-    border-radius: 20px;
-    cursor: pointer;
-    color: var(--cPrimary);
-  }
-  
-  .svgIcon {
-    width: 24px;
-    height: 24px;
-    color: var(--cPrimary);
-  }
-  
   .pageTitle {
-    font-weight: 700;
-    font-size: 32px;
-    color: var(--cWhite);
+      font-size: 32px;
   }
-  
-  /* Contenido Principal */
+  .socialIconCircleSmall {
+      width: 40px;
+      height: 40px;
+  }
+  .socialIconCircleSmall .socialSvgIcon,
+  .socialIconCircleSmall svg {
+      width: 24px;
+      height: 24px;
+  }
   .mainContent {
-    width: 100%;
-    padding: 40px 120px;
-    box-sizing: border-box;
+      padding: 40px 60px;
   }
-  
-  /* Sección Seguinos en las redes */
   .redesSection {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    background-color: var(--cSecondary);
-    padding: 40px 120px;
-    box-sizing: border-box;
+      padding: 40px 60px;
   }
-  
+}
+
+@media (min-width: 1025px) {
+  .headerBar {
+      padding: 0 120px 16px 120px;
+  }
+  .mainContent {
+      padding: 40px 120px;
+  }
+  .redesSection {
+      padding: 40px 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerContent {
+      min-height: auto;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      flex-direction: column;
+      align-items: center;
+  }
+  .pageTitleBar {
+      order: 1;
+      width: 100%;
+      justify-content: center;
+      gap: 8px;
+      padding-bottom: 15px;
+      position: static;
+      transform: none;
+      flex-basis: auto;
+  }
+  .headerLogoContainer {
+     order: 2;
+     height: 60px;
+     margin-bottom: 10px;
+  }
+  .headerMainArea {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+  }
+  .headerSocialIcons {
+      gap: 10px;
+  }
+  .pageTitle {
+      font-size: 22px;
+  }
+  .backIconCircle {
+      width: 30px;
+      height: 30px;
+  }
+  .backIconCircle .svgIcon,
+  .backIconCircle svg {
+      width: 18px;
+      height: 18px;
+  }
   .titleWhiteMedium {
-    font-weight: 700;
-    font-size: 32px;
-    text-align: center;
-    color: var(--cWhite);
+      font-size: 24px;
   }
-  
-  .redesIconsContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    align-self: stretch;
+}
+
+@media (max-width: 480px) {
+  .headerBar {
+      padding: 10px 15px;
   }
-  
+  .headerContent {
+      gap: 10px;
+  }
+  .pageTitleBar {
+      gap: 6px;
+      padding-top: 5px;
+      padding-bottom: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+  }
+  .pageTitle {
+      font-size: 18px;
+      text-align: center;
+  }
+  .backIconContainer {
+     margin-right: 5px;
+  }
+  .headerLogoContainer {
+      height: 50px;
+      width: 40px;
+      padding: 6px 3px;
+      margin-bottom: 8px;
+  }
+  .headerLogo {
+      width: 30px;
+      height: 30px;
+  }
+  .headerMainArea {
+     margin-top: 0;
+  }
+  .socialIconCircleSmall {
+      width: 28px;
+      height: 28px;
+  }
+  .socialIconCircleSmall .socialSvgIcon,
+  .socialIconCircleSmall svg {
+      width: 16px;
+      height: 16px;
+  }
+  .mainContent {
+      padding: 20px 15px;
+  }
+  .redesSection {
+      padding: 25px 15px;
+  }
+  .titleWhiteMedium {
+      font-size: 22px;
+  }
   .socialIconCircleLarge {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--cWhite);
-    border-radius: 20px;
+      width: 36px;
+      height: 36px;
   }
-  
+  .socialIconCircleLarge .socialSvgIcon,
+  .socialIconCircleLarge svg {
+      width: 20px;
+      height: 20px;
+  }
+}

@@ -10,6 +10,7 @@ import {
   IconoInstagram,
   IconoYouTube 
 } from '../components/Icons';
+import HeaderBar from '../components/HeaderBar/HeaderBar';
 
 // --- Iconos SVG como componentes React (Reutilizar/Adaptar de la vez anterior) ---
 const IconoFlechaIzquierdaNav = () => (
@@ -35,28 +36,7 @@ const History: React.FC = () => {
   return (
     <div className={styles.pageContainer}>
       {/* Barra de Navegación Superior Simplificada */}
-      <div className={styles.headerBar}>
-        <div className={styles.headerContent}>
-          <div className={styles.headerLogoContainer}>
-            <img className={styles.headerLogo} src="/images/Logo.png" alt="Logo" />
-          </div>
-          <div className={styles.headerMainArea}>
-            {/* Iconos Sociales a la Izquierda del Título (según estructura) */}
-            <div className={styles.headerSocialIcons}>
-              <div className={styles.socialIconCircleSmall}><IconoFacebook /></div>
-              <div className={styles.socialIconCircleSmall}><IconoTwitter /></div>
-              <div className={styles.socialIconCircleSmall}><IconoInstagram /></div>
-              <div className={styles.socialIconCircleSmall}><IconoYouTube /></div>
-            </div>
-          </div>
-        </div>
-        <div className={styles.pageTitleBar}>
-          <div className={styles.backIconContainer}>
-            <div className={styles.backIconCircle} onClick={() => router.push('/')}><IconoFlechaAtras/></div>
-          </div>
-          <span className={styles.pageTitle}>Historia</span>
-        </div>
-      </div>
+      <HeaderBar pageTitle="Historia" showBackButton={true} />
 
       {/* Imagen Principal Grande */}
       <img className={styles.mainImage} src="/images/History/Portada-history.png" alt="Historia Principal" />

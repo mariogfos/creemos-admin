@@ -1,4 +1,3 @@
-/* Estilos Generales */
 .pageContainer {
   width: 100%;
   background-color: var(--cWhite);
@@ -6,44 +5,47 @@
   overflow-x: hidden;
 }
 
-/* --- Cabecera --- */
 .headerBar {
   height: auto;
   width: 100%;
   background-color: var(--cPrimary);
-  padding: 0 120px 16px 120px;
+  padding: 16px 20px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   box-sizing: border-box;
-  position: relative;
 }
 
 .headerContent {
-  height: 80px;
+  min-height: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
+  width: 100%;
+  position: relative;
+  flex-wrap: wrap;
 }
 
 .headerLogoContainer {
-  width: 53px;
-  height: 100%;
+  width: 45px;
+  height: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  padding: 9px 4.5px;
+  padding: 8px 4px;
+  flex-shrink: 0;
 }
 
 .headerLogo {
-  width: 45.83px;
-  height: 45.83px;
+  width: 38px;
+  height: 38px;
   object-fit: cover;
 }
 
 .headerMainArea {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   flex-grow: 1;
 }
@@ -55,27 +57,29 @@
 }
 
 .socialIconCircleSmall {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  border-radius: 20px;
+  border-radius: 50%;
   transition: all 0.3s ease;
 }
 
 .socialIconCircleSmall:hover {
   background-color: var(--cPrimary);
+  border: 1px solid var(--cWhite);
 }
 
 .socialIconCircleSmall:hover svg {
   color: var(--cWhite);
 }
 
-.socialSvgIcon {
-  width: 24px;
-  height: 24px;
+.socialIconCircleSmall .socialSvgIcon,
+.socialIconCircleSmall svg {
+  width: 18px;
+  height: 18px;
   color: var(--cPrimary);
   transition: all 0.3s ease;
 }
@@ -83,41 +87,43 @@
 .pageTitleBar {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  order: -1;
+  padding-bottom: 10px;
+  flex-basis: 100%;
+  text-align: center;
 }
 
 .backIconCircle {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  border-radius: 20px;
+  border-radius: 50%;
   cursor: pointer;
   color: var(--cPrimary);
+  flex-shrink: 0;
 }
 
-.svgIcon {
-  width: 24px;
-  height: 24px;
+.backIconCircle .svgIcon,
+.backIconCircle svg {
+  width: 18px;
+  height: 18px;
   color: var(--cPrimary);
 }
 
 .pageTitle {
   font-weight: 600;
-  font-size: 32px;
+  font-size: 24px;
   color: var(--cWhite);
+  text-align: center;
+  flex-grow: 1;
 }
 
-/* --- Fin Cabecera --- */
-
-/* --- Sección Seguinos en las redes (Reutilizada) --- */
 .redesSection {
   width: 100%;
   display: flex;
@@ -125,13 +131,13 @@
   align-items: center;
   gap: 16px;
   background-color: var(--cSecondary);
-  padding: 40px 120px;
+  padding: 30px 20px;
   box-sizing: border-box;
 }
 
 .titleWhiteMedium {
   font-weight: 700;
-  font-size: 32px;
+  font-size: 28px;
   text-align: center;
   color: var(--cWhite);
 }
@@ -142,6 +148,7 @@
   align-items: center;
   gap: 12px;
   align-self: stretch;
+  flex-wrap: wrap;
 }
 
 .socialIconCircleLarge {
@@ -151,63 +158,70 @@
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  border-radius: 20px;
+  border-radius: 50%;
 }
 
-/* --- Fin Sección Seguinos en las redes --- */
+.socialIconCircleLarge .socialSvgIcon,
+.socialIconCircleLarge svg {
+  width: 24px;
+  height: 24px;
+  color: var(--cPrimary);
+}
 
-/* --- Estilos Comunes para Secciones de Noticias --- */
 .newsSection, .newsSectionPasadas {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 40px 120px;
+  padding: 30px 20px;
   box-sizing: border-box;
 }
 
 .newsSectionPasadas {
-  background-color: var(--cBackgroundLight);
+  background-color: var(--cBackgroundLight, #f8f8f8);
 }
 
 .sectionTitle {
   font-weight: 600;
-  font-size: 32px;
-  color: var(--cTextDark);
+  font-size: 28px;
+  color: var(--cTextDark, #333);
 }
 
-/* --- Estilos para Tarjeta de Noticia Base --- */
 .newsCardBase {
   display: flex;
   flex-direction: column;
-  background-color: var(--cWhite);
+  background-color: var(--cWhite, #ffffff);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  width: 100%;
 }
 
 .newsCardImageContainer {
   align-self: stretch;
-  background-color: var(--cRandom8);
+  background-color: var(--cRandom8, #e0e0e0);
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .newsCardImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .newsCardContent {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 16px;
+  padding: 12px;
+  flex-grow: 1;
 }
 
 .newsCardTextMain {
@@ -218,112 +232,418 @@
 
 .newsTimeAgo {
   font-weight: 400;
-  font-size: 14px;
-  color: var(--cTextGray);
+  font-size: 13px;
+  color: var(--cTextGray, #828282);
 }
 
 .newsTitle {
   font-weight: 600;
-  font-size: 20px;
-  color: var(--cTextDark);
+  font-size: 18px;
+  line-height: 1.3;
 }
 
 .textDark {
-  color: var(--cTextDark);
+  color: var(--cTextDark, #333);
 }
 
 .textDeepBlue {
-  color: var(--cSecondary);
+  color: var(--cSecondary, #000018);
 }
 
 .newsCaption {
   font-weight: 400;
-  font-size: 16px;
-  color: var(--cTextGray);
+  font-size: 14px;
+  color: var(--cTextGray, #828282);
   line-height: 1.5;
 }
 
-/* --- Sección Recientes --- */
 .recientesContent {
   display: flex;
+  flex-direction: column;
   gap: 16px;
   align-self: stretch;
   align-items: flex-start;
 }
 
 .recientesPrincipalCard {
-  width: 1003px;
-  min-height: 818px;
-  flex-shrink: 0;
+  width: 100%;
 }
-
+.recientesPrincipalCard .newsCardImageContainer {
+  height: 300px;
+}
 .recientesPrincipalCard .newsTitle {
-  font-size: 32px;
+  font-size: 22px;
 }
-
 .recientesPrincipalCard .newsTimeAgo,
 .recientesPrincipalCard .newsCaption {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .recientesSecundariasColumna {
-  width: 469px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  flex-shrink: 0;
 }
-
-.recientesSecundariasColumna .newsCardBase {
-  min-height: 401px;
+.recientesSecundariasColumna .newsCardImageContainer {
+  height: 200px;
 }
-
 .recientesSecundariasColumna .newsTitle {
-  font-size: 32px;
+  font-size: 20px;
 }
-
 .recientesSecundariasColumna .newsTimeAgo,
 .recientesSecundariasColumna .newsCaption {
-  font-size: 16px;
-}
-
-/* --- Sección Pasadas --- */
-.pasadasContent {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
-.pasadaCard {
-  width: 350px;
-  
-}
-
-.pasadaCard .newsTimeAgo,
-.pasadaCard .newsCaption {
   font-size: 14px;
 }
 
+.pasadasContent {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+.pasadaCard .newsCardImageContainer {
+  height: 180px;
+}
+.pasadaCard .newsTimeAgo,
+.pasadaCard .newsCaption {
+  font-size: 13px;
+}
 .pasadaCard .newsTitle {
-  font-size: 16px;
+  font-size: 15px;
 }
-
 .pasadaCard .newsCardContent {
-  padding: 8px;
+  padding: 10px;
 }
 
-/* --- Imágenes Decorativas del Final --- */
 .decorativeImagesContainer {
   display: flex;
-  justify-content: space-between;
-  padding: 20px 120px;
-  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+  gap: 16px;
+  box-sizing: border-box;
+}
+.decorativeImagesContainer iframe {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  max-height: 400px;
 }
 
 .decorativeImageTall {
-  width: 99px;
-  height: 495px;
-  object-fit: cover;
-  background-color: #f0f0f0;
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .newsSection, .newsSectionPasadas {
+    padding: 30px;
+  }
+  .redesSection {
+    padding: 30px;
+  }
+  .decorativeImagesContainer {
+    padding: 20px 30px;
+  }
+  .recientesPrincipalCard .newsCardImageContainer {
+    height: 400px;
+  }
+  .recientesSecundariasColumna .newsCardImageContainer {
+    height: 220px;
+  }
+  .pasadasContent {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pasadaCard .newsCardImageContainer {
+    height: 150px;
+  }
+}
+
+@media (min-width: 769px) {
+  .headerBar {
+    padding: 0 60px 16px 60px;
+  }
+  .headerContent {
+    height: 80px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+  .headerLogoContainer {
+    width: 53px;
+    height: 80px;
+    padding: 9px 4.5px;
+    order: 1;
+  }
+  .headerLogo {
+    width: 45.83px;
+    height: 45.83px;
+  }
+  .headerMainArea {
+    order: 2;
+    justify-content: flex-start;
+    flex-grow: 0;
+    margin-left: 16px;
+  }
+  .pageTitleBar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    order: 3;
+    padding-bottom: 0;
+    flex-basis: auto;
+  }
+  .pageTitle {
+    font-size: 32px;
+  }
+  .socialIconCircleSmall {
+    width: 40px;
+    height: 40px;
+  }
+  .socialIconCircleSmall .socialSvgIcon,
+  .socialIconCircleSmall svg {
+    width: 24px;
+    height: 24px;
+  }
+  .newsSection, .newsSectionPasadas {
+    padding: 40px 60px;
+  }
+  .sectionTitle {
+    font-size: 32px;
+  }
+  .newsTitle {
+    font-size: 20px;
+  }
+  .newsCaption {
+    font-size: 16px;
+  }
+  .newsTimeAgo {
+    font-size: 14px;
+  }
+  .recientesContent {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .recientesPrincipalCard {
+    width: 60%;
+    flex-shrink: 0;
+  }
+  .recientesPrincipalCard .newsCardImageContainer {
+    height: auto;
+    aspect-ratio: 16/10;
+  }
+  .recientesPrincipalCard .newsTitle {
+    font-size: 28px;
+  }
+  .recientesPrincipalCard .newsTimeAgo,
+  .recientesPrincipalCard .newsCaption {
+    font-size: 16px;
+  }
+  .recientesSecundariasColumna {
+    width: 40%;
+    flex-shrink: 0;
+  }
+  .recientesSecundariasColumna .newsCardImageContainer {
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+   .recientesSecundariasColumna .newsTitle {
+    font-size: 22px;
+  }
+  .pasadasContent {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .pasadaCard .newsCardImageContainer {
+    height: 200px;
+  }
+  .pasadaCard .newsTitle {
+    font-size: 18px;
+  }
+  .decorativeImagesContainer {
+    padding: 20px 60px;
+  }
+   .decorativeImagesContainer iframe {
+    max-height: 450px;
+  }
+  .redesSection {
+    padding: 40px 60px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .headerBar {
+    padding: 0 120px 16px 120px;
+  }
+  .newsSection, .newsSectionPasadas {
+    padding: 40px 120px;
+  }
+  .recientesPrincipalCard {
+    width: calc(66.66% - 8px);
+  }
+  .recientesPrincipalCard .newsTitle {
+    font-size: 32px;
+  }
+  .recientesSecundariasColumna {
+    width: calc(33.33% - 8px);
+  }
+  .recientesSecundariasColumna .newsTitle {
+    font-size: 24px;
+  }
+  .pasadasContent {
+     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  .pasadaCard .newsCardImageContainer {
+    height: 202px;
+  }
+  .decorativeImagesContainer {
+    padding: 20px 120px;
+  }
+  .decorativeImagesContainer iframe {
+    max-height: 495px;
+  }
+  .redesSection {
+    padding: 40px 120px;
+  }
+}
+
+@media (max-width: 768px) {
+    .headerContent {
+        min-height: auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        flex-direction: column;
+        align-items: center;
+    }
+    .pageTitleBar {
+        order: 1;
+        width: 100%;
+        justify-content: center;
+        gap: 8px;
+        padding-bottom: 15px;
+        position: static;
+        transform: none;
+        flex-basis: auto;
+    }
+    .headerLogoContainer {
+       order: 2;
+       height: 60px;
+       margin-bottom: 10px;
+    }
+    .headerMainArea {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+    .headerSocialIcons {
+        gap: 10px;
+    }
+    .pageTitle {
+        font-size: 22px;
+    }
+    .backIconCircle {
+        width: 30px;
+        height: 30px;
+    }
+    .backIconCircle .svgIcon,
+    .backIconCircle svg {
+        width: 18px;
+        height: 18px;
+    }
+    .sectionTitle {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .headerBar {
+        padding: 10px 15px;
+    }
+    .pageTitleBar {
+        gap: 6px;
+        padding-top: 5px;
+        padding-bottom: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .pageTitle {
+        font-size: 18px;
+    }
+    .headerLogoContainer {
+        height: 50px;
+        width: 40px;
+        padding: 6px 3px;
+        margin-bottom: 8px;
+    }
+    .headerLogo {
+        width: 30px;
+        height: 30px;
+    }
+    .socialIconCircleSmall {
+        width: 28px;
+        height: 28px;
+    }
+    .socialIconCircleSmall .socialSvgIcon,
+    .socialIconCircleSmall svg {
+        width: 16px;
+        height: 16px;
+    }
+    .newsSection, .newsSectionPasadas {
+        padding: 20px 15px;
+    }
+    .sectionTitle {
+        font-size: 20px;
+    }
+    .newsCardContent {
+      padding: 10px;
+    }
+    .newsTitle {
+      font-size: 16px;
+    }
+    .newsCaption {
+      font-size: 13px;
+    }
+    .newsTimeAgo {
+      font-size: 12px;
+    }
+    .recientesPrincipalCard .newsCardImageContainer {
+      height: 250px;
+    }
+    .recientesPrincipalCard .newsTitle {
+      font-size: 18px;
+    }
+    .recientesPrincipalCard .newsTimeAgo,
+    .recientesPrincipalCard .newsCaption {
+      font-size: 14px;
+    }
+    .recientesSecundariasColumna .newsCardImageContainer {
+      height: 180px;
+    }
+    .recientesSecundariasColumna .newsTitle {
+      font-size: 17px;
+    }
+    .pasadasContent {
+      grid-template-columns: 1fr;
+    }
+    .pasadaCard .newsCardImageContainer {
+      height: 160px;
+    }
+    .decorativeImagesContainer iframe {
+      aspect-ratio: 4 / 3;
+      max-height: 300px;
+    }
+    .titleWhiteMedium {
+        font-size: 22px;
+    }
+    .redesSection {
+        padding: 25px 15px;
+    }
+    .socialIconCircleLarge {
+        width: 36px;
+        height: 36px;
+    }
+    .socialIconCircleLarge .socialSvgIcon,
+    .socialIconCircleLarge svg {
+        width: 20px;
+        height: 20px;
+    }
 }

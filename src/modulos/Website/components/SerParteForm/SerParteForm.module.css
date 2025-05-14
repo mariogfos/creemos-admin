@@ -1,288 +1,310 @@
-/* SerParteForm.module.css */
 .formularioSection {
   width: 100%;
-  padding: 60px 20px; /* Ajustado un poco el padding vertical */
-  background-color: var(--cWhite, #f0f2f5); /* Un color de fondo para la sección si es necesario */
+  padding: 40px 20px;
+  background-color: var(--cWhite, #f0f2f5);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  box-sizing: border-box;
 }
 
 .formularioContainer {
-  max-width: 800px; /* Ajustado al ancho del formularioBox del figma */
+  max-width: 800px;
   width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px; /* Espacio entre título y caja del formulario */
+  gap: 24px;
 }
 
 .titleDark {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 600;
   color: var(--cBlack, #333);
   text-align: center;
 }
 
-/* --- Estilos basados en el diseño de Figma --- */
-
-.formOuterBox { /* Corresponde al div principal del Figma */
+.formOuterBox {
   display: flex;
   flex-direction: column;
-  gap: 24px; /* gap-6 */
+  gap: 24px;
   align-self: stretch;
   background-color: #ffffff;
-  padding: 24px; /* p-6 */
-  border-radius: 24px; /* rounded-3xl */
+  padding: 20px;
+  border-radius: 18px;
   border: 0.5px solid #d24067;
   width: 100%;
+  box-sizing: border-box;
 }
 
-.formFieldsGrid { /* Corresponde a <div class="flex flex-col gap-4 self-stretch"> */
+.formFieldsGrid {
   display: flex;
   flex-direction: column;
-  gap: 16px; /* gap-4 */
+  gap: 16px;
   align-self: stretch;
 }
 
-.formFieldsGroup { /* Corresponde a <div class="flex flex-col gap-3 self-stretch"> */
+.formFieldsGroup {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* gap-3 */
+  gap: 12px;
   align-self: stretch;
 }
 
 .fieldRow {
   display: flex;
-  align-items: center;
-  gap: 12px; /* gap-3 */
+  flex-direction: column;
+  gap: 12px;
   align-self: stretch;
 }
 
-.fieldControl { /* Contenedor para cada "input" */
+.fieldControl {
   display: flex;
-  flex-direction: column; /* Para permitir etiquetas arriba si es necesario */
+  flex-direction: column;
   justify-content: center;
   flex-grow: 1;
-  height: 48px; /* h-12 */
+  min-height: 48px;
   background-color: #f8f8f8;
-  padding: 8px 12px; /* px-3 py-2 */
-  border-radius: 8px; /* rounded-lg */
-  position: relative; /* Para posicionar iconos o etiquetas flotantes */
+  padding: 8px 12px;
+  border-radius: 8px;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .fieldControl input[type="text"],
 .fieldControl input[type="email"],
 .fieldControl input[type="tel"],
 .fieldControl input[type="date"],
-.fieldControl select { /* Estilo base para inputs y selects */
+.fieldControl select {
   width: 100%;
-  height: 100%;
+  min-height: 30px;
   border: none;
-  background-color: transparent; /* El fondo lo da el .fieldControl */
-  font-size: 16px;
-  color: #333; /* Color del texto ingresado */
+  background-color: transparent;
+  font-size: 15px;
+  color: #333;
   outline: none;
+  box-sizing: border-box;
 }
 
 .fieldControl input::placeholder,
 .fieldControl select {
-  color: #a7a7a7; /* text-[#a7a7a7] */
-  font-size: 16px; /* text-[16px] */
-  font-weight: 400; /* font-normal */
+  color: #a7a7a7;
+  font-size: 15px;
+  font-weight: 400;
 }
-/* Para inputs tipo select, el color del texto seleccionado */
-.fieldControl select:not(:-moz-placeholder-shown) { color: #333; } /* Firefox */
-.fieldControl select:not(:-ms-input-placeholder) { color: #333; } /* Internet Explorer 10-11 */
-.fieldControl select:not(:placeholder-shown) { color: #333; } /* Otros navegadores */
+
+.fieldControl select:not(:-moz-placeholder-shown) { color: #333; }
+.fieldControl select:not(:-ms-input-placeholder) { color: #333; }
+.fieldControl select:not(:placeholder-shown) { color: #333; }
+.fieldControl select option[value=""] { color: #a7a7a7; }
+.fieldControl select:disabled,
+.fieldControl input:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
 
 
-/* Para inputs que simulan ser selects y necesitan un icono */
 .fieldControlWithIcon {
   display: flex;
-  align-items: center; /* Alinea el input/texto y el icono */
-  gap: 8px; /* gap-2 */
-  /* Hereda otros estilos de .fieldControl a través de la estructura JSX */
+  align-items: center;
+  gap: 8px;
 }
 
 .fieldControlWithIcon input,
 .fieldControlWithIcon select {
-  flex-grow: 1; /* El input/select toma el espacio disponible */
+  flex-grow: 1;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 25px;
 }
+.fieldControlWithIcon select {
+  padding-right: 30px;
+}
+
 .fieldControlWithIcon .iconWrapper {
-  width: 20px; /* w-5 */
-  height: 20px; /* h-5 */
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a7a7a7; /* text-[#a7a7a7] for icon */
+  color: #a7a7a7;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 .fieldControlWithIcon .iconWrapper svg {
   width: 14.5px;
-  height: 8.4px; /* Tamaños del SVG del Figma */
+  height: 8.4px;
 }
 
-
-/* Específico para el campo de Fecha de Nacimiento (si la etiqueta va arriba) */
 .fieldLabelTop {
-  font-size: 14px; /* text-[14px] */
-  color: #a7a7a7; /* text-[#a7a7a7] */
+  font-size: 13px;
+  color: #a7a7a7;
   font-weight: 400;
-  margin-bottom: 2px; /* gap-0.5 (simulado) */
+  margin-bottom: 2px;
 }
 .fieldControl input[type="date"] {
-  color: #a7a7a7; /* Para que el texto "aaaa/mm/dd" sea gris */
-  font-size: 16px;
+  color: #a7a7a7;
+  font-size: 15px;
 }
 .fieldControl input[type="date"]:focus,
 .fieldControl input[type="date"]:valid {
-  color: #333; /* Color cuando hay una fecha seleccionada o está en foco */
+  color: #333;
 }
 
-
-/* Específico para el campo Número de WhatsApp */
 .phoneField {
-  /* hereda de .fieldControl */
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
-.phoneLabelTop { /* <span class="font-normal text-[12px] text-[#a7a7a7]">Número de whatsApp</span> */
-  font-size: 12px;
+.phoneLabelTop {
+  font-size: 11px;
   font-weight: 400;
   color: #a7a7a7;
-  margin-bottom: 2px; /* gap-0.5 (simulado) */
+  margin-bottom: 1px;
 }
-.phoneInputRow { /* <div class="flex items-center gap-[5px]"> */
+.phoneInputRow {
   display: flex;
   align-items: center;
   gap: 5px;
-  height: 100%; /* Para que ocupe la altura del .fieldControl */
+  min-height: 24px;
 }
-.phonePrefix { /* <div class="flex items-center gap-1"> */
+.phonePrefix {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 4px; /* gap-1 */
-  cursor: pointer; /* Para indicar que es clickeable si tienes un selector de prefijo */
+  min-width: auto;
+  flex-shrink: 0;
+  padding: 0;
 }
-.phonePrefixText { /* <span class="font-normal text-[14px] text-[#828282]">+591</span> */
+
+.phonePrefixSelect {
+  background: transparent;
+  border: none;
+  color: #828282;
   font-size: 14px;
   font-weight: 400;
-  color: #828282;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  width: auto;
+  max-width: 110px;
+  height: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-align: left;
+  padding-right: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.phonePrefix .iconWrapper { /* <div class="w-4 h-4"> */
-  width: 16px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+.phonePrefix .iconWrapper {
+  width: 14px;
+  height: 14px;
   color: #828282;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 .phonePrefix .iconWrapper svg {
-  width: 11.6px;
-  height: 6.7px;
+  width: 10px;
+  height: 5px;
 }
-.phoneSeparator { /* <span class="font-normal text-[14px] text-[#828282]">|</span> */
+.phoneSeparator {
   font-size: 14px;
   font-weight: 400;
   color: #828282;
-  margin: 0 4px; /* gap-2 (dividido) */
+  margin: 0 2px 0 4px;
 }
-.phoneNumberInput { /* Para el input del número de teléfono */
+.phoneNumberInput {
   flex-grow: 1;
   border: none;
   background-color: transparent;
   font-size: 14px;
-  color: #828282; /* Color del número ingresado o placeholder */
+  color: #333;
   outline: none;
-  height: auto; /* Reset height */
-  padding: 0; /* Reset padding */
+  height: auto;
+  padding: 0;
 }
 .phoneNumberInput::placeholder {
-  color: #828282; /* text-[#828282] */
+  color: #828282;
 }
 
-/* Botón de envío */
-.submitButtonWrapper { /* Contenedor para centrar el botón si es necesario */
+.submitButtonWrapper {
   display: flex;
-  justify-content: flex-start; /* O center, según el diseño final */
+  justify-content: flex-start;
+  margin-top: 8px;
 }
 
-.submitButton { /* <div class="w-[168px] h-12 flex justify-center items-center gap-2.5 bg-[#d24067] p-3 rounded-xl"> */
-  width: auto; /* Hacemos que el padding defina el ancho, o un min-width */
+.submitButton {
+  width: auto;
   min-width: 168px;
-  height: 48px; /* h-12 */
-  display: inline-flex; /* Para que se ajuste al contenido pero permita flex props */
+  height: 48px;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  gap: 10px; /* gap-2.5 */
+  gap: 10px;
   background-color: #d24067;
-  padding: 12px 24px; /* p-3 es 12px, ajustamos para mejor apariencia */
-  border-radius: 12px; /* rounded-xl */
+  padding: 12px 24px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-.submitButton:hover {
-  background-color: #b93256; /* Un tono más oscuro de #d24067 */
+.submitButton:hover:not(:disabled) {
+  background-color: #b93256;
+}
+.submitButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }
 
-.submitButtonText { /* <span class="font-medium text-[20px] text-center text-white">Registrarme</span> */
-  font-size: 20px;
-  font-weight: 500; /* font-medium */
+.submitButtonText {
+  font-size: 18px;
+  font-weight: 500;
   color: #ffffff;
   text-align: center;
 }
 
-/* Para campos que ocupan toda la fila (como Recinto Electoral) */
 .fieldRowFull {
   display: flex;
   width: 100%;
 }
 .fieldRowFull > .fieldControl,
 .fieldRowFull > .fieldControlWithIcon {
-  width: 100%; /* Asegura que ocupe todo el espacio */
-}
-
-.phonePrefixSelect {
-  background: transparent;
-  border: none;
-  color: inherit;
-  font-size: inherit;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
   width: 100%;
-  height: 100%;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-align: left;
-  padding-right: 20px;
 }
 
-.phonePrefixSelect:disabled {
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.phonePrefix {
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-width: 120px;
-  padding: 0 8px;
+.errorMessage {
+  color: #f44336;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .toast {
   position: fixed;
   bottom: 20px;
-  right: 20px;
-  padding: 16px 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 20px;
   border-radius: 8px;
   color: white;
   font-weight: 500;
+  font-size: 14px;
   z-index: 1000;
-  animation: slideIn 0.3s ease-in-out;
+  animation: slideInUp 0.3s ease-in-out;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 280px;
+  text-align: center;
 }
 
 .toastSuccess {
@@ -293,28 +315,158 @@
   background-color: #f44336;
 }
 
-@keyframes slideIn {
+@keyframes slideInUp {
   from {
-    transform: translateX(100%);
+    transform: translate(-50%, 100%);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translate(-50%, 0);
     opacity: 1;
   }
 }
 
-@keyframes slideOut {
+@keyframes slideOutDown {
   from {
-    transform: translateX(0);
+    transform: translate(-50%, 0);
     opacity: 1;
   }
   to {
-    transform: translateX(100%);
+    transform: translate(-50%, 100%);
     opacity: 0;
   }
 }
 
 .toast.hide {
-  animation: slideOut 0.3s ease-in-out forwards;
+  animation: slideOutDown 0.3s ease-in-out forwards;
+}
+
+@media (min-width: 600px) {
+  .fieldRow {
+    flex-direction: row;
+  }
+  .formOuterBox {
+    padding: 24px;
+  }
+  .titleDark {
+    font-size: 30px;
+  }
+   .submitButtonWrapper {
+    justify-content: flex-start;
+  }
+  .submitButton {
+    width: auto;
+  }
+  .toast {
+    left: auto;
+    right: 20px;
+    transform: translateX(0);
+    min-width: 300px;
+    text-align: left;
+  }
+  @keyframes slideInUp { /* Renombrado para claridad, aunque es slideInFromRight en este breakpoint */
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  @keyframes slideOutDown { /* Renombrado para claridad, aunque es slideOutToRight */
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+}
+
+@media (min-width: 769px) {
+  .formularioSection {
+    padding: 60px 20px;
+  }
+  .formularioContainer {
+    gap: 32px;
+  }
+   .titleDark {
+    font-size: 32px;
+  }
+  .fieldControl input[type="text"],
+  .fieldControl input[type="email"],
+  .fieldControl input[type="tel"],
+  .fieldControl input[type="date"],
+  .fieldControl select {
+    font-size: 16px;
+  }
+  .fieldControl input::placeholder,
+  .fieldControl select {
+    font-size: 16px;
+  }
+  .submitButtonText {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .phonePrefixSelect {
+    max-width: 90px; /* Ajustar aún más para prefijos largos en pantallas muy pequeñas */
+  }
+  .toast {
+    padding: 12px 16px;
+    font-size: 13px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    transform: translateX(0);
+    width: auto;
+  }
+  @keyframes slideInUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes slideOutDown {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+}
+
+
+.fieldControl.fieldError {
+  border: 1px solid #D32F2F; /* Un rojo estándar para errores */
+  /* Opcional: un ligero fondo para hacerlo más obvio */
+  /* background-color: #FFEBEE; */
+}
+
+/* Si quieres que el texto del placeholder también cambie o el color del icono en error */
+.fieldControl.fieldError input::placeholder,
+.fieldControl.fieldError select {
+  /* color: #D32F2F; */ /* Podría ser demasiado agresivo */
+}
+
+.fieldControl.fieldError .iconWrapper {
+  /* color: #D32F2F; */ /* Cambiar color del icono si es necesario */
+}
+
+/* (Opcional) Si quieres mostrar mensajes de error debajo de cada campo: */
+.inlineErrorMsg {
+  font-size: 0.8rem;
+  color: #D32F2F;
+  padding-top: 2px;
 }

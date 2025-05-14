@@ -1,4 +1,3 @@
-/* Estilos Generales */
 .pageContainer {
   width: 100%;
   background-color: var(--cWhite);
@@ -6,39 +5,41 @@
   overflow-x: hidden;
 }
 
-/* --- Cabecera (Similar a las anteriores) --- */
 .headerBar {
   height: auto;
   width: 100%;
   background-color: var(--cPrimary);
-  padding: 0 120px 16px 120px;
+  padding: 16px 20px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   box-sizing: border-box;
-  position: relative;
 }
 
 .headerContent {
-  height: 80px;
+  min-height: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
+  width: 100%;
+  position: relative;
+  flex-wrap: wrap;
 }
 
 .headerLogoContainer {
-  width: 53px;
-  height: 80px;
+  width: 45px;
+  height: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  padding: 9.02px 4.51px;
+  padding: 8px 4px;
   flex-shrink: 0;
 }
 
 .headerLogo {
-  width: 45.83px;
-  height: 45.83px;
+  width: 38px;
+  height: 38px;
   object-fit: cover;
 }
 
@@ -57,16 +58,17 @@
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  border-radius: 16px;
+  border-radius: 50%;
 }
 
-.socialSvgIcon {
-  width: auto;
-  height: 20px;
+.socialIconCircleSmall .socialSvgIcon,
+.socialIconCircleSmall svg {
+  width: 18px;
+  height: 18px;
   color: var(--cPrimary);
 }
 
-.svgIconSmall { /* Para flecha atrás */
+.svgIconSmall {
   width: 16px;
   height: 16px;
   color: var(--cPrimary);
@@ -75,35 +77,44 @@
 .pageTitleBar {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  order: -1;
+  padding-bottom: 10px;
+  flex-basis: 100%;
+  text-align: center;
 }
 
 .backIconCircle {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  border-radius: 16px;
+  border-radius: 50%;
   cursor: pointer;
+  color: var(--cPrimary);
+  flex-shrink: 0;
+}
+
+.backIconCircle .svgIconSmall, /* Asegúrate que el SVG interno tenga esta clase o se ajuste */
+.backIconCircle svg {
+  width: 16px; /* Ajustado para .svgIconSmall */
+  height: 16px; /* Ajustado para .svgIconSmall */
   color: var(--cPrimary);
 }
 
+
 .pageTitle {
   font-weight: 600;
-  font-size: 32px;
+  font-size: 24px;
   color: var(--cWhite);
+  text-align: center;
+  flex-grow: 1;
 }
 
-/* --- Fin Cabecera --- */
-
-/* --- Sección Seguinos en las redes (Reutilizada) --- */
 .redesSection {
   width: 100%;
   display: flex;
@@ -111,13 +122,13 @@
   align-items: center;
   gap: 16px;
   background-color: var(--cSecondary);
-  padding: 40px 120px;
+  padding: 30px 20px;
   box-sizing: border-box;
 }
 
 .titleWhiteMedium {
   font-weight: 700;
-  font-size: 32px;
+  font-size: 28px;
   text-align: center;
   color: var(--cWhite);
 }
@@ -128,6 +139,7 @@
   align-items: center;
   gap: 12px;
   align-self: stretch;
+  flex-wrap: wrap;
 }
 
 .socialIconCircleLarge {
@@ -137,12 +149,16 @@
   justify-content: center;
   align-items: center;
   background-color: var(--cWhite);
-  border-radius: 20px;
+  border-radius: 50%;
 }
 
-/* --- Fin Sección Seguinos en las redes --- */
+.socialIconCircleLarge .socialSvgIcon, /* Asumiendo que los iconos grandes también usan socialSvgIcon */
+.socialIconCircleLarge svg {
+  width: 24px;
+  height: 24px;
+  color: var(--cPrimary);
+}
 
-/* --- Navegación por Gestión --- */
 .gestionNavContainer {
   width: 100%;
   display: flex;
@@ -150,7 +166,7 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding: 40px 120px;
+  padding: 30px 20px;
   box-sizing: border-box;
 }
 
@@ -158,22 +174,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
   align-self: stretch;
+  flex-wrap: wrap;
 }
 
 .gestionNavItem {
-  height: 28px;
+  height: auto;
   cursor: pointer;
-  padding-bottom: 4px;
+  padding: 4px 8px;
+  border-bottom: 2px solid transparent;
 }
 
 .gestionNavText {
   font-weight: 600;
-  font-size: 24px;
-  text-decoration: underline;
-  text-underline-offset: 6px;
-  text-decoration-thickness: 2px;
+  font-size: 20px;
+  text-decoration: none;
   color: var(--cTextGray);
 }
 
@@ -181,75 +197,282 @@
   color: var(--cPrimary);
 }
 
+.gestionNavItem.activeGestion {
+  border-bottom: 2px solid var(--cPrimary);
+}
+
 .gestionNavItem.activeGestion .gestionNavText {
   color: var(--cPrimary);
 }
 
-/* --- Grid de Obras --- */
 .obrasGridContainer {
   display: flex;
   flex-direction: column;
-  gap: 16px; /* gap-4 entre filas */
-  padding: 0 120px 40px 120px; /* Padding inferior y laterales */
+  gap: 16px;
+  padding: 0 20px 30px 20px;
   box-sizing: border-box;
-  align-items: center; /* Centrar las filas si tienen ancho fijo */
+  align-items: center;
 }
 
 .obrasRow {
-  /* w-[1481px] flex items-center gap-4 */
-  width: 100%; /* Ancho fijo de la fila */
-  max-width: 100%; /* Para responsive si es necesario */
+  width: 100%;
   display: flex;
-  align-items: flex-start; /* Para que las tarjetas se alineen arriba si tienen alturas variables de contenido */
-  gap: 16px; /* gap-4 entre tarjetas */
-  justify-content: space-between; /* Distribuye el espacio si las tarjetas no llenan el ancho */
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
 .obraCardContainer {
-  /* El HTML original no encapsula imagen y caption en un solo div por "tarjeta".
-     Aquí creamos un contenedor para cada par imagen+caption para mejor manejo.
-     Cada tarjeta debería tomar aproximadamente 1/3 del ancho de la fila menos los gaps.
-     (1481 - 2*16) / 3 = (1481 - 32) / 3 = 1449 / 3 = 483px.
-  */
-  width: 483px; /* Ancho de cada "tarjeta" (imagen + caption) */
+  width: 100%;
+  max-width: 483px;
   display: flex;
   flex-direction: column;
-  border-radius: 12px; /* rounded-2xl general para la tarjeta */
-  overflow: hidden; /* Para que el radio afecte a la imagen */
-  background-color: var(--white); /* Fondo por si acaso */
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--cWhite);
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 .obraImage {
-  /* grow h-[356px] object-cover rounded-2xl */
-  width: 100%; /* La imagen toma el ancho de .obraCardContainer */
-  height: 356px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 483 / 356;
   object-fit: cover;
-  /* El rounded-2xl ya está en obraCardContainer, no es necesario aquí si overflow:hidden está activo. */
-  /* Si se quiere solo en la imagen: border-top-left-radius: 12px; border-top-right-radius: 12px; */
-  display: block; /* Para quitar espacio extra debajo de la imagen */
+  display: block;
 }
 
 .obraCaption {
-  /* flex justify-center items-center gap-2.5 self-stretch w-[483px] bg-[#d24067] p-3 rounded-br-xl rounded-bl-xl */
-  /* El ancho w-[483px] ya lo tiene .obraCardContainer, así que self-stretch o width:100% aquí */
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px; /* gap-2.5 */
-  background-color: var(--primary-color); /* bg-[#d24067] */
-  padding: 12px; /* p-3 */
-  /* El rounded-br-xl y rounded-bl-xl ya están en obraCardContainer con overflow:hidden. */
-  /* Si se quiere solo en el caption: border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; */
+  gap: 10px;
+  background-color: var(--cPrimary);
+  padding: 12px;
   box-sizing: border-box;
-  min-height: 60px; /* Altura mínima para el caption */
+  min-height: 60px;
+  text-align: center;
 }
 
 .obraCaptionText {
-  font-weight: 600; /* font-semibold */
-  font-size: 20px; /* Era 24px, pero puede ser un poco grande para el espacio, ajustar */
-  text-align: center;
-  color: var(--cTextGray);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--cWhite); /* Cambiado de cTextGray a cWhite para contraste con fondo cPrimary */
   line-height: 1.3;
+}
+
+@media (min-width: 600px) {
+  .gestionNav {
+    gap: 20px;
+  }
+  .gestionNavText {
+    font-size: 22px;
+  }
+  .obrasRow {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; /* Centrar tarjetas si no llenan la fila */
+  }
+  .obraCardContainer {
+     width: calc(50% - 8px); /* Dos tarjetas por fila */
+     max-width: none;
+  }
+  .obraCaptionText {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 769px) {
+  .headerBar {
+    padding: 0 60px 16px 60px;
+  }
+  .headerContent {
+    height: 80px;
+    flex-wrap: nowrap;
+    justify-content: flex-start; /* Para alinear logo e iconos sociales al inicio */
+  }
+  .headerLogoContainer {
+    width: 53px;
+    height: 80px;
+    padding: 9.02px 4.51px;
+    order: 1; /* Logo primero */
+  }
+  .headerLogo {
+    width: 45.83px;
+    height: 45.83px;
+  }
+  .headerSocialIcons { /* Íconos sociales después del logo */
+    order: 2;
+    flex-grow: 0; /* No crecer para dejar espacio al título */
+    margin-left: 16px; /* Espacio después del logo */
+  }
+  .pageTitleBar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: auto; /* Ajustar al contenido */
+    order: 3; /* Título después de logo e íconos sociales, pero centrado absoluto */
+    padding-bottom: 0;
+    flex-basis: auto;
+  }
+  .pageTitle {
+    font-size: 32px;
+  }
+  .socialIconCircleSmall {
+    width: 32px; /* Tamaño original del Figma */
+    height: 32px;
+    border-radius: 16px; /* Original */
+  }
+  .socialIconCircleSmall .socialSvgIcon,
+  .socialIconCircleSmall svg {
+    width: auto; /* Original */
+    height: 20px; /* Original */
+  }
+  .redesSection {
+    padding: 40px 60px;
+  }
+  .gestionNavContainer {
+    padding: 40px 60px;
+  }
+  .obrasGridContainer {
+    padding: 0 60px 40px 60px;
+  }
+  .obraCardContainer {
+     width: calc(33.333% - 11px); /* Tres tarjetas por fila */
+  }
+}
+
+@media (min-width: 1025px) {
+  .headerBar {
+    padding: 0 120px 16px 120px;
+  }
+   .redesSection {
+    padding: 40px 120px;
+  }
+  .gestionNavContainer {
+    padding: 40px 120px;
+  }
+  .gestionNav {
+    gap: 24px;
+  }
+  .gestionNavText {
+    font-size: 24px;
+  }
+  .obrasGridContainer {
+    padding: 0 120px 40px 120px;
+  }
+  .obraCaptionText {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) { /* Ajustes generales para tabletas y móviles grandes */
+    .headerContent {
+        min-height: auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        flex-direction: column;
+        align-items: center; /* Centrar bloques principales de la cabecera */
+    }
+    .pageTitleBar {
+        order: 1; /* Título primero */
+        width: 100%;
+        justify-content: center; /* Centrar contenido del título (flecha + texto) */
+        gap: 8px;
+        padding-bottom: 15px; /* Espacio antes del logo/iconos */
+        position: static; /* Quitar absoluto para flujo normal */
+        transform: none;
+        flex-basis: auto;
+    }
+    .headerLogoContainer {
+       order: 2; /* Logo después del título */
+       height: 60px;
+       margin-bottom: 10px; /* Espacio antes de los iconos sociales */
+    }
+    .headerSocialIcons { /* Iconos sociales después del logo */
+        order: 3;
+        width: 100%; /* Para que el justify-content funcione bien */
+        justify-content: center; /* Centrar los iconos sociales */
+        flex-grow: 0; /* Reset flex-grow */
+        margin-left: 0; /* Reset margin */
+    }
+    .pageTitle {
+        font-size: 22px;
+    }
+    .backIconCircle { /* Hacer la flecha un poco más grande */
+        width: 30px;
+        height: 30px;
+    }
+    .titleWhiteMedium {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) { /* Ajustes para móviles pequeños */
+    .headerBar {
+        padding: 10px 15px; /* Menos padding */
+    }
+    .pageTitleBar {
+        gap: 6px;
+        padding-top: 5px;
+        padding-bottom: 10px;
+    }
+    .pageTitle {
+        font-size: 18px; /* Título más pequeño */
+    }
+    .headerLogoContainer {
+        height: 50px;
+        width: 40px;
+        padding: 6px 3px;
+        margin-bottom: 8px;
+    }
+    .headerLogo {
+        width: 30px;
+        height: 30px;
+    }
+    .socialIconCircleSmall {
+        width: 28px;
+        height: 28px;
+    }
+    .socialIconCircleSmall .socialSvgIcon,
+    .socialIconCircleSmall svg {
+        height: 16px;
+    }
+    .gestionNavContainer {
+        padding: 20px 15px;
+    }
+    .gestionNav {
+        gap: 10px; /* Menos espacio entre años de gestión */
+    }
+    .gestionNavText {
+        font-size: 16px; /* Texto de gestión más pequeño */
+    }
+    .obrasGridContainer {
+        padding: 0 15px 20px 15px;
+    }
+    .obraCardContainer {
+        width: 100%; /* Una tarjeta por fila */
+        max-width: 350px; /* Limitar el ancho máximo en móviles */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .obraCaptionText {
+        font-size: 14px; /* Texto de caption más pequeño */
+    }
+    .redesSection {
+        padding: 25px 15px;
+    }
+    .titleWhiteMedium {
+        font-size: 22px;
+    }
+    .socialIconCircleLarge {
+        width: 36px;
+        height: 36px;
+    }
+    .socialIconCircleLarge .socialSvgIcon,
+    .socialIconCircleLarge svg {
+        width: 20px;
+        height: 20px;
+    }
 }

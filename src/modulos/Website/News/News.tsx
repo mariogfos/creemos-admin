@@ -9,6 +9,7 @@ import {
   IconoInstagram,
   IconoYouTube 
 } from '../components/Icons';
+import HeaderBar from '../components/HeaderBar/HeaderBar';
 
 interface NewsCardProps {
   imageUrl: string;
@@ -87,25 +88,7 @@ const UltimasNoticias: React.FC = () => {
   return (
     <div className={styles.pageContainer}>
       {/* Cabecera */}
-      <div className={styles.headerBar}>
-        <div className={styles.headerContent}>
-          <div className={styles.headerLogoContainer}>
-            <img className={styles.headerLogo} src="/images/logo.png" alt="Logo" />
-          </div>
-          <div className={styles.headerMainArea}>
-            <div className={styles.headerSocialIcons}>
-              <div className={styles.socialIconCircleSmall}><IconoFacebook /></div>
-              <div className={styles.socialIconCircleSmall}><IconoTwitter /></div>
-              <div className={styles.socialIconCircleSmall}><IconoInstagram /></div>
-              <div className={styles.socialIconCircleSmall}><IconoYouTube /></div>
-            </div>
-          </div>
-          <div className={styles.pageTitleBar}>
-            <div className={styles.backIconCircle} onClick={() => router.push('/')}><IconoFlechaAtras/></div>
-            <span className={styles.pageTitle}>Noticias</span>
-          </div>
-        </div>
-      </div>
+      <HeaderBar pageTitle="Noticias" showBackButton={true} />
 
       {/* Sección Recientes */}
       <div className={styles.newsSection}>

@@ -10,7 +10,7 @@ import {
   IconoInstagram,
   IconoYouTube 
 } from '../components/Icons';
-
+import HeaderBar from '../components/HeaderBar/HeaderBar';
 interface ContentSectionProps {
   title: string;
   paragraphs: {
@@ -123,23 +123,7 @@ const PlanDeGobierno: React.FC = () => {
   return (
     <div className={styles.pageContainer}>
       {/* Cabecera */}
-      <div className={styles.headerBar}>
-        <div className={styles.headerContent}>
-          <div className={styles.headerLogoContainer}>
-            <img className={styles.headerLogo} src="/images/logo.png" alt="Logo" />
-          </div>
-          <div className={styles.headerSocialIcons}>
-            <div className={styles.socialIconCircleSmall}><IconoFacebook /></div>
-            <div className={styles.socialIconCircleSmall}><IconoTwitter /></div>
-            <div className={styles.socialIconCircleSmall}><IconoInstagram /></div>
-            <div className={styles.socialIconCircleSmall}><IconoYouTube /></div>
-          </div>
-        </div>
-        <div className={styles.pageTitleBar}>
-          <div className={styles.backIconCircle} onClick={() => router.push('/')}><IconoFlechaAtras/></div>
-          <span className={styles.pageTitle}>Plan de Gobierno</span>
-        </div>
-      </div>
+      <HeaderBar pageTitle="Plan de Gobierno" showBackButton={true} />
 
 
       {/* Título Principal del Plan */}
