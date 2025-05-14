@@ -1,21 +1,37 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react'; // Agregado useState y useEffect
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './Website.module.css';
 import SerParteForm from './components/SerParteForm/SerParteForm';
 import { 
-  IconoFlechaAtras,
-  IconoFlechaDerecha,
+  IconoFlechaAtras, // No se usa directamente aquí, pero puede estar en Icons.tsx
+  IconoFlechaDerecha, // No se usa directamente aquí
   IconoFacebook,
   IconoTwitter,
   IconoInstagram,
   IconoYouTube 
-} from './components/Icons';
+} from './components/Icons'; // Asegúrate que la ruta es correcta
 
+// Icono para el menú hamburguesa (puedes moverlo a tu archivo Icons.tsx)
+const IconoMenuHamburguesa = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
+);
 
-export const IconoChevronAbajo = () => (
+// Icono para cerrar el menú (puedes moverlo a tu archivo Icons.tsx)
+const IconoCerrarMenu = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+);
+
+export const IconoChevronAbajo = () => ( // Este ya lo tenías
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={styles.chevronSvgIcon}>
     <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
   </svg>
@@ -23,25 +39,66 @@ export const IconoChevronAbajo = () => (
 
 const Website: React.FC = () => {
   const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  // Efecto para cerrar el menú si la pantalla se agranda
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1024) { // El breakpoint donde aparece el menú hamburguesa
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  // Efecto para prevenir scroll en body cuando el menú móvil está abierto
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset'; // Limpiar al desmontar
+    };
+  }, [isMobileMenuOpen]);
+
+
+  const handleNavLinkClick = (path: string) => {
+    router.push(path);
+    setIsMobileMenuOpen(false); // Cerrar menú al navegar
+  };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+    setIsMobileMenuOpen(false); // Cerrar menú después de hacer scroll
   };
 
   return (
     <div className={styles.pageContainer}>
-      
-
-      {/* Barra de Navegación */}
       <div className={styles.navBar}>
         <div className={styles.navContent}>
           <div className={styles.navLogoContainer}>
-            <img className={styles.navLogo} src="/images/logo.png" alt="Logo" />
+            <Link href="/" passHref>
+              <img className={styles.navLogo} src="/images/logo.png" alt="Logo" />
+            </Link>
           </div>
-          <div className={styles.navLinksAndActions}>
+
+          {/* Botón Hamburguesa para Móvil */}
+          <button className={styles.navMenuToggle} onClick={toggleMobileMenu} aria-expanded={isMobileMenuOpen} aria-label="Toggle navigation">
+            {isMobileMenuOpen ? <IconoCerrarMenu /> : <IconoMenuHamburguesa />}
+          </button>
+
+          {/* Contenedor de Enlaces y Acciones (Panel del Menú Móvil) */}
+          <div className={`${styles.navLinksAndActions} ${isMobileMenuOpen ? styles.active : ''}`}>
             <div className={styles.socialIconsContainer}>
               <a href="https://www.facebook.com/creemosboliviaoficial" target="_blank" rel="noopener noreferrer" className={styles.socialIconCircle}>
                 <IconoFacebook />
@@ -58,16 +115,16 @@ const Website: React.FC = () => {
             </div>
             <div className={styles.navMenuAndButtons}>
               <div className={styles.navMenuItems}>
-                <span className={styles.navLink} onClick={() => router.push('/')}>Inicio</span>
-                <span className={styles.navLink} onClick={() => router.push('/history')}>Historia</span>
-                <span className={styles.navLink} onClick={() => router.push('/obras')}>Obras</span>
-                <span className={styles.navLink} onClick={() => router.push('/carnet')}>Carnet Simpatizante</span>
+                <span className={styles.navLink} onClick={() => handleNavLinkClick('/')}>Inicio</span>
+                <span className={styles.navLink} onClick={() => handleNavLinkClick('/history')}>Historia</span>
+                <span className={styles.navLink} onClick={() => handleNavLinkClick('/obras')}>Obras</span>
+                <span className={styles.navLink} onClick={() => handleNavLinkClick('/carnet')}>Carnet Simpatizante</span>
               </div>
               <div className={styles.navButtons}>
                 <div className={styles.navButtonOutline} onClick={() => scrollToSection('ser-parte')}>
                   <span className={styles.navButtonTextWhite}>Ser Parte</span>
                 </div>
-                <button className={styles.navButtonSolid} onClick={() => router.push('/login')}>
+                <button className={styles.navButtonSolid} onClick={() => handleNavLinkClick('/login')}>
                   <span className={styles.navButtonTextPrimary}>Iniciar sesión</span>
                 </button>
               </div>
@@ -75,9 +132,9 @@ const Website: React.FC = () => {
           </div>
         </div>
       </div>
+
       <img className={styles.heroImage} src="/images/Portada-web.png" alt="Hero" />
 
-      {/* Sección de Noticias/Obras/Plan */}
       <div className={styles.cardsSection}>
         <Link href="/news" className={styles.card}>
           <img className={styles.cardImage} src="/images/Noticia-1.png" alt="Últimas noticias" />
@@ -99,7 +156,6 @@ const Website: React.FC = () => {
         </Link>
       </div>
 
-      {/* Sección Conviértete en Simpatizante */}
       <div className={styles.simpatizanteSection}>
         <img className={styles.simpatizanteImage} src="/images/Simpatizante-1.png" alt="Conviértete en simpatizante" />
         <div className={styles.simpatizanteTextContainer}>
@@ -108,12 +164,11 @@ const Website: React.FC = () => {
             <span className={styles.textGrayNormal}>Ser simpatizante es ser parte del cambio. Al unirte como simpatizante, no solo apoyas nuestra visión, sino que te conviertes en un agente activo de transformación.</span>
           </div>
           <div className={styles.simpatizanteIconContainer}>
-            <img className={styles.simpatizanteIcon} src="/images/qr.png" alt="Icono" />
+            <img className={styles.simpatizanteIcon} src="/images/qr.png" alt="Icono QR" />
           </div>
         </div>
       </div>
 
-      {/* Sección Conoce Nuestras Autoridades */}
       <div id="autoridades" className={styles.autoridadesSection}>
         <div className={styles.autoridadesText}>
           <span className={styles.titleDark}>Conoce nuestras autoridades</span>
@@ -144,42 +199,34 @@ const Website: React.FC = () => {
         </div>
       </div>
 
-      {/* Sección Portada con Texto */}
       <div className={styles.portadaFullWidth}>
         <img className={styles.portadaFullWidthImage} src="/images/Portada-donacion-1.png" alt="Portada" />
-        {/* Este div parece ser solo una barra de color, revisar si tiene contenido */}
         <div className={styles.portadaColorBar}></div>
-        {/* Contenedor para el texto superpuesto (necesitaría posicionamiento absoluto) */}
         <div className={styles.portadaTextOverlay}>
             <div className={styles.portadaTextContent}>
                 <span className={styles.titleWhiteLarge}>¡Una nueva Bolivia!</span>
                 <span className={styles.textLightGray}>Construyamos una Bolivia unida, próspera y libre de corrupción. Donde la libertad y democracia sean la base de nuestro futuro.</span>
-                <div className={styles.nuevaBoliviaButton}>
+                <div className={styles.nuevaBoliviaButton} onClick={() => scrollToSection('ser-parte')}>
                   <span className={styles.navButtonTextWhite}>Ser parte</span>
                 </div>
             </div>
         </div>
       </div>
 
-
-      {/* Sección ¡Una nueva Bolivia! */}
+      {/* Sección ¡Una nueva Bolivia! está vacía en el HTML, la mantengo así */}
       <div className={styles.nuevaBoliviaSection}>
-        
       </div>
 
-
-      {/* Sección ¡Tu voz al poder! */}
       <div className={styles.tuVozSection}>
         <div className={styles.tuVozVideoContainer}>
           <iframe
-            src="https://www.youtube.com/embed/cPYhh92npYQ?si=SNrA_MHvPeOeN38C"
-            width="720"
-            height="410"
+            src="https://www.youtube.com/embed/cPYhh92npYQ?si=SNrA_MHvPeOeN38C" // Reemplaza con tu URL de video real
             style={{ border: 'none', overflow: 'hidden' }}
             scrolling="no"
             frameBorder="0"
             allowFullScreen={true}
             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            title="Video Tu Voz al Poder" // Añadido title para accesibilidad
           ></iframe>
         </div>
         <div className={styles.tuVozText}>
@@ -188,21 +235,21 @@ const Website: React.FC = () => {
         </div>
       </div>
 
-      {/* Sección Sé parte del cambio (Formulario) */}
-      <SerParteForm />
+      {/* La sección se identifica por el id "ser-parte" para el scroll */}
+      <div id="ser-parte">
+        <SerParteForm />
+      </div>
 
-      {/* Sección Seguinos en las redes */}
       <div className={styles.redesSection}>
         <span className={styles.titleWhiteMedium}>Seguinos en las redes</span>
         <div className={styles.redesIconsContainer}>
-            <div className={styles.socialIconCircleLarge}><IconoFacebook /></div>
-            <div className={styles.socialIconCircleLarge}><IconoTwitter /></div>
-            <div className={styles.socialIconCircleLarge}><IconoInstagram /></div>
-            <div className={styles.socialIconCircleLarge}><IconoYouTube /></div>
+            <a href="https://www.facebook.com/creemosboliviaoficial" target="_blank" rel="noopener noreferrer" className={styles.socialIconCircleLarge}><IconoFacebook /></a>
+            <a href="https://twitter.com/CreemosBolivia" target="_blank" rel="noopener noreferrer" className={styles.socialIconCircleLarge}><IconoTwitter /></a>
+            <a href="https://www.instagram.com/creemosbolivia" target="_blank" rel="noopener noreferrer" className={styles.socialIconCircleLarge}><IconoInstagram /></a>
+            <a href="https://www.youtube.com/@creemosbolivia2786" target="_blank" rel="noopener noreferrer" className={styles.socialIconCircleLarge}><IconoYouTube /></a>
         </div>
       </div>
     </div>
-    
   );
 };
 
