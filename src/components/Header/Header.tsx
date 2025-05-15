@@ -106,12 +106,7 @@ const Header = ({
           name="search"
         /> */}
       </div>
-      <div className={styles.tooltip}>
-        <Dropdown
-          trigger={<IconSetting style={{ cursor: "pointer" }} />}
-          items={menuItems}
-        />
-      </div>
+      
 
       <div style={{ cursor: "pointer" }}>
         <Avatar
