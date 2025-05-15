@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import styles from './SerParteForm.module.css';
 import { IconoChevronAbajo } from '../../Website'; // Asegúrate que la ruta sea correcta
 import { PREFIX_COUNTRY } from '@/mk/utils/string';
-import QrModal from '@/modulos/Supporters/QrModal/QrModal';
+
 
 // Interfaz para los datos de las áreas geográficas
 interface AreaItem {
@@ -357,17 +357,81 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     try {
       const response = await axios.post(fullUrl, payload);
       console.log('Respuesta del servidor:', response.data);
+      // Dentro de la función handleSubmit, modifica el bloque if de éxito del primer POST:
+
       if (response.data.status && response.data.data) {
         setQrData(response.data.data);
         setShowQrModal(true);
-        setFormData(initialFormData);
-        setFormSubmitted(false); // Resetear estado de envío
-        setValidationErrors({}); // Limpiar errores de validación
-        showToast("Registro exitoso", "success");
+        showToast("Registro exitoso. Procesando tarjeta...", "success"); // Mensaje actualizado
+
+        const ciParaTarjeta = formData.cedula; // 1. Guarda el CI
+
+        
+        try {
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+          if (!apiUrl) {
+            console.error("Error: NEXT_PUBLIC_API_URL no está definido para la segunda llamada.");
+            showToast("Error de configuración para generar tarjeta.", "error");
+            // Aunque falle la configuración para la 2da llamada, el primer registro fue exitoso.
+            // Reseteamos el formulario aquí.
+            setFormData(initialFormData);
+            setFormSubmitted(false);
+            setValidationErrors({});
+            // setIsLoading(false) será llamado por el finally externo.
+            return; // Salimos de esta lógica de segunda llamada.
+          }
+
+          const urlSegundaApi = `${apiUrl}/sup-card?ci=${ciParaTarjeta}`;
+          // 2. Segunda llamada API (POST). Asumimos cuerpo vacío si no se especifica otro.
+          const responseSegundaApi = await axios.post(urlSegundaApi, {});
+
+          // 3. Procesa la Respuesta
+          if (responseSegundaApi.data && responseSegundaApi.data.success && responseSegundaApi.data.data && responseSegundaApi.data.data.path) {
+            const filePath = responseSegundaApi.data.data.path;
+            // 4. Construye URL del PDF
+            const urlDescarga = `${apiUrl}/storage/${filePath}`;
+
+            // 5. Abre el PDF en una nueva pestaña
+            window.open(urlDescarga, '_blank');
+            showToast("Carnet generado y disponible.", "success");
+
+          } else {
+            console.error("Respuesta inesperada de la API de tarjeta:", responseSegundaApi.data);
+            const message = responseSegundaApi.data?.message || "No se pudo procesar la solicitud de la tarjeta.";
+            showToast(message, "error");
+          }
+
+        } catch (errorSegundaApi: any) { // 6. Manejo de Errores para la segunda llamada
+          console.error('Error al llamar a la API de tarjeta:', errorSegundaApi);
+          let errorMsgSegundaApi = "Error al generar la tarjeta.";
+          if (axios.isAxiosError(errorSegundaApi)) {
+            const axiosError = errorSegundaApi as AxiosError<any>;
+            if (axiosError.response) {
+              errorMsgSegundaApi = `Error del servidor (${axiosError.response.status}) al generar tarjeta: ${axiosError.response.data?.message || 'Error desconocido.'}`;
+            } else if (axiosError.request) {
+              errorMsgSegundaApi = 'No se pudo conectar al servidor para generar la tarjeta.';
+            } else {
+              errorMsgSegundaApi = `Error al preparar la petición de tarjeta: ${axiosError.message}`;
+            }
+          } else if (errorSegundaApi instanceof Error) {
+            errorMsgSegundaApi = `Error inesperado al generar tarjeta: ${errorSegundaApi.message}`;
+          }
+          showToast(errorMsgSegundaApi, "error");
+        } finally {
+          // 6. (continuación) Reseteo del formulario después de intentar la segunda operación.
+          // Esto asegura que el formulario se limpie independientemente del resultado de la segunda llamada,
+          // pero solo si la primera fue exitosa.
+          setFormData(initialFormData);
+          setFormSubmitted(false);
+          setValidationErrors({});
+        }
+    
+
       } else {
-        // Considerar si este caso también es un éxito y debe resetear el formulario
-        showToast(response.data.message || "Registro completado, pero hubo un detalle.", response.data.status ? "success" : "error");
-        if (response.data.status) {
+        // Si el primer POST no fue exitoso o status es false
+        showToast(response.data.message || "El registro no fue completado exitosamente.", response.data.status ? "success" : "error");
+        // Si hubo un status:true pero data:null (o similar), puede que quieras resetear.
+        if (response.data.status) { // O alguna otra condición que determine un "éxito parcial" que merezca reseteo
             setFormData(initialFormData);
             setFormSubmitted(false);
             setValidationErrors({});
@@ -598,12 +662,7 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
           </div>
         </form>
       </div>
-      <QrModal
-        open={showQrModal}
-        onClose={() => setShowQrModal(false)}
-        qrData={qrData}
-        title="QR de Simpatizante"
-      />
+      
       {toast && (
         <div className={`${styles.toast} ${styles[`toast${toast.type === 'success' ? 'Success' : 'Error'}`]}`}>
           {toast.message}
