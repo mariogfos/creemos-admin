@@ -124,7 +124,7 @@ const Website: React.FC = () => {
                 <div className={styles.navButtonOutline} onClick={() => scrollToSection('ser-parte')}>
                   <span className={styles.navButtonTextWhite}>Ser Parte</span>
                 </div>
-                <button className={styles.navButtonSolid} onClick={() => handleNavLinkClick('/login')}>
+                <button className={styles.navButtonSolid} onClick={() => handleNavLinkClick('/electoralMapping')}>
                   <span className={styles.navButtonTextPrimary}>Iniciar sesión</span>
                 </button>
               </div>
