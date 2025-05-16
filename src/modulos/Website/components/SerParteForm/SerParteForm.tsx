@@ -25,9 +25,9 @@ interface AreasData {
 
 interface FormDataInterface {
   primer_nombre: string;
-  segundo_nombre: string;
+  segundo_nombre?: string; // <--- CAMBIO: Opcional
   apellido_paterno: string;
-  apellido_materno: string;
+  apellido_materno?: string; // <--- CAMBIO: Opcional
   cedula: string;
   correo: string;
   whatsapp: string;
@@ -48,9 +48,9 @@ interface SerParteFormProps {
 const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
   const initialFormData: FormDataInterface = {
     primer_nombre: '',
-    segundo_nombre: '',
+    segundo_nombre: '', // Se mantiene como string vacío para input controlado
     apellido_paterno: '',
-    apellido_materno: '',
+    apellido_materno: '', // Se mantiene como string vacío para input controlado
     cedula: '',
     correo: '',
     whatsapp: '',
@@ -78,7 +78,6 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
 
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
-  // Nuevos estados para validación
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof FormDataInterface, string>>>({});
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -115,9 +114,8 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     fetchAreaData();
   }, []);
 
-  // Función para verificar si hay opciones reales más allá del placeholder
   const hasActualOptions = (options: Array<{ value: string | number, label: string }>) => {
-    if (isLoadingAreaData) return false; // Si está cargando, no hay opciones "reales" aún
+    if (isLoadingAreaData) return false;
     return options.some(opt => opt.value !== "" && !opt.label.toLowerCase().includes("cargando") && !opt.label.toLowerCase().includes("seleccione") && !opt.label.toLowerCase().includes("no hay") && !opt.label.toLowerCase().includes("n/a") && !opt.label.toLowerCase().includes("datos de") && !opt.label.toLowerCase().includes("primero"));
   };
 
@@ -126,7 +124,6 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     const { name, value } = e.target;
     setFormData(prev => {
       const newState = { ...prev, [name]: value };
-      // Lógica de reseteo en cascada
       if (name === "provincia") {
         newState.municipio = "";
         newState.distrito = "";
@@ -147,13 +144,22 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     if (formSubmitted) {
       setValidationErrors(prevErrors => {
         const newErrors = { ...prevErrors };
-        delete newErrors[name as keyof FormDataInterface];
+        // Si el campo ahora es válido (o no tiene una regla de 'requerido'), se limpia el error
+        // Esto es importante si un campo que antes era requerido y tenía error, ahora se edita.
+        // Para campos opcionales, el error se borraría al escribir, incluso si está vacío.
+        if (value.trim() || (name !== "segundo_nombre" && name !== "apellido_materno")) { // No limpiar error de campos opcionales solo por editar si siguen vacíos
+             delete newErrors[name as keyof FormDataInterface];
+        }
+        // Para los campos que se volvieron opcionales, su error de "requerido" debería eliminarse si ya no aplica
+        if ((name === "segundo_nombre" || name === "apellido_materno") && newErrors[name as keyof FormDataInterface] === "Este campo es requerido.") {
+            delete newErrors[name as keyof FormDataInterface];
+        }
+
         return newErrors;
       });
     }
   };
 
-  // --- Opciones para los selects (memoizadas y con corrección de tipos) ---
   const provinciasOptions = useMemo(() => {
     if (isLoadingAreaData) return [{ value: "", label: "Cargando provincias..." }];
     if (!areaData?.provs || areaData.provs.length === 0) return [{ value: "", label: "No hay datos de provincia" }];
@@ -176,16 +182,16 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
   }, [areaData, formData.provincia, isLoadingAreaData]);
 
   const distritosOptions = useMemo(() => {
-    if (formData.provincia !== '1' || !formData.municipio) { // Solo relevantes si provincia es SCZ y municipio seleccionado
+    if (formData.provincia !== '1' || !formData.municipio) {
         if (formData.provincia === '1' && !formData.municipio) {
             return [{ value: "", label: "Seleccione municipio primero" }];
         }
-        return [{ value: "", label: "N/A" }]; // N/A si no es SCZ o falta municipio en SCZ
+        return [{ value: "", label: "N/A" }];
     }
     if (isLoadingAreaData) return [{ value: "", label: "Cargando distritos..." }];
     if (!areaData?.dists) return [{ value: "", label: "Datos de distrito no disponibles" }];
 
-    if (formData.provincia === '1' && formData.municipio === '1') { // Específicamente para SCZ capital
+    if (formData.provincia === '1' && formData.municipio === '1') {
       const filtered = areaData.dists.filter(d =>
         String(d.prov_code) === formData.provincia &&
         String(d.mun_code) === formData.municipio
@@ -196,7 +202,7 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
         ...filtered.map(d => ({ value: String(d.code), label: d.name }))
       ];
     }
-    return [{ value: "", label: "N/A para esta selección" }]; // Otros municipios de SCZ (no capital) o si no hay match
+    return [{ value: "", label: "N/A para esta selección" }];
   }, [areaData, formData.provincia, formData.municipio, isLoadingAreaData]);
 
   const localidadesOptions = useMemo(() => {
@@ -221,24 +227,21 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
 
     const isSCZCapital = formData.provincia === '1' && formData.municipio === '1';
 
-    // Para SCZ Capital, si el distrito no está seleccionado o no es aplicable, no mostrar recintos aún.
     if (isSCZCapital && (!formData.distrito || distritosOptions[0]?.label === "N/A" || distritosOptions[0]?.label === "No hay distritos para esta selección" || distritosOptions[0]?.label === "Seleccione municipio primero" )) {
         return [{ value: "", label: "Seleccione distrito municipal primero" }];
     }
 
     const filtered = areaData.recints.filter(rec => {
       let match = String(rec.prov_code) === formData.provincia &&
-                  String(rec.mun_code) === formData.municipio &&
-                  String(rec.local_code) === formData.localidad;
+                    String(rec.mun_code) === formData.municipio &&
+                    String(rec.local_code) === formData.localidad;
 
       if (!match) return false;
 
       if (isSCZCapital) {
-        // Ya hemos verificado formData.distrito arriba.
-        // Si llegamos aquí, formData.distrito es válido y seleccionado para SCZ Capital.
         return String(rec.dist_code) === formData.distrito;
       }
-      return true; // Para no SCZ Capital, el filtro de distrito no aplica aquí
+      return true;
     });
 
     if (filtered.length === 0 && formData.localidad) return [{ value: "", label: "No hay recintos para esta selección" }];
@@ -262,8 +265,10 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     const selectionRequiredMsg = (field: string) => `Seleccione ${field}.`;
 
     if (!data.primer_nombre.trim()) errors.primer_nombre = genericRequiredMsg;
+    // segundo_nombre es opcional, no se valida si está vacío.
     if (!data.apellido_paterno.trim()) errors.apellido_paterno = genericRequiredMsg;
-    if (!data.apellido_materno.trim()) errors.apellido_materno = genericRequiredMsg;
+    // apellido_materno es opcional, no se valida si está vacío.
+    // if (!data.apellido_materno?.trim()) errors.apellido_materno = genericRequiredMsg; // <--- CAMBIO: Eliminado o comentado
     if (!data.cedula.trim()) errors.cedula = genericRequiredMsg;
     if (!data.correo.trim()) errors.correo = genericRequiredMsg;
     else if (!/\S+@\S+\.\S+/.test(data.correo)) errors.correo = "Correo electrónico no es válido.";
@@ -272,32 +277,27 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     if (!data.fecha_nacimiento) errors.fecha_nacimiento = genericRequiredMsg;
     if (!data.genero) errors.genero = selectionRequiredMsg("su género");
 
-    // Provincia
     const provinciaSelectIsEnabled = !isLoadingAreaData && !(provinciasOptions.length === 1 && (provinciasOptions[0].label === "Cargando provincias..." || provinciasOptions[0].label === "No hay datos de provincia"));
     if (provinciaSelectIsEnabled && hasActualOptions(provinciasOptions) && !data.provincia) {
         errors.provincia = selectionRequiredMsg("su provincia");
     }
 
-    // Municipio
     const municipioSelectIsEnabled = !isLoadingAreaData && !!data.provincia && !(municipiosOptions.length === 1 && (municipiosOptions[0].label.includes("primero") || municipiosOptions[0].label.includes("Cargando") || municipiosOptions[0].label.includes("No hay") || municipiosOptions[0].label.includes("no disponibles")));
     if (municipioSelectIsEnabled && hasActualOptions(municipiosOptions) && !data.municipio) {
         errors.municipio = selectionRequiredMsg("su municipio");
     }
 
-    // Distrito
     const distritoIsRelevantForSCZ = data.provincia === '1' && data.municipio === '1';
     const distritoSelectIsEnabled = !isLoadingAreaData && distritoIsRelevantForSCZ && !(distritosOptions.length === 1 && (distritosOptions[0].label.includes("N/A") || distritosOptions[0].label.includes("Cargando") || distritosOptions[0].label.includes("No hay") || distritosOptions[0].label.includes("no disponibles")|| distritosOptions[0].label.includes("primero")));
     if (distritoSelectIsEnabled && hasActualOptions(distritosOptions) && !data.distrito) {
         errors.distrito = selectionRequiredMsg("su distrito municipal");
     }
     
-    // Localidad
     const localidadSelectIsEnabled = !isLoadingAreaData && !!data.municipio && !(localidadesOptions.length === 1 && (localidadesOptions[0].label.includes("primero") || localidadesOptions[0].label.includes("Cargando") || localidadesOptions[0].label.includes("No hay") || localidadesOptions[0].label.includes("no disponibles")));
     if (localidadSelectIsEnabled && hasActualOptions(localidadesOptions) && !data.localidad) {
         errors.localidad = selectionRequiredMsg("su localidad");
     }
 
-    // Recinto
     const recintoCanBeSelectedBasedOnDistritoForSCZ = !(data.provincia === '1' && data.municipio === '1' && (!data.distrito || distritosOptions[0]?.label === "N/A para esta selección" || distritosOptions[0]?.label === "No hay distritos para esta selección" || distritosOptions[0]?.label.includes("primero")));
     const recintoSelectIsEnabled = !isLoadingAreaData && !!data.localidad && recintoCanBeSelectedBasedOnDistritoForSCZ && !(recintosOptions.length === 1 && (recintosOptions[0].label.includes("P., M. y L.") || recintosOptions[0].label.includes("Cargando") || recintosOptions[0].label.includes("No hay") || recintosOptions[0].label.includes("no disponibles") || recintosOptions[0].label.includes("distrito municipal primero")));
     if (recintoSelectIsEnabled && hasActualOptions(recintosOptions) && !data.recinto) {
@@ -309,8 +309,8 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true); // Marcar que se intentó enviar
-    setIsLoading(true); // Mantener isLoading para el botón, pero la validación es prioritaria
+    setFormSubmitted(true);
+    setIsLoading(true);
 
     const errors = validateForm(formData);
     if (Object.keys(errors).length > 0) {
@@ -319,7 +319,6 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
       setIsLoading(false);
       return;
     }
-    // Si no hay errores de validación, limpiar submitError de intentos previos de API
     setSubmitError(null);
 
 
@@ -334,9 +333,9 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     const fullUrl = `${apiUrl}/sup-create`;
     const payload = {
       name: formData.primer_nombre,
-      middle_name: formData.segundo_nombre || null,
+      middle_name: formData.segundo_nombre || null, // Ya estaba correcto
       last_name: formData.apellido_paterno,
-      mother_last_name: formData.apellido_materno,
+      mother_last_name: formData.apellido_materno || null, // <--- CAMBIO: Enviar null si está vacío
       ci: formData.cedula,
       email: formData.correo,
       phone: formData.whatsapp,
@@ -357,51 +356,39 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     try {
       const response = await axios.post(fullUrl, payload);
       console.log('Respuesta del servidor:', response.data);
-      // Dentro de la función handleSubmit, modifica el bloque if de éxito del primer POST:
 
       if (response.data.status && response.data.data) {
         setQrData(response.data.data);
         setShowQrModal(true);
-        showToast("Registro exitoso. Procesando tarjeta...", "success"); // Mensaje actualizado
+        showToast("Registro exitoso. Procesando tarjeta...", "success");
 
-        const ciParaTarjeta = formData.cedula; // 1. Guarda el CI
-
+        const ciParaTarjeta = formData.cedula;
         
         try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-          if (!apiUrl) {
+          const apiUrlSegundaLlamada = process.env.NEXT_PUBLIC_API_URL;
+          if (!apiUrlSegundaLlamada) {
             console.error("Error: NEXT_PUBLIC_API_URL no está definido para la segunda llamada.");
             showToast("Error de configuración para generar tarjeta.", "error");
-            // Aunque falle la configuración para la 2da llamada, el primer registro fue exitoso.
-            // Reseteamos el formulario aquí.
             setFormData(initialFormData);
             setFormSubmitted(false);
             setValidationErrors({});
-            // setIsLoading(false) será llamado por el finally externo.
-            return; // Salimos de esta lógica de segunda llamada.
+            return;
           }
 
-          const urlSegundaApi = `${apiUrl}/sup-card?ci=${ciParaTarjeta}`;
-          // 2. Segunda llamada API (POST). Asumimos cuerpo vacío si no se especifica otro.
+          const urlSegundaApi = `${apiUrlSegundaLlamada}/sup-card?ci=${ciParaTarjeta}`;
           const responseSegundaApi = await axios.post(urlSegundaApi, {});
 
-          // 3. Procesa la Respuesta
           if (responseSegundaApi.data && responseSegundaApi.data.success && responseSegundaApi.data.data && responseSegundaApi.data.data.path) {
             const filePath = responseSegundaApi.data.data.path;
-            // 4. Construye URL del PDF
-            const urlDescarga = `${apiUrl}/storage/${filePath}`;
-
-            // 5. Abre el PDF en una nueva pestaña
+            const urlDescarga = `${apiUrlSegundaLlamada}/storage/${filePath}`;
             window.open(urlDescarga, '_blank');
             showToast("Carnet generado y disponible.", "success");
-
           } else {
             console.error("Respuesta inesperada de la API de tarjeta:", responseSegundaApi.data);
             const message = responseSegundaApi.data?.message || "No se pudo procesar la solicitud de la tarjeta.";
             showToast(message, "error");
           }
-
-        } catch (errorSegundaApi: any) { // 6. Manejo de Errores para la segunda llamada
+        } catch (errorSegundaApi: any) {
           console.error('Error al llamar a la API de tarjeta:', errorSegundaApi);
           let errorMsgSegundaApi = "Error al generar la tarjeta.";
           if (axios.isAxiosError(errorSegundaApi)) {
@@ -418,23 +405,16 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
           }
           showToast(errorMsgSegundaApi, "error");
         } finally {
-          // 6. (continuación) Reseteo del formulario después de intentar la segunda operación.
-          // Esto asegura que el formulario se limpie independientemente del resultado de la segunda llamada,
-          // pero solo si la primera fue exitosa.
           setFormData(initialFormData);
           setFormSubmitted(false);
           setValidationErrors({});
         }
-    
-
       } else {
-        // Si el primer POST no fue exitoso o status es false
         showToast(response.data.message || "El registro no fue completado exitosamente.", response.data.status ? "success" : "error");
-        // Si hubo un status:true pero data:null (o similar), puede que quieras resetear.
-        if (response.data.status) { // O alguna otra condición que determine un "éxito parcial" que merezca reseteo
-            setFormData(initialFormData);
-            setFormSubmitted(false);
-            setValidationErrors({});
+        if (response.data.status) {
+          setFormData(initialFormData);
+          setFormSubmitted(false);
+          setValidationErrors({});
         }
       }
     } catch (err: any) {
@@ -468,7 +448,7 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
       <div className={styles.formularioContainer}>
         <span className={styles.titleDark}>Sé parte del cambio</span>
         {areaDataError && <p className={styles.errorMessage} style={{textAlign: 'center', marginBlock: '1rem'}}>{areaDataError}</p>}
-        <form onSubmit={handleSubmit} className={styles.formOuterBox} noValidate> {/* noValidate para usar nuestra propia validación */}
+        <form onSubmit={handleSubmit} className={styles.formOuterBox} noValidate>
           <div className={styles.formFieldsGrid}>
             <div className={styles.formFieldsGroup}>
 
@@ -476,10 +456,9 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
               <div className={styles.fieldRow}>
                 <div className={`${styles.fieldControl} ${formSubmitted && validationErrors.primer_nombre ? styles.fieldError : ''}`}>
                     <input type="text" name="primer_nombre" value={formData.primer_nombre} onChange={handleInputChange} placeholder="Primer nombre" required disabled={isLoading || isLoadingAreaData} />
-                    {/* {formSubmitted && validationErrors.primer_nombre && <small className={styles.inlineErrorMsg}>{validationErrors.primer_nombre}</small>} */}
                 </div>
-                <div className={styles.fieldControl}> {/* segundo_nombre es opcional */}
-                    <input type="text" name="segundo_nombre" value={formData.segundo_nombre} onChange={handleInputChange} placeholder="Segundo nombre (opcional)" disabled={isLoading || isLoadingAreaData} />
+                <div className={styles.fieldControl}> {/* segundo_nombre es opcional, no necesita clase de error por estar vacío */}
+                    <input type="text" name="segundo_nombre" value={formData.segundo_nombre || ''} onChange={handleInputChange} placeholder="Segundo nombre (opcional)" disabled={isLoading || isLoadingAreaData} />
                 </div>
               </div>
               {/* Fila 2: Apellidos */}
@@ -487,12 +466,21 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
                 <div className={`${styles.fieldControl} ${formSubmitted && validationErrors.apellido_paterno ? styles.fieldError : ''}`}>
                     <input type="text" name="apellido_paterno" value={formData.apellido_paterno} onChange={handleInputChange} placeholder="Apellido paterno" required disabled={isLoading || isLoadingAreaData} />
                 </div>
-                <div className={`${styles.fieldControl} ${formSubmitted && validationErrors.apellido_materno ? styles.fieldError : ''}`}>
-                    <input type="text" name="apellido_materno" value={formData.apellido_materno} onChange={handleInputChange} placeholder="Apellido materno" required disabled={isLoading || isLoadingAreaData} />
+                <div className={styles.fieldControl}> {/* <--- CAMBIO: apellido_materno opcional, no necesita clase de error por estar vacío */}
+                    <input 
+                        type="text" 
+                        name="apellido_materno" 
+                        value={formData.apellido_materno || ''} 
+                        onChange={handleInputChange} 
+                        placeholder="Apellido materno (opcional)" // <--- CAMBIO: Placeholder actualizado
+                        disabled={isLoading || isLoadingAreaData} 
+                        // required ya no está
+                    />
                 </div>
               </div>
-              {/* Fila 3: CI y Fecha de Nacimiento */}
-              <div className={styles.fieldRow}>
+              {/* ... resto de tus campos ... */}
+               {/* Fila 3: CI y Fecha de Nacimiento */}
+               <div className={styles.fieldRow}>
                 <div className={`${styles.fieldControl} ${formSubmitted && validationErrors.cedula ? styles.fieldError : ''}`}>
                     <input type="text" name="cedula" value={formData.cedula} onChange={handleInputChange} placeholder="Cédula de identidad" required disabled={isLoading || isLoadingAreaData} />
                 </div>
@@ -513,7 +501,7 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
                     required
                     disabled={isLoading || isLoadingAreaData}
                   >
-                    <option value="">Seleccione su género</option>,
+                    <option value="">Seleccione su género</option>
                     <option value="M">Masculino</option>
                     <option value="F">Femenino</option>
                   </select>

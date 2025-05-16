@@ -756,7 +756,7 @@ const useCrud = ({
           )}
           {mod.export && (
             <div style={{ marginTop: "12px" }}>
-              <IconExport onClick={() => onExport()} />
+              <IconExport onClick={() => onExport((mod.modulo === "users" || mod.modulo === "supporters") ? "csv" : undefined)} />
             </div>
           )}
           {mod.listAndCard && (
