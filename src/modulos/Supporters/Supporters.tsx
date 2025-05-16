@@ -56,7 +56,7 @@ const Supporters = () => {
       return;
     }
 
-    const cardGenerationUrl = `${apiUrl}/sup-card-by-id?id=${supporterId}`;
+    const cardGenerationUrl = `${apiUrl}/sup-card?id=${supporterId}`;
 
     try {
       const response = await axios.post(cardGenerationUrl, {}); 
