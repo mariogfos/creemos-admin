@@ -48,9 +48,10 @@ const Supporters = () => {
     
     setIsGeneratingCard(true);
 
-    const apiUrl = process.env.NEXT_PUBLIC_URL;
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl2 = process.env.NEXT_PUBLIC_URL;
     if (!apiUrl) {
-      console.error("Error de configuración: NEXT_PUBLIC_URL no disponible.");
+      console.error("Error de configuración: NEXT_PUBLIC_API_URL no disponible.");
       showToastFromAuth("Error de configuración del sistema.", "error");
       setIsGeneratingCard(false);
       return;
@@ -63,7 +64,7 @@ const Supporters = () => {
 
       if (response.data && response.data.success && response.data.data && response.data.data.path) {
         const filePath = response.data.data.path;
-        const downloadUrl = `${apiUrl}/storage/${filePath}`; 
+        const downloadUrl = `${apiUrl2}/storage/${filePath}`; 
         window.open(downloadUrl, '_blank');
         showToastFromAuth("Carnet generado exitosamente.", "success");
       } else {
