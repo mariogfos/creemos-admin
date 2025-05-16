@@ -85,7 +85,7 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     const fetchAreaData = async () => {
       setIsLoadingAreaData(true);
       setAreaDataError(null);
-      const apiUrl = process.env.NEXT_PUBLIC_URL;
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       if (!apiUrl) {
         console.error("API URL (NEXT_PUBLIC_API_URL) no está configurada.");
         setAreaDataError("Error de configuración: No se pudo determinar la URL de la API para cargar datos geográficos.");
@@ -366,6 +366,7 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
         
         try {
           const apiUrlSegundaLlamada = process.env.NEXT_PUBLIC_API_URL;
+          const apiUrlSegundaLlamada2 = process.env.NEXT_PUBLIC_URL;
           if (!apiUrlSegundaLlamada) {
             console.error("Error: NEXT_PUBLIC_API_URL no está definido para la segunda llamada.");
             showToast("Error de configuración para generar tarjeta.", "error");
@@ -380,7 +381,7 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
 
           if (responseSegundaApi.data && responseSegundaApi.data.success && responseSegundaApi.data.data && responseSegundaApi.data.data.path) {
             const filePath = responseSegundaApi.data.data.path;
-            const urlDescarga = `${apiUrlSegundaLlamada}/storage/${filePath}`;
+            const urlDescarga = `${apiUrlSegundaLlamada2}/storage/${filePath}`;
             window.open(urlDescarga, '_blank');
             showToast("Carnet generado y disponible.", "success");
           } else {
