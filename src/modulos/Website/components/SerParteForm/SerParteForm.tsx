@@ -86,7 +86,7 @@ const SerParteForm: React.FC<SerParteFormProps> = ({ user_id }) => {
     const fetchAreaData = async () => {
       setIsLoadingAreaData(true);
       setAreaDataError(null);
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const apiUrl = process.env.NEXT_PUBLIC_URL;
       if (!apiUrl) {
         console.error("API URL (NEXT_PUBLIC_API_URL) no está configurada.");
         setAreaDataError("Error de configuración: No se pudo determinar la URL de la API para cargar datos geográficos.");

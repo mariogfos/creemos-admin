@@ -22,6 +22,8 @@ const QrModal: React.FC<QrModalProps> = ({
     return null;
   }
 
+  console.log(qrData);
+  console.log("mis datitos");
   const dataString = typeof qrData === "string" ? qrData : JSON.stringify(qrData);
 
   const handleDownload = () => {
