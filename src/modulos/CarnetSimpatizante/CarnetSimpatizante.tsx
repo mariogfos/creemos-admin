@@ -24,7 +24,7 @@ const CarnetSimpatizante: React.FC = () => {
       return;
     }
 
-    const apiUrl = process.env.NEXT_PUBLIC_URL;
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     if (!apiUrl) {
       setSubmitError("Error de configuración: URL de API no disponible.");
       setIsLoading(false);
