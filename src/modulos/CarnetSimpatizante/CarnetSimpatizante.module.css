@@ -63,7 +63,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--cWhite);
+  
   border-radius: 16px;
 }
 
