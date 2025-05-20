@@ -164,7 +164,7 @@ const Website: React.FC = () => {
             <span className={styles.textGrayNormal}>Ser simpatizante es ser parte del cambio. Al unirte como simpatizante, no solo apoyas nuestra visión, sino que te conviertes en un agente activo de transformación.</span>
           </div>
           <div className={styles.simpatizanteIconContainer}>
-            <img className={styles.simpatizanteIcon} src="/images/qr.png" alt="Icono QR" />
+            
           </div>
         </div>
       </div>
