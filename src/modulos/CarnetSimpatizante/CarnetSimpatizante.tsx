@@ -25,6 +25,7 @@ const CarnetSimpatizante: React.FC = () => {
     }
 
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl2 = process.env.NEXT_PUBLIC_URL;
     if (!apiUrl) {
       setSubmitError("Error de configuración: URL de API no disponible.");
       setIsLoading(false);
@@ -38,7 +39,7 @@ const CarnetSimpatizante: React.FC = () => {
 
       if (response.data && response.data.success && response.data.data && response.data.data.path) {
         const filePath = response.data.data.path;
-        const urlDescarga = `${apiUrl}/storage/${filePath}`;
+        const urlDescarga = `${apiUrl2}/storage/${filePath}`;
         window.open(urlDescarga, '_blank');
         setCi(''); 
       } else {
